@@ -1,0 +1,47 @@
+LITURGIA OSM 4.2.0 — PROJETO APERFEIÇOADO
+
+Identidade do aplicativo
+- Nome: Liturgia OSM
+- Pacote Android: com.liturgia_osm.app
+- Versão do projeto: 4.2.0
+- Capacitor: 8.5.1
+
+Aperfeiçoamentos desta revisão
+- Identidade interna unificada em todo o projeto.
+- Funcionamento principal 100% offline: removida a dependência das fontes Google no aplicativo principal.
+- Service Worker 4.2.0 revisado com estratégia mais segura para navegação e atualização do cache.
+- Persistência da última seção aberta pelo usuário.
+- Tema claro/escuro e tamanho de leitura continuam persistentes.
+- Ajustes para áreas seguras (safe areas) do Android e aparelhos com recortes de tela.
+- Melhorias de acessibilidade: zoom do sistema permitido, foco visível, link para conteúdo e suporte a redução de animações.
+- Manifesto PWA e configuração Capacitor preservados e validados.
+- Nome e versão exibidos de forma consistente.
+- Dependências Capacitor fixadas em versão definida, evitando alterações inesperadas de `latest`.
+- Instruções de compilação Android incluídas em BUILD-ANDROID.md.
+
+Arquivos antigos
+Os arquivos HTML localizados na raiz (`santoral-osm-*.html`) foram mantidos apenas como referência histórica. O aplicativo utiliza exclusivamente a pasta `www/`, definida em `capacitor.config.json`.
+
+IMPORTANTE
+Este pacote contém o projeto-fonte, mas ainda não contém a pasta Android gerada nem as dependências npm, porque elas precisam ser obtidas pelo npm. Consulte BUILD-ANDROID.md.
+
+
+MELHORIAS 4.2.0
+- Correção de falha de inicialização na visualização do Santoral/favoritos.
+- Angelus ou Rainha do Céu sugeridos automaticamente conforme o Tempo Pascal.
+- Calendário mensal com seleção de dia, indicação de celebrações e botão 'Ir para hoje'.
+- Melhor acessibilidade dos dias do calendário.
+
+VERSÃO 4.3.0
+- Partilha nativa de celebrações do Santoral.
+- Partilha de orações e devoções, com cópia para a área de transferência como alternativa.
+- Pequenas melhorias de interação e confirmação visual.
+- Mantida a operação offline e a compatibilidade Android/Capacitor.
+
+VERSÃO 4.4.0
+- Nova área "Liturgia OSM do dia" na tela inicial.
+- Destaque automático da celebração própria OSM da data, quando cadastrada.
+- Atalho direto para a celebração e partilha.
+- Aviso claro quando não existe celebração própria OSM, evitando confusão com o calendário universal.
+- Oração mariana diária com indicação automática do Tempo Pascal e botão de partilha.
+- Mantidas as melhorias de calendário, favoritos, offline, acessibilidade e leitura.

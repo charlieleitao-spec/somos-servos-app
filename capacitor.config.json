@@ -1,0 +1,12 @@
+{
+  "appId": "com.liturgia_osm.app",
+  "appName": "Liturgia OSM",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "backgroundColor": "#15121c",
+    "allowMixedContent": false
+  }
+}
