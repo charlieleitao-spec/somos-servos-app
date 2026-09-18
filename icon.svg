@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="112" fill="#5a2029"/>
+  <circle cx="256" cy="256" r="182" fill="#f7f0e8"/>
+  <path d="M256 118c-49 0-89 40-89 89 0 77 89 182 89 182s89-105 89-182c0-49-40-89-89-89Z" fill="#5a2029"/>
+  <path d="M256 161c-25 0-46 21-46 46 0 40 46 101 46 101s46-61 46-101c0-25-21-46-46-46Z" fill="#f7f0e8"/>
+  <path d="M256 118v271M211 210h90" stroke="#c9a45c" stroke-width="15" stroke-linecap="round"/>
+  <text x="256" y="445" text-anchor="middle" font-family="Georgia,serif" font-size="46" font-weight="bold" fill="#5a2029">OSM</text>
+</svg>
