@@ -1,9 +1,13 @@
 {
-  "appId": "com.liturgia_osm.app",
-  "appName": "Liturgia OSM",
+  "appId": "br.com.somosservos.app",
+  "appName": "Somos Servos",
   "webDir": "www",
   "server": {
-    "androidScheme": "https"
+    "androidScheme": "https",
+    "allowNavigation": [
+      "somosservos.blogspot.com",
+      "*.blogspot.com"
+    ]
   },
   "android": {
     "backgroundColor": "#15121c",
