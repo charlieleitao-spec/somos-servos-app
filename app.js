@@ -2,6 +2,7 @@ const frame = document.querySelector('#blogFrame');
 const fallback = document.querySelector('#fallback');
 const retryButton = document.querySelector('#retryButton');
 const installButton = document.querySelector('#installButton');
+const isNative = Boolean(window.Capacitor?.isNativePlatform?.());
 let installPrompt;
 
 function updateConnection() {
@@ -41,7 +42,23 @@ window.addEventListener('appinstalled', () => {
   installButton.hidden = true;
 });
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js'));
+async function resetOldCache() {
+  if (isNative && 'serviceWorker' in navigator) {
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    await Promise.all(registrations.map(registration => registration.unregister()));
+  }
+  if (isNative && 'caches' in window) {
+    const keys = await caches.keys();
+    await Promise.all(keys.map(key => caches.delete(key)));
+  }
 }
+
+if (!isNative && 'serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    const registration = await navigator.serviceWorker.register('./service-worker.js?v=18');
+    await registration.update();
+  });
+}
+
+resetOldCache();
 updateConnection();
