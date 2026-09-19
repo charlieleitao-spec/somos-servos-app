@@ -1,4 +1,4 @@
-const CACHE = 'somos-servos-shell-v2';
+const CACHE = 'somos-servos-shell-v3';
 const APP_SHELL = [
   './',
   './index.html',
@@ -6,7 +6,7 @@ const APP_SHELL = [
   './app.js',
   './manifest.webmanifest',
   './icon-192.png',
-  './icon.svg'
+  './icon-512.png'
 ];
 
 self.addEventListener('install', event => {
