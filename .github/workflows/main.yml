@@ -22,7 +22,7 @@ jobs:
           cache: npm
 
       - name: Configurar JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
@@ -37,6 +37,21 @@ jobs:
 
       - name: Adicionar Android
         run: npx cap add android
+
+      - name: Gerar ícone oficial Android
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+          rm -f android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+          rm -f android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
+          for item in mdpi:48 hdpi:72 xhdpi:96 xxhdpi:144 xxxhdpi:192; do
+            density="${item%%:*}"
+            size="${item##*:}"
+            output="android/app/src/main/res/mipmap-${density}"
+            mkdir -p "${output}"
+            convert icon-512.png -resize "${size}x${size}" "${output}/ic_launcher.png"
+            cp "${output}/ic_launcher.png" "${output}/ic_launcher_round.png"
+          done
 
       - name: Sincronizar aplicativo
         run: npx cap sync android
