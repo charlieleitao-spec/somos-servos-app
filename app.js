@@ -55,7 +55,7 @@ async function resetOldCache() {
 
 if (!isNative && 'serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
-    const registration = await navigator.serviceWorker.register('./service-worker.js?v=18');
+    const registration = await navigator.serviceWorker.register('./service-worker.js?v=19');
     await registration.update();
   });
 }
