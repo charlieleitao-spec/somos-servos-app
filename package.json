@@ -1,6 +1,6 @@
 {
   "name": "somos-servos-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Aplicativo instalável do blog Somos Servos",
   "scripts": {
@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@capacitor/android": "8.5.1",
+    "@capacitor/app": "8.0.0",
     "@capacitor/core": "8.5.1"
   },
   "devDependencies": {
