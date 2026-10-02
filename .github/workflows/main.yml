@@ -33,7 +33,7 @@ jobs:
       - name: Preparar arquivos web
         run: |
           mkdir -p www
-          cp index.html app.js styles.css manifest.webmanifest service-worker.js sw.js icon-192.png icon-512.png icon.svg www/
+          cp index.html app.js styles.css manifest.webmanifest service-worker.js  icon-192.png icon-512.png icon.svg www/
 
       - name: Adicionar Android
         run: npx cap add android
