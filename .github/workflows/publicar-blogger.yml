@@ -1,0 +1,40 @@
+name: Publicar no Blogger
+
+on:
+  workflow_dispatch:
+    inputs:
+      title:
+        description: "Título da postagem"
+        required: true
+        type: string
+      content:
+        description: "Conteúdo HTML da postagem"
+        required: true
+        type: string
+      labels:
+        description: "Marcadores separados por vírgula"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Publicar no Somos Servos
+        env:
+          BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
+          BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
+          BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN }}
+          POST_TITLE: ${{ inputs.title }}
+          POST_CONTENT: ${{ inputs.content }}
+          POST_LABELS: ${{ inputs.labels }}
+        run: python blogger_publish.py
