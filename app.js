@@ -1,11 +1,22 @@
 const BLOG_URL = 'https://somosservos.blogspot.com/?m=1';
 const isNative = Boolean(window.Capacitor?.isNativePlatform?.());
 
-// No Android, navega o blog diretamente no WebView. Assim, as postagens
-// entram no histórico nativo e o botão Voltar retorna à página anterior.
-// replace() evita deixar esta tela intermediária no histórico inicial.
 if (isNative) {
-  window.location.replace(BLOG_URL);
+  // Intercepta o botão/gesto Voltar do Android.
+  // Havendo histórico no WebView, volta uma página; na raiz, permanece no app.
+  window.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const { App } = await import('@capacitor/app');
+      App.addListener('backButton', ({ canGoBack }) => {
+        if (canGoBack || window.history.length > 1) {
+          window.history.back();
+        }
+      });
+    } catch (error) {
+      console.warn('Não foi possível registrar o botão Voltar:', error);
+    }
+    window.location.replace(BLOG_URL);
+  });
 } else {
   const frame = document.querySelector('#blogFrame');
   const fallback = document.querySelector('#fallback');
@@ -52,7 +63,7 @@ if (isNative) {
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', async () => {
-      const registration = await navigator.serviceWorker.register('./service-worker.js?v=20');
+      const registration = await navigator.serviceWorker.register('./service-worker.js?v=21');
       await registration.update();
     });
   }
