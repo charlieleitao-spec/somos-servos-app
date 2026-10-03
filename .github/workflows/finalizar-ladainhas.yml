@@ -3,8 +3,8 @@ name: Finalizar série das Ladainhas no Blogger
 on:
   workflow_dispatch:
     inputs:
-      conclusion_markdown:
-        description: "Texto integral finalizado da conclusão (Markdown)"
+      conclusion_markdown_base64:
+        description: "Texto integral finalizado da conclusão codificado em Base64"
         required: true
         type: string
 
@@ -26,5 +26,5 @@ jobs:
           BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
           BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
           BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN || secrets.BLOGGER_REFFRESH_TOKEN }}
-          CONCLUSION_MARKDOWN: ${{ inputs.conclusion_markdown }}
+          CONCLUSION_MARKDOWN_B64: ${{ inputs.conclusion_markdown_base64 }}
         run: python blogger_finalize_ladainhas.py
