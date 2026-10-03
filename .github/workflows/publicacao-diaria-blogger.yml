@@ -1,0 +1,38 @@
+name: Publicação diária Somos Servos
+
+on:
+  schedule:
+    - cron: "5 9 * * *"
+  workflow_dispatch:
+    inputs:
+      publish_date:
+        description: "Data para validar ou publicar (AAAA-MM-DD; vazio = hoje em Curitiba)"
+        required: false
+        type: string
+      dry_run:
+        description: "Executar apenas prévia, sem publicar"
+        required: false
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Publicar celebração e ofício OSM do dia
+        env:
+          BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
+          BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
+          BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN || secrets.BLOGGER_REFFRESH_TOKEN }}
+          PUBLISH_DATE: ${{ inputs.publish_date }}
+          DRY_RUN: ${{ github.event_name == 'schedule' && 'false' || inputs.dry_run }}
+        run: python blogger_daily_publish.py
