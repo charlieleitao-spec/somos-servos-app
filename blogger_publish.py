@@ -20,27 +20,37 @@ def request_json(url, method="GET", data=None, token=None, content_type=None):
         return json.load(response)
 
 def main():
-    form=urllib.parse.urlencode({
-      "client_id":required("BLOGGER_CLIENT_ID"),
-      "client_secret":required("BLOGGER_CLIENT_SECRET"),
-      "refresh_token":required("BLOGGER_REFRESH_TOKEN"),
-      "grant_type":"refresh_token"}).encode()
-    token=request_json(TOKEN_URL,"POST",form,content_type="application/x-www-form-urlencoded").get("access_token")
-    if not token: raise RuntimeError("Google não devolveu access token.")
-    blogs=request_json(BLOGS_URL,token=token).get("items",[])
-    blog=next((b for b in blogs if TARGET_HOST in (b.get("url") or "").lower()),None)
-    if not blog: raise RuntimeError("Blog Somos Servos não localizado na conta autorizada.")
-    payload={"kind":"blogger#post","title":required("POST_TITLE"),"content":required("POST_CONTENT")}
-    labels=os.environ.get("POST_LABELS","").strip()
-    if labels: payload["labels"]=[x.strip() for x in labels.split(",") if x.strip()]
-    data=json.dumps(payload,ensure_ascii=False).encode("utf-8")
-    result=request_json(f"https://www.googleapis.com/blogger/v3/blogs/{blog['id']}/posts/","POST",data,token,"application/json; charset=UTF-8")
-    print(f"Publicado: {result.get('title')}")
-    print(f"URL: {result.get('url')}")
+    stage="troca do refresh token por access token"
+    try:
+        form=urllib.parse.urlencode({
+          "client_id":required("BLOGGER_CLIENT_ID"),
+          "client_secret":required("BLOGGER_CLIENT_SECRET"),
+          "refresh_token":required("BLOGGER_REFRESH_TOKEN"),
+          "grant_type":"refresh_token"}).encode()
+        token=request_json(TOKEN_URL,"POST",form,content_type="application/x-www-form-urlencoded").get("access_token")
+        if not token: raise RuntimeError("Google não devolveu access token.")
+        print("Autenticação OAuth concluída.")
+
+        stage="localização do blog"
+        blogs=request_json(BLOGS_URL,token=token).get("items",[])
+        blog=next((b for b in blogs if TARGET_HOST in (b.get("url") or "").lower()),None)
+        if not blog: raise RuntimeError("Blog Somos Servos não localizado na conta autorizada.")
+        print("Blog Somos Servos localizado.")
+
+        stage="criação da postagem"
+        payload={"kind":"blogger#post","title":required("POST_TITLE"),"content":required("POST_CONTENT")}
+        labels=os.environ.get("POST_LABELS","").strip()
+        if labels: payload["labels"]=[x.strip() for x in labels.split(",") if x.strip()]
+        data=json.dumps(payload,ensure_ascii=False).encode("utf-8")
+        result=request_json(f"https://www.googleapis.com/blogger/v3/blogs/{blog['id']}/posts/","POST",data,token,"application/json; charset=UTF-8")
+        print(f"Publicado: {result.get('title')}")
+        print(f"URL: {result.get('url')}")
+    except urllib.error.HTTPError as exc:
+        print(f"Erro HTTP durante {stage} ({exc.code}): {exc.read().decode('utf-8',errors='replace')}",file=sys.stderr)
+        sys.exit(1)
+    except Exception as exc:
+        print(f"Falha durante {stage}: {exc}",file=sys.stderr)
+        sys.exit(1)
 
 if __name__=="__main__":
-    try: main()
-    except urllib.error.HTTPError as exc:
-        print(f"Erro HTTP {exc.code}: {exc.read().decode('utf-8',errors='replace')}",file=sys.stderr); sys.exit(1)
-    except Exception as exc:
-        print(f"Falha: {exc}",file=sys.stderr); sys.exit(1)
+    main()
