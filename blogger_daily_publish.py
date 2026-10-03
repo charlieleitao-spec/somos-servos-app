@@ -72,7 +72,7 @@ def locate_blog(token):
 
 
 def list_existing_posts(blog_id, token):
-    url = f"https://www.googleapis.com/blogger/v3/blogs/{blog_id}/posts/?maxResults=500&fetchBodies=false"
+    url = f"https://www.googleapis.com/blogger/v3/blogs/{blog_id}/posts/?maxResults=500&fetchBodies=true"
     posts = []
     while url:
         page = json_request(url, token=token, operation="Consulta de postagens")
