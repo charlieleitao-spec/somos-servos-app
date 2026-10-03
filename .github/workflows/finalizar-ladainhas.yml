@@ -23,8 +23,8 @@ jobs:
           python-version: "3.12"
       - name: Publicar conclusão, criar índice e atualizar navegação
         env:
-          BLOGGER_CLIENT_ID: \${{ secrets.BLOGGER_CLIENT_ID }}
-          BLOGGER_CLIENT_SECRET: \${{ secrets.BLOGGER_CLIENT_SECRET }}
-          BLOGGER_REFRESH_TOKEN: \${{ secrets.BLOGGER_REFRESH_TOKEN || secrets.BLOGGER_REFFRESH_TOKEN }}
-          CONCLUSION_MARKDOWN: \${{ inputs.conclusion_markdown }}
+          BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
+          BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
+          BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN || secrets.BLOGGER_REFFRESH_TOKEN }}
+          CONCLUSION_MARKDOWN: ${{ inputs.conclusion_markdown }}
         run: python blogger_finalize_ladainhas.py
