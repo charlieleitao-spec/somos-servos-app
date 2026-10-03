@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Finaliza a série mariana no Blogger com leitura de volta pela API."""
-import html, json, os, re, sys, urllib.error, urllib.parse, urllib.request
+import base64, html, json, os, re, sys, urllib.error, urllib.parse, urllib.request
 from pathlib import Path
 
 M=json.loads(Path("data/ladainhas-series.json").read_text(encoding="utf-8"))
@@ -115,7 +115,7 @@ def index_html(posts,conclusion_url):
     return "\n".join(out)
 
 def main():
-    md=env("CONCLUSION_MARKDOWN")
+    md=base64.b64decode(env("CONCLUSION_MARKDOWN_B64")).decode("utf-8")
     if not md.lstrip().startswith("# As Ladainhas de Nossa Senhora") or "## Um caminho com Maria até Cristo" not in md:
         raise RuntimeError("O texto integral da conclusão não corresponde ao título final esperado.")
     conclusion_body=markdown_html(md)
