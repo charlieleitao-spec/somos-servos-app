@@ -79,7 +79,7 @@ def list_existing_posts(blog_id, token):
         posts.extend(page.get("items", []))
         next_token = page.get("nextPageToken")
         url = (f"https://www.googleapis.com/blogger/v3/blogs/{blog_id}/posts/"
-               f"?maxResults=500&fetchBodies=false&pageToken={urllib.parse.quote(next_token)}") if next_token else None
+               f"?maxResults=500&fetchBodies=true&pageToken={urllib.parse.quote(next_token)}") if next_token else None
     return posts
 
 
