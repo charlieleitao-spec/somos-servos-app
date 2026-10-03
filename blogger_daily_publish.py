@@ -91,20 +91,21 @@ def paragraph_html(text):
                    for part in text.split("\n\n") if part.strip())
 
 
-def make_content(entry, office):
+def make_content(entry, office=None):
     title = entry.get("title") or entry.get("name")
     source_id = str(entry.get("id"))
     date_text = entry.get("date") or ""
     bio = paragraph_html(entry.get("bio", ""))
     prayer = paragraph_html(entry.get("prayer", ""))
-    office_html = paragraph_html(office)
+    office_html = paragraph_html(office) if isinstance(office, str) else ""
+    office_section = f"<h3>Ofício próprio da Ordem</h3>{office_html}" if office_html else ""
     return (
         f"<!-- somos-servos-source-id:{html.escape(source_id)} -->"
         f"<p><strong>{html.escape(date_text)} · {html.escape(entry.get('rank', ''))}</strong></p>"
         f"<h2>{html.escape(title)}</h2>"
         f"<h3>Memória</h3>{bio}"
         f"<h3>Oração</h3>{prayer}"
-        f"<h3>Ofício próprio da Ordem</h3>{office_html}"
+        f"{office_section}"
     )
 
 
@@ -125,11 +126,9 @@ def main():
 
     entry = entries[0]
     office = offices.get(str(entry.get("id")))
-    if not isinstance(office, str) or not office.strip():
-        print(f"Sem ofício próprio completo para o registro {entry.get('id')}; nenhuma postagem criada.")
-        return
-
-    title = f"{entry.get('title') or entry.get('name')} — Ofício próprio OSM"
+    has_office = isinstance(office, str) and bool(office.strip())
+    title = (f"{entry.get('title') or entry.get('name')} — Ofício próprio OSM"
+             if has_office else f"{entry.get('title') or entry.get('name')} — Memória OSM")
     token = access_token()
     blog = locate_blog(token)
     posts = list_existing_posts(blog["id"], token)
