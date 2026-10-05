@@ -288,7 +288,7 @@ def main():
         raise RuntimeError("A API não devolveu o identificador da postagem criada.")
 
     verified = json_request(
-        f"https://www.googleapis.com/blogger/v3/blogs/{blog['id']}/posts/{post_id}?fetchBodies=true",
+        f"https://www.googleapis.com/blogger/v3/blogs/{blog['id']}/posts/{post_id}?view=ADMIN",
         token=token, operation="Verificação da postagem")
     if verified.get("id") != post_id or verified.get("title") != title:
         raise RuntimeError("A leitura de volta da API não confirmou título e identificador.")
