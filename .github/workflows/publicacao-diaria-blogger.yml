@@ -3,6 +3,7 @@ name: Publicação diária Somos Servos
 on:
   schedule:
     - cron: "5 9 * * *"
+    - cron: "0 11 * * 0"
   workflow_dispatch:
     inputs:
       publish_date:
@@ -10,10 +11,19 @@ on:
         required: false
         type: string
       create_draft:
-        description: "Criar um rascunho real; se falso, executar apenas prévia"
+        description: "Criar um rascunho diário real; se falso, executar apenas prévia"
         required: false
         default: false
         type: boolean
+      run_weekly:
+        description: "Gerar a prévia semanal; o agendamento cria somente rascunho"
+        required: false
+        default: false
+        type: boolean
+      weekly_start_date:
+        description: "Primeiro dia da semana para a prévia (AAAA-MM-DD; vazio = hoje)"
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -23,6 +33,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PUBLISH_DATE: ${{ inputs.publish_date }}
+      WEEKLY_START_DATE: ${{ inputs.weekly_start_date }}
+      WEEKLY_DRY_RUN: ${{ github.event_name == 'schedule' && github.event.schedule == '0 11 * * 0' && 'false' || 'true' }}
       DRY_RUN: ${{ github.event_name == 'schedule' && 'false' || (inputs.create_draft && 'false' || 'true') }}
       DRAFT: ${{ github.event_name == 'schedule' && 'false' || (inputs.create_draft && 'true' || 'false') }}
       CARD_COMMIT: 'false'
@@ -43,14 +55,23 @@ jobs:
           exit 1
 
       - name: Publicar celebração e ofício OSM do dia
+        if: github.event_name != 'schedule' || github.event.schedule == '5 9 * * *'
         env:
           BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
           BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
           BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN || secrets.BLOGGER_REFFRESH_TOKEN }}
         run: python blogger_daily_publish.py
 
+      - name: Criar rascunho da semana na Família Servita
+        if: (github.event_name == 'schedule' && github.event.schedule == '0 11 * * 0') || (github.event_name == 'workflow_dispatch' && inputs.run_weekly)
+        env:
+          BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
+          BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
+          BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN || secrets.BLOGGER_REFFRESH_TOKEN }}
+        run: python weekly_servita.py
+
       - name: Salvar cartão e legenda no GitHub Pages
-        if: success() && env.DRY_RUN == 'false' && env.CARD_COMMIT == 'true'
+        if: success() && (github.event_name != 'schedule' || github.event.schedule == '5 9 * * *') && env.DRY_RUN == 'false' && env.CARD_COMMIT == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
