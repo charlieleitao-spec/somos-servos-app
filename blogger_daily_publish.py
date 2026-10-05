@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Publica a celebração própria OSM do dia no Blogger, com deduplicação e leitura de volta."""
 import datetime as dt
+import hashlib
 import html
 import json
 import os
@@ -309,10 +310,10 @@ def main():
         return
 
     png_path, caption_path = generate_card(santoral, date)
-    run_id = os.environ.get("GITHUB_RUN_ID", "preview")
+    card_version = hashlib.sha256(png_path.read_bytes()).hexdigest()[:16]
     card_url = (
         "https://charlieleitao-spec.github.io/somos-servos-app/"
-        f"cartoes/{png_path.name}?v={urllib.parse.quote(run_id)}"
+        f"cartoes/{png_path.name}?v={urllib.parse.quote(card_version)}"
     )
     card_alt = f"Cartão: {entry.get('title') or entry.get('name')} — {entry.get('date', date.isoformat())}"
     title, content = prepare_post(entry, offices, date, card_url, card_alt)
@@ -323,7 +324,14 @@ def main():
     source_marker = f"somos-servos-source-id:{entry.get('id')}"
     duplicate = find_duplicate(posts, title, source_marker)
     if duplicate:
-        print(f"Já existe postagem correspondente (ID {duplicate.get('id')}); nenhuma duplicata criada.")
+        existing_content = duplicate.get("content") or ""
+        card_path = f"cartoes/{png_path.name}"
+        if card_path in existing_content:
+            set_github_env("CARD_COMMIT", "true")
+            set_github_env("CARD_PUBLIC_URL", card_url)
+            print(f"Já existe postagem correspondente (ID {duplicate.get('id')}); o cartão será garantido no Pages.")
+        else:
+            print(f"Já existe postagem correspondente (ID {duplicate.get('id')}); nenhuma duplicata criada.")
         return
 
     if dry_run:
