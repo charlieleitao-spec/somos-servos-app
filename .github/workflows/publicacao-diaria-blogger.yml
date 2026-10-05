@@ -35,5 +35,5 @@ jobs:
           BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN || secrets.BLOGGER_REFFRESH_TOKEN }}
           PUBLISH_DATE: ${{ inputs.publish_date }}
           DRY_RUN: ${{ github.event_name == 'schedule' && 'false' || (inputs.create_draft && 'false' || 'true') }}
-          DRAFT: ${{ github.event_name == 'schedule' && 'true' || (inputs.create_draft && 'true' || 'false') }}
+          DRAFT: ${{ github.event_name == 'schedule' && 'false' || (inputs.create_draft && 'true' || 'false') }}
         run: python blogger_daily_publish.py
