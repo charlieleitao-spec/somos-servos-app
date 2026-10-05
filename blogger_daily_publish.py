@@ -4,6 +4,7 @@ import datetime as dt
 import html
 import json
 import os
+import re
 import sys
 import urllib.error
 import urllib.parse
@@ -72,41 +73,141 @@ def locate_blog(token):
 
 
 def list_existing_posts(blog_id, token):
-    url = f"https://www.googleapis.com/blogger/v3/blogs/{blog_id}/posts/?maxResults=500&fetchBodies=true"
-    posts = []
-    while url:
-        page = json_request(url, token=token, operation="Consulta de postagens")
-        posts.extend(page.get("items", []))
-        next_token = page.get("nextPageToken")
-        url = (f"https://www.googleapis.com/blogger/v3/blogs/{blog_id}/posts/"
-               f"?maxResults=500&fetchBodies=true&pageToken={urllib.parse.quote(next_token)}") if next_token else None
-    return posts
+    base_url = f"https://www.googleapis.com/blogger/v3/blogs/{blog_id}/posts/"
+    posts_by_id = {}
+    for status in ("live", "draft", "scheduled"):
+        url = f"{base_url}?maxResults=500&fetchBodies=true&status={status}"
+        while url:
+            page = json_request(url, token=token, operation="Consulta de postagens")
+            for post in page.get("items", []):
+                posts_by_id[post.get("id") or (post.get("title"), post.get("url"))] = post
+            next_token = page.get("nextPageToken")
+            url = (f"{base_url}?maxResults=500&fetchBodies=true&status={status}"
+                   f"&pageToken={urllib.parse.quote(next_token)}") if next_token else None
+    return list(posts_by_id.values())
 
 
 def paragraph_html(text):
-    text = html.escape(text or "", quote=False).strip()
+    text = str(text or "").replace("\r\n", "\n").replace("\r", "\n").strip()
     if not text:
         return ""
-    return "".join("<p>" + part.replace("\n", "<br>") + "</p>"
-                   for part in text.split("\n\n") if part.strip())
+    paragraphs = [part.strip() for part in re.split(r"\n\s*\n", text) if part.strip()]
+    return "\n".join(
+        "<p>" + html.escape(part, quote=False).replace("\n", "<br>") + "</p>"
+        for part in paragraphs
+    )
 
 
-def make_content(entry, office=None):
+def strip_section_title(title, text):
+    original = str(text or "")
+    first_line = re.match(r"^\s*([^\r\n]*)\r?\n", original)
+    if first_line and first_line.group(1).strip() == str(title).strip():
+        return original[first_line.end():]
+    return original
+
+
+def sections_from(celebration):
+    if not isinstance(celebration, dict) or celebration.get("tipo_material") == "sem_material_proprio":
+        return []
+    hours = (celebration.get("material") or {}).get("horas")
+    if not isinstance(hours, dict):
+        return []
+
+    sections = []
+    for hour_key, hour in hours.items():
+        if not isinstance(hour, dict):
+            continue
+        text = hour.get("texto")
+        if isinstance(text, str) and text:
+            sections.append({
+                "title": hour.get("titulo") or ("Textos próprios" if hour_key == "textos_proprios" else hour_key),
+                "text": text,
+            })
+            prayer = hour.get("oracao")
+            if isinstance(prayer, str) and prayer:
+                sections.append({"title": "Oração", "text": prayer})
+            continue
+
+        rubric = hour.get("rubrica")
+        if isinstance(rubric, str) and rubric:
+            sections.append({"title": hour.get("titulo") or "Textos próprios", "text": rubric})
+
+        alternatives = hour.get("alternativas")
+        if isinstance(alternatives, list):
+            for alternative in alternatives:
+                if not isinstance(alternative, dict):
+                    continue
+                text = alternative.get("texto")
+                if isinstance(text, str) and text:
+                    sections.append({
+                        "title": alternative.get("titulo") or hour.get("titulo") or "Textos próprios",
+                        "text": text,
+                    })
+
+        prayer = hour.get("oracao")
+        if isinstance(prayer, str) and prayer:
+            sections.append({"title": "Oração", "text": prayer})
+
+    return sections
+
+
+def celebration_for(offices, date):
+    date_key = date.strftime("%m-%d")
+    celebrations = offices.get("celebracoes") if isinstance(offices, dict) else None
+    celebration = celebrations.get(date_key) if isinstance(celebrations, dict) else None
+    if not isinstance(celebration, dict) or celebration.get("tipo_material") == "sem_material_proprio":
+        return None
+    return celebration
+
+
+def make_content(entry, sections=None):
     title = entry.get("title") or entry.get("name")
     source_id = str(entry.get("id"))
     date_text = entry.get("date") or ""
     bio = paragraph_html(entry.get("bio", ""))
     prayer = paragraph_html(entry.get("prayer", ""))
-    office_html = paragraph_html(office) if isinstance(office, str) else ""
-    office_section = f"<h3>Ofício próprio da Ordem</h3>{office_html}" if office_html else ""
+    section_html = ""
+    if sections:
+        rendered = []
+        for section in sections:
+            section_title = section.get("title") or "Textos próprios"
+            section_text = strip_section_title(section_title, section.get("text", ""))
+            rendered.append(
+                f"<h4>{html.escape(str(section_title), quote=False)}</h4>\n"
+                f"{paragraph_html(section_text)}"
+            )
+        section_html = "<h3>Ofício próprio da Ordem</h3>\n" + "\n".join(rendered)
     return (
         f"<!-- somos-servos-source-id:{html.escape(source_id)} -->"
         f"<p><strong>{html.escape(date_text)} · {html.escape(entry.get('rank', ''))}</strong></p>"
-        f"<h2>{html.escape(title)}</h2>"
+        f"<h2>{html.escape(title, quote=False)}</h2>"
         f"<h3>Memória</h3>{bio}"
         f"<h3>Oração</h3>{prayer}"
-        f"{office_section}"
+        f"{section_html}"
     )
+
+
+def prepare_post(entry, offices, date):
+    celebration = celebration_for(offices, date)
+    sections = sections_from(celebration)
+    title = (f"{entry.get('title') or entry.get('name')} — Ofício próprio OSM"
+             if sections else f"{entry.get('title') or entry.get('name')} — Memória OSM")
+    return title, make_content(entry, sections)
+
+
+def find_duplicate(posts, title, source_marker):
+    normalized_title = title.strip().casefold()
+    return next((post for post in posts
+                 if (post.get("title") or "").strip().casefold() == normalized_title
+                 or source_marker in (post.get("content") or "")), None)
+
+
+def entry_for_date(santoral, date):
+    entries = [item for item in santoral
+               if int(item.get("day", 0)) == date.day and int(item.get("month", 0)) == date.month]
+    if len(entries) > 1:
+        raise RuntimeError(f"Há mais de uma celebração própria cadastrada para {date.isoformat()}; revisão necessária.")
+    return entries[0] if entries else None
 
 
 def main():
@@ -116,31 +217,22 @@ def main():
 
     santoral = get_public_json("santoral.json")
     offices = get_public_json("oficios-osm.json")
-    entries = [item for item in santoral
-               if int(item.get("day", 0)) == date.day and int(item.get("month", 0)) == date.month]
-    if not entries:
+    entry = entry_for_date(santoral, date)
+    if not entry:
         print(f"Sem celebração própria cadastrada para {date.isoformat()}; nenhuma postagem criada.")
         return
-    if len(entries) > 1:
-        raise RuntimeError(f"Há mais de uma celebração própria cadastrada para {date.isoformat()}; revisão necessária.")
 
-    entry = entries[0]
-    office = offices.get(str(entry.get("id")))
-    has_office = isinstance(office, str) and bool(office.strip())
-    title = (f"{entry.get('title') or entry.get('name')} — Ofício próprio OSM"
-             if has_office else f"{entry.get('title') or entry.get('name')} — Memória OSM")
+    title, content = prepare_post(entry, offices, date)
+    is_draft = os.environ.get("DRAFT", "false").strip().lower() == "true"
     token = access_token()
     blog = locate_blog(token)
     posts = list_existing_posts(blog["id"], token)
     source_marker = f"somos-servos-source-id:{entry.get('id')}"
-    duplicate = next((p for p in posts
-                      if (p.get("title") or "").strip().casefold() == title.casefold()
-                      or source_marker in (p.get("content") or "")), None)
+    duplicate = find_duplicate(posts, title, source_marker)
     if duplicate:
         print(f"Já existe postagem correspondente (ID {duplicate.get('id')}); nenhuma duplicata criada.")
         return
 
-    content = make_content(entry, office)
     if dry_run:
         print(f"Prévia sem publicação: {title}")
         print(f"Marcadores: {', '.join(LABELS)}")
@@ -149,9 +241,11 @@ def main():
 
     payload = json.dumps({"kind": "blogger#post", "title": title, "content": content,
                           "labels": LABELS}, ensure_ascii=False).encode("utf-8")
+    insert_url = f"https://www.googleapis.com/blogger/v3/blogs/{blog['id']}/posts/"
+    if is_draft:
+        insert_url += "?isDraft=true"
     created = json_request(
-        f"https://www.googleapis.com/blogger/v3/blogs/{blog['id']}/posts/",
-        "POST", payload, token, "application/json; charset=UTF-8", "Criação da postagem")
+        insert_url, "POST", payload, token, "application/json; charset=UTF-8", "Criação da postagem")
     post_id = created.get("id")
     if not post_id:
         raise RuntimeError("A API não devolveu o identificador da postagem criada.")
@@ -163,7 +257,10 @@ def main():
         raise RuntimeError("A leitura de volta da API não confirmou título e identificador.")
     if source_marker not in (verified.get("content") or ""):
         raise RuntimeError("A leitura de volta da API não confirmou o marcador de origem.")
-    print(f"Publicado e confirmado pela API: {verified.get('title')}")
+    if is_draft and str(verified.get("status", "")).upper() != "DRAFT":
+        raise RuntimeError("A leitura de volta da API não confirmou o estado de rascunho.")
+    result_label = "Rascunho criado e confirmado" if is_draft else "Publicado e confirmado"
+    print(f"{result_label} pela API: {verified.get('title')}")
     print(f"URL: {verified.get('url')}")
     print(f"ID da postagem confirmado: {post_id}")
 
