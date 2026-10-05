@@ -6,9 +6,14 @@ on:
   workflow_dispatch:
     inputs:
       publish_date:
-        description: "Data para validar ou publicar (AAAA-MM-DD; vazio = hoje em Curitiba)"
+        description: "Data para validar (AAAA-MM-DD; vazio = hoje em Curitiba)"
         required: false
         type: string
+      create_draft:
+        description: "Criar um rascunho real; se falso, executar apenas prévia"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -29,6 +34,6 @@ jobs:
           BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
           BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN || secrets.BLOGGER_REFFRESH_TOKEN }}
           PUBLISH_DATE: ${{ inputs.publish_date }}
-          DRY_RUN: ${{ github.event_name == 'schedule' && 'false' || 'true' }}
-          DRAFT: ${{ github.event_name == 'schedule' && 'true' || 'false' }}
+          DRY_RUN: ${{ github.event_name == 'schedule' && 'false' || (inputs.create_draft && 'false' || 'true') }}
+          DRAFT: ${{ github.event_name == 'schedule' && 'true' || (inputs.create_draft && 'true' || 'false') }}
         run: python blogger_daily_publish.py
