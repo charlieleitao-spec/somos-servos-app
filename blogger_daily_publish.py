@@ -106,6 +106,33 @@ def strip_section_title(title, text):
     return original
 
 
+def split_memorial_date_line(text):
+    original = str(text or "").replace("\r\n", "\n").replace("\r", "\n")
+    date_line = re.match(
+        r"^(\*\s*[^†\r\n]*†[^\r\n]*?,\s*[A-Z]{2})([ \t]+)(?=[A-ZÀ-ÖØ-Þ])",
+        original,
+    )
+    if not date_line:
+        return None, original
+    return date_line.group(1), original[date_line.end():]
+
+
+def split_uppercase_heading(text):
+    original = str(text or "").replace("\r\n", "\n").replace("\r", "\n").lstrip()
+    tokens = list(re.finditer(r"\S+", original))
+    heading_end = 0
+    heading_words = 0
+    for token in tokens:
+        letters = [char for char in token.group() if char.isalpha()]
+        if not letters or not all(char.isupper() for char in letters):
+            break
+        heading_end = token.end()
+        heading_words += 1
+    if heading_words < 2 or not original[heading_end:].strip():
+        return None, original
+    return original[:heading_end].strip(), original[heading_end:].lstrip()
+
+
 def sections_from(celebration):
     if not isinstance(celebration, dict) or celebration.get("tipo_material") == "sem_material_proprio":
         return []
@@ -164,8 +191,18 @@ def make_content(entry, sections=None):
     title = entry.get("title") or entry.get("name")
     source_id = str(entry.get("id"))
     date_text = entry.get("date") or ""
-    bio = paragraph_html(entry.get("bio", ""))
-    prayer = paragraph_html(entry.get("prayer", ""))
+    date_line, bio_text = split_memorial_date_line(entry.get("bio", ""))
+    bio_parts = []
+    if date_line:
+        bio_parts.append(paragraph_html(date_line))
+    bio_parts.append(paragraph_html(bio_text))
+    bio = "\n".join(part for part in bio_parts if part)
+
+    prayer_title, prayer_text = split_uppercase_heading(entry.get("prayer", ""))
+    prayer_heading = (f"<h4>{html.escape(prayer_title, quote=False)}</h4>\n"
+                      if prayer_title else "")
+    prayer = prayer_heading + paragraph_html(prayer_text)
+
     section_html = ""
     if sections:
         rendered = []
