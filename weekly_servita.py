@@ -140,7 +140,7 @@ def make_content(santoral, start, cards_dir):
                 )
             parts.append("</li>")
         parts.append("</ul>")
-    parts.append("<p>Aos sábados, a Família Servita honra de modo especial a Bem-aventurada Virgem Maria, recordando sua presença materna e confiando à sua intercessão as necessidades da Igreja e do mundo.</p>")
+    parts.append("<p>No Sábado Mariano, a Família Servita honra de modo especial a Bem-aventurada Virgem Maria, recordando sua presença materna e confiando à sua intercessão as necessidades da Igreja e do mundo.</p>")
     parts.append(f'<p><a href="{APP_URL}">Hoje na Família Servita</a></p>')
     return "\n".join(parts)
 
