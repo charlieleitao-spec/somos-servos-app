@@ -9,11 +9,6 @@ on:
         description: "Data para validar ou publicar (AAAA-MM-DD; vazio = hoje em Curitiba)"
         required: false
         type: string
-      dry_run:
-        description: "Executar apenas prévia, sem publicar"
-        required: false
-        default: true
-        type: boolean
 
 permissions:
   contents: read
@@ -34,5 +29,6 @@ jobs:
           BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
           BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN || secrets.BLOGGER_REFFRESH_TOKEN }}
           PUBLISH_DATE: ${{ inputs.publish_date }}
-          DRY_RUN: ${{ github.event_name == 'schedule' && 'false' || inputs.dry_run }}
+          DRY_RUN: ${{ github.event_name == 'schedule' && 'false' || 'true' }}
+          DRAFT: ${{ github.event_name == 'schedule' && 'true' || 'false' }}
         run: python blogger_daily_publish.py
