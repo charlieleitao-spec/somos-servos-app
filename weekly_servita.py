@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepara o resumo semanal servita para o Blogger, sempre como rascunho."""
+"""Prepara o resumo semanal servita e o publica quando não está em prévia."""
 import argparse
 import datetime as dt
 import html
@@ -157,24 +157,24 @@ def find_duplicate(posts, title, marker):
                  or marker in (post.get("content") or "")), None)
 
 
-def create_draft(title, content, marker, token, blog_id):
+def create_post(title, content, marker, token, blog_id):
     payload = json.dumps({"kind": "blogger#post", "title": title, "content": content,
                           "labels": LABELS}, ensure_ascii=False).encode("utf-8")
-    url = f"https://www.googleapis.com/blogger/v3/blogs/{blog_id}/posts/?isDraft=true"
-    created = json_request(url, "POST", payload, token, "application/json; charset=UTF-8", "Criação do rascunho")
+    url = f"https://www.googleapis.com/blogger/v3/blogs/{blog_id}/posts/?isDraft=false"
+    created = json_request(url, "POST", payload, token, "application/json; charset=UTF-8", "Publicação do resumo semanal")
     post_id = created.get("id")
     if not post_id:
-        raise RuntimeError("A API não devolveu o identificador do rascunho.")
+        raise RuntimeError("A API não devolveu o identificador da publicação.")
     verified = json_request(
         f"https://www.googleapis.com/blogger/v3/blogs/{blog_id}/posts/{post_id}?view=ADMIN",
-        token=token, operation="Verificação do rascunho")
+        token=token, operation="Verificação da publicação")
     if verified.get("id") != post_id or verified.get("title") != title:
         raise RuntimeError("A leitura de volta não confirmou título e identificador.")
     if marker not in (verified.get("content") or ""):
         raise RuntimeError("A leitura de volta não confirmou o marcador de origem.")
-    if str(verified.get("status", "")).upper() != "DRAFT":
-        raise RuntimeError("A leitura de volta não confirmou o estado de rascunho.")
-    print(f"Rascunho criado e confirmado pela API: {verified.get('title')} (ID {post_id})")
+    if str(verified.get("status", "")).upper() != "LIVE":
+        raise RuntimeError("A leitura de volta não confirmou o estado publicado.")
+    print(f"Publicação confirmada pela API: {verified.get('title')} (ID {post_id})")
 
 
 def main(argv=None):
@@ -202,7 +202,7 @@ def main(argv=None):
     if duplicate:
         print(f"Já existe postagem correspondente (ID {duplicate.get('id')}); nenhuma duplicata criada.")
         return
-    create_draft(title, content, source_marker(start), token, blog["id"])
+    create_post(title, content, source_marker(start), token, blog["id"])
 
 
 if __name__ == "__main__":
