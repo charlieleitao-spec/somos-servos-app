@@ -6,6 +6,9 @@ import json
 import os
 import re
 import sys
+import subprocess
+import tempfile
+from pathlib import Path
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -187,7 +190,7 @@ def celebration_for(offices, date):
     return celebration
 
 
-def make_content(entry, sections=None):
+def make_content(entry, sections=None, card_url=None, card_alt=None):
     title = entry.get("title") or entry.get("name")
     source_id = str(entry.get("id"))
     date_text = entry.get("date") or ""
@@ -214,8 +217,18 @@ def make_content(entry, sections=None):
                 f"{paragraph_html(section_text)}"
             )
         section_html = "<h3>Ofício próprio da Ordem</h3>\n" + "\n".join(rendered)
+    card_html = ""
+    if card_url:
+        card_html = (
+            '<figure style="margin:0 0 1.5em;text-align:center">'
+            f'<img src="{html.escape(card_url, quote=True)}" '
+            f'alt="{html.escape(card_alt or title, quote=True)}" '
+            'width="1080" height="1350" style="max-width:100%;height:auto" />'
+            '</figure>'
+        )
     return (
         f"<!-- somos-servos-source-id:{html.escape(source_id)} -->"
+        f"{card_html}"
         f"<p><strong>{html.escape(date_text)} · {html.escape(entry.get('rank', ''))}</strong></p>"
         f"<h2>{html.escape(title, quote=False)}</h2>"
         f"<h3>Memória</h3>{bio}"
@@ -224,12 +237,12 @@ def make_content(entry, sections=None):
     )
 
 
-def prepare_post(entry, offices, date):
+def prepare_post(entry, offices, date, card_url=None, card_alt=None):
     celebration = celebration_for(offices, date)
     sections = sections_from(celebration)
     title = (f"{entry.get('title') or entry.get('name')} — Ofício próprio OSM"
              if sections else f"{entry.get('title') or entry.get('name')} — Memória OSM")
-    return title, make_content(entry, sections)
+    return title, make_content(entry, sections, card_url, card_alt)
 
 
 def find_duplicate(posts, title, source_marker):
@@ -247,6 +260,42 @@ def entry_for_date(santoral, date):
     return entries[0] if entries else None
 
 
+def generate_card(santoral, date):
+    generator = Path(__file__).with_name("gerar-cartao.py")
+    if not generator.is_file():
+        raise RuntimeError("O gerador gerar-cartao.py não está disponível no repositório.")
+
+    output_dir = Path(__file__).with_name("cartoes")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    key = date.strftime("%m-%d")
+    with tempfile.TemporaryDirectory(prefix="somos-servos-santoral-") as temp_dir:
+        data_dir = Path(temp_dir)
+        with (data_dir / "santoral.json").open("w", encoding="utf-8") as data_file:
+            json.dump(santoral, data_file, ensure_ascii=False)
+        result = subprocess.run(
+            [sys.executable, str(generator), key, "--dir", str(data_dir), "--out", str(output_dir)],
+            check=False, capture_output=True, text=True,
+        )
+    if result.stdout.strip():
+        print(result.stdout.strip())
+    if result.returncode != 0:
+        detail = result.stderr.strip()
+        raise RuntimeError("Não foi possível gerar o cartão." + (f" {detail}" if detail else ""))
+
+    png_path = output_dir / f"cartao-{key}.png"
+    caption_path = output_dir / f"cartao-{key}.txt"
+    if not png_path.is_file() or not caption_path.is_file():
+        raise RuntimeError("O gerador não produziu o PNG e a legenda esperados.")
+    return png_path, caption_path
+
+
+def set_github_env(name, value):
+    github_env = os.environ.get("GITHUB_ENV")
+    if github_env:
+        with open(github_env, "a", encoding="utf-8") as env_file:
+            env_file.write(f"{name}={value}\n")
+
+
 def main():
     requested_date = os.environ.get("PUBLISH_DATE", "").strip()
     date = dt.date.fromisoformat(requested_date) if requested_date else dt.datetime.now(TIMEZONE).date()
@@ -259,7 +308,14 @@ def main():
         print(f"Sem celebração própria cadastrada para {date.isoformat()}; nenhuma postagem criada.")
         return
 
-    title, content = prepare_post(entry, offices, date)
+    png_path, caption_path = generate_card(santoral, date)
+    run_id = os.environ.get("GITHUB_RUN_ID", "preview")
+    card_url = (
+        "https://charlieleitao-spec.github.io/somos-servos-app/"
+        f"cartoes/{png_path.name}?v={urllib.parse.quote(run_id)}"
+    )
+    card_alt = f"Cartão: {entry.get('title') or entry.get('name')} — {entry.get('date', date.isoformat())}"
+    title, content = prepare_post(entry, offices, date, card_url, card_alt)
     is_draft = os.environ.get("DRAFT", "false").strip().lower() == "true"
     token = access_token()
     blog = locate_blog(token)
@@ -274,6 +330,9 @@ def main():
         print(f"Prévia sem publicação: {title}")
         print(f"Marcadores: {', '.join(LABELS)}")
         print(f"Conteúdo preparado; tamanho {len(content)} caracteres.")
+        print(f"PNG da prévia: {png_path}")
+        print("Legenda do cartão:")
+        print(caption_path.read_text(encoding="utf-8").strip())
         return
 
     payload = json.dumps({"kind": "blogger#post", "title": title, "content": content,
@@ -297,7 +356,10 @@ def main():
     if is_draft and str(verified.get("status", "")).upper() != "DRAFT":
         raise RuntimeError("A leitura de volta da API não confirmou o estado de rascunho.")
     result_label = "Rascunho criado e confirmado" if is_draft else "Publicado e confirmado"
+    set_github_env("CARD_COMMIT", "true")
+    set_github_env("CARD_PUBLIC_URL", card_url)
     print(f"{result_label} pela API: {verified.get('title')}")
+    print(f"Cartão e legenda preparados: {png_path.name}, {caption_path.name}")
     print(f"URL: {verified.get('url')}")
     print(f"ID da postagem confirmado: {post_id}")
 
@@ -308,3 +370,4 @@ if __name__ == "__main__":
     except Exception as exc:
         print(f"Falha: {exc}", file=sys.stderr)
         sys.exit(1)
+
