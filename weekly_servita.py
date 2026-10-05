@@ -101,11 +101,16 @@ def week_entries(santoral, start):
         if not isinstance(item, dict):
             continue
         try:
-            date = dt.date(start.year, int(item["month"]), int(item["day"]))
+            month, day = int(item["month"]), int(item["day"])
         except (KeyError, TypeError, ValueError):
             continue
-        if start <= date <= start + dt.timedelta(days=6):
-            by_date.setdefault(date, []).append(item)
+        for year in (start.year, start.year + 1):
+            try:
+                date = dt.date(year, month, day)
+            except ValueError:
+                continue
+            if start <= date <= start + dt.timedelta(days=6):
+                by_date.setdefault(date, []).append(item)
     return [(date, item) for date in sorted(by_date) for item in by_date[date]]
 
 
