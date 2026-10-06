@@ -159,7 +159,8 @@ def find_duplicate(posts, marker):
 def create_post(title, content, marker, token, blog_id):
     payload = json.dumps({"kind": "blogger#post", "title": title, "content": content,
                           "labels": LABELS}, ensure_ascii=False).encode("utf-8")
-    url = f"https://www.googleapis.com/blogger/v3/blogs/{blog_id}/posts/?isDraft=false"
+    # Mantém o resumo semanal como rascunho até haver autorização explícita para publicação direta.
+    url = f"https://www.googleapis.com/blogger/v3/blogs/{blog_id}/posts/?isDraft=true"
     created = json_request(url, "POST", payload, token, "application/json; charset=UTF-8", "Publicação do resumo semanal")
     post_id = created.get("id")
     if not post_id:
@@ -171,9 +172,9 @@ def create_post(title, content, marker, token, blog_id):
         raise RuntimeError("A leitura de volta não confirmou título e identificador.")
     if marker not in (verified.get("content") or ""):
         raise RuntimeError("A leitura de volta não confirmou o marcador de origem.")
-    if str(verified.get("status", "")).upper() != "LIVE":
-        raise RuntimeError("A leitura de volta não confirmou o estado publicado.")
-    print(f"Publicação confirmada pela API: {verified.get('title')} (ID {post_id})")
+    if str(verified.get("status", "")).upper() != "DRAFT":
+        raise RuntimeError("A leitura de volta não confirmou o estado de rascunho.")
+    print(f"Rascunho confirmado pela API: {verified.get('title')} (ID {post_id})")
 
 
 def main(argv=None):

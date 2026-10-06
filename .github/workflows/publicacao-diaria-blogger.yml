@@ -16,7 +16,7 @@ on:
         default: false
         type: boolean
       run_weekly:
-        description: "Gerar uma prévia semanal; a execução agendada publica diretamente"
+        description: "Gerar uma prévia semanal sem publicar"
         required: false
         default: false
         type: boolean
@@ -87,7 +87,7 @@ jobs:
           BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN || secrets.BLOGGER_REFFRESH_TOKEN }}
         run: python blogger_daily_publish.py
 
-      - name: Publicar resumo semanal na Família Servita
+      - name: Preparar rascunho semanal na Família Servita
         if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.inventory_only) && ((github.event_name == 'schedule' && github.event.schedule == '0 11 * * 0') || (github.event_name == 'workflow_dispatch' && inputs.run_weekly)) }}
         env:
           BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
