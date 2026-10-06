@@ -9,10 +9,12 @@ Dependências:
   python -m pip install google-api-python-client google-auth beautifulsoup4
 
 Variáveis de ambiente obrigatórias:
-  BLOGGER_BLOG_ID
   BLOGGER_CLIENT_ID
   BLOGGER_CLIENT_SECRET
   BLOGGER_REFRESH_TOKEN
+
+BLOGGER_BLOG_ID é opcional; sem ele, o script localiza o blog autorizado
+por BLOGGER_PUBLIC_URL (padrão: https://somosservos.blogspot.com).
 
 O script nunca apaga posts. Para posts live/agendados, usa posts.revert,
 o endpoint oficial que os torna rascunhos. Só altera o campo content nos
@@ -84,6 +86,28 @@ def make_service():
         credentials=credentials,
         cache_discovery=False,
     )
+
+
+def locate_blog_id(service) -> str:
+    """Usa o ID configurado ou localiza Somos Servos na conta OAuth autorizada."""
+    requested_id = os.environ.get("BLOGGER_BLOG_ID", "").strip()
+    if requested_id:
+        return requested_id
+
+    target_host = (urlsplit(
+        os.environ.get("BLOGGER_PUBLIC_URL", "https://somosservos.blogspot.com")
+    ).hostname or "").casefold()
+    blogs = service.blogs().listByUser(userId="self").execute().get("items", [])
+    matches = [
+        blog for blog in blogs
+        if (urlsplit(blog.get("url", "")).hostname or "").casefold() == target_host
+    ]
+    if len(matches) != 1:
+        raise RuntimeError(
+            "Esperava localizar exatamente um blog Somos Servos na conta OAuth; "
+            f"encontrei {len(matches)}. Configure BLOGGER_BLOG_ID para especificá-lo."
+        )
+    return str(matches[0]["id"])
 
 
 def list_all_posts(service, blog_id: str) -> list[dict]:
@@ -448,8 +472,8 @@ def main() -> int:
         parser.error("Para gravar, informe as duas opções: --apply --confirm-apply")
 
     dry_run = DRY_RUN and not args.apply
-    blog_id = env_required("BLOGGER_BLOG_ID")
     service = make_service()
+    blog_id = locate_blog_id(service)
     posts = list_all_posts(service, blog_id)
     actions = build_plan(posts)
     print_plan(actions, dry_run)
