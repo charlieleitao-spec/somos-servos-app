@@ -1,0 +1,67 @@
+name: Aplicar classificação de marcadores do Blogger
+
+on:
+  workflow_dispatch:
+    inputs:
+      classification_gzip_b64:
+        description: "CSV de classificação comprimido e codificado (entrada temporária da execução)"
+        required: true
+        type: string
+      apply_changes:
+        description: "Aplicar no Blogger (desmarcado = simulação)"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: blogger-marker-classification-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  apply-labels:
+    runs-on: ubuntu-latest
+    env:
+      BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
+      BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
+      BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN || secrets.BLOGGER_REFFRESH_TOKEN }}
+      BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
+      CLASSIFICATION_GZIP_B64: ${{ inputs.classification_gzip_b64 }}
+      APPLY_CHANGES: ${{ inputs.apply_changes }}
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Preparar classificação temporária
+        run: |
+          python - <<'PY'
+          import base64, gzip, os
+          from pathlib import Path
+          raw = os.environ.get("CLASSIFICATION_GZIP_B64", "")
+          if not raw:
+              raise SystemExit("A entrada CSV não foi fornecida.")
+          data = gzip.decompress(base64.b64decode(raw, validate=True))
+          Path("classification.csv").write_bytes(data)
+          print(f"Classificação carregada para esta execução ({len(data)} bytes).")
+          PY
+
+      - name: Simular ou aplicar por lotes, com backup e leitura de volta
+        run: python blogger_apply_classification.py
+
+      - name: Guardar log e backups JSON
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: blogger-labels-${{ github.run_id }}
+          path: |
+            blogger-labels-audit.csv
+            backups/blogger-labels/*.json
+          if-no-files-found: warn
+          retention-days: 14
