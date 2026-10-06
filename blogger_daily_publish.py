@@ -20,7 +20,7 @@ BLOGS_URL = "https://www.googleapis.com/blogger/v3/users/self/blogs"
 DATA_BASE = "https://raw.githubusercontent.com/charlieleitao-spec/liturgia-osm/main/www/data/"
 TARGET_HOST = "somosservos.blogspot.com"
 TIMEZONE = ZoneInfo("America/Sao_Paulo")
-LABELS = ["Ordem dos Servos de Maria", "Liturgia OSM", "Santos e Beatos"]
+LABELS = ["Santos e Beatos"]
 
 
 def required(name):
@@ -246,11 +246,10 @@ def prepare_post(entry, offices, date, card_url=None, card_alt=None):
     return title, make_content(entry, sections, card_url, card_alt)
 
 
-def find_duplicate(posts, title, source_marker):
-    normalized_title = title.strip().casefold()
+def find_duplicate(posts, source_marker):
+    """Deduplica somente pelo identificador estável gravado no corpo do post."""
     return next((post for post in posts
-                 if (post.get("title") or "").strip().casefold() == normalized_title
-                 or source_marker in (post.get("content") or "")), None)
+                 if source_marker in (post.get("content") or "")), None)
 
 
 def entry_for_date(santoral, date):
@@ -317,12 +316,14 @@ def main():
     )
     card_alt = f"Cartão: {entry.get('title') or entry.get('name')} — {entry.get('date', date.isoformat())}"
     title, content = prepare_post(entry, offices, date, card_url, card_alt)
+    celebration = celebration_for(offices, date)
+    labels = LABELS + (["Ofícios"] if sections_from(celebration) else [])
     is_draft = os.environ.get("DRAFT", "false").strip().lower() == "true"
     token = access_token()
     blog = locate_blog(token)
     posts = list_existing_posts(blog["id"], token)
     source_marker = f"somos-servos-source-id:{entry.get('id')}"
-    duplicate = find_duplicate(posts, title, source_marker)
+    duplicate = find_duplicate(posts, source_marker)
     if duplicate:
         existing_content = duplicate.get("content") or ""
         card_path = f"cartoes/{png_path.name}"
@@ -336,7 +337,7 @@ def main():
 
     if dry_run:
         print(f"Prévia sem publicação: {title}")
-        print(f"Marcadores: {', '.join(LABELS)}")
+        print(f"Marcadores: {', '.join(labels)}")
         print(f"Conteúdo preparado; tamanho {len(content)} caracteres.")
         print(f"PNG da prévia: {png_path}")
         print("Legenda do cartão:")
@@ -344,7 +345,7 @@ def main():
         return
 
     payload = json.dumps({"kind": "blogger#post", "title": title, "content": content,
-                          "labels": LABELS}, ensure_ascii=False).encode("utf-8")
+                          "labels": labels}, ensure_ascii=False).encode("utf-8")
     insert_url = f"https://www.googleapis.com/blogger/v3/blogs/{blog['id']}/posts/"
     if is_draft:
         insert_url += "?isDraft=true"
