@@ -3,10 +3,6 @@ name: Aplicar classificação de marcadores do Blogger
 on:
   workflow_dispatch:
     inputs:
-      classification_gzip_b64:
-        description: "CSV de classificação comprimido e codificado (entrada temporária da execução)"
-        required: true
-        type: string
       apply_changes:
         description: "Aplicar no Blogger (desmarcado = simulação)"
         required: false
@@ -28,7 +24,6 @@ jobs:
       BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
       BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN || secrets.BLOGGER_REFFRESH_TOKEN }}
       BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
-      CLASSIFICATION_GZIP_B64: ${{ inputs.classification_gzip_b64 }}
       APPLY_CHANGES: ${{ inputs.apply_changes }}
     steps:
       - name: Baixar repositório
@@ -40,6 +35,8 @@ jobs:
           python-version: "3.12"
 
       - name: Preparar classificação temporária
+        env:
+          CLASSIFICATION_GZIP_B64: ${{ secrets.BLOGGER_CLASSIFICATION_GZIP_B64_TEMP }}
         run: |
           python - <<'PY'
           import base64, gzip, os
