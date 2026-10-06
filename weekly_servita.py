@@ -20,7 +20,7 @@ APP_URL = "https://charlieleitao-spec.github.io/hoje-familia-servita/"
 PAGES_URL = "https://charlieleitao-spec.github.io/somos-servos-app/"
 WEEKDAYS = ("segunda-feira", "terça-feira", "quarta-feira", "quinta-feira",
             "sexta-feira", "sábado", "domingo")
-LABELS = ["Semana servita"]
+LABELS = ["Liturgia"]
 
 
 def required(name):
@@ -150,11 +150,10 @@ def make_content(santoral, start, cards_dir):
     return "\n".join(parts)
 
 
-def find_duplicate(posts, title, marker):
-    normalized_title = title.strip().casefold()
+def find_duplicate(posts, marker):
+    """Deduplica somente pelo identificador da semana gravado no corpo."""
     return next((post for post in posts
-                 if (post.get("title") or "").strip().casefold() == normalized_title
-                 or marker in (post.get("content") or "")), None)
+                 if marker in (post.get("content") or "")), None)
 
 
 def create_post(title, content, marker, token, blog_id):
@@ -191,14 +190,14 @@ def main(argv=None):
     dry_run = os.environ.get("WEEKLY_DRY_RUN", "false").strip().lower() == "true"
     if dry_run:
         print(f"Prévia semanal: {title}")
-        print(f"Marcador: Semana servita")
+        print(f"Marcador: {LABELS[0]}")
         print("HTML:")
         print(content)
         return
 
     token = access_token()
     blog = locate_blog(token)
-    duplicate = find_duplicate(list_existing_posts(blog["id"], token), title, source_marker(start))
+    duplicate = find_duplicate(list_existing_posts(blog["id"], token), source_marker(start))
     if duplicate:
         print(f"Já existe postagem correspondente (ID {duplicate.get('id')}); nenhuma duplicata criada.")
         return
