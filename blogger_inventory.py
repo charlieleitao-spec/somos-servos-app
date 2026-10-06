@@ -105,17 +105,18 @@ def list_resources(blog_id, token, kind, statuses):
     for status in statuses:
         page_token = None
         while True:
-            params = {"maxResults": "500", "fetchBodies": "true",
-                      "status": status, "view": "ADMIN"}
-            if page_token:
-                params["pageToken"] = page_token
+            params = {"fetchBodies": "true", "status": status, "view": "ADMIN"}
+            if endpoint == "posts":
+                params["maxResults"] = "500"
+                if page_token:
+                    params["pageToken"] = page_token
             url = base_url + "?" + urllib.parse.urlencode(params)
             page = json_request(url, token=token,
                                 operation=f"Listagem de {kind}s ({status})")
             for item in page.get("items", []):
                 key = str(item.get("id") or item.get("url") or item.get("title"))
                 found[key] = item
-            page_token = page.get("nextPageToken")
+            page_token = page.get("nextPageToken") if endpoint == "posts" else None
             if not page_token:
                 break
     return list(found.values())
