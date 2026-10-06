@@ -184,7 +184,7 @@ def main():
     token = access_token()
     blog_id = locate_blog(token)
     posts = list_resources(blog_id, token, "post", ("live", "draft", "scheduled"))
-    pages = list_resources(blog_id, token, "página", ("live", "draft", "imported"))
+    pages = list_resources(blog_id, token, "página", ("live", "draft"))
     rows = build_rows(posts, pages)
     fields = ["tipo", "título", "URL", "data", "marcadores atuais",
               "número de caracteres", "corpo vazio", "número de links",
