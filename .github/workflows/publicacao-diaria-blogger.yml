@@ -87,7 +87,7 @@ jobs:
           BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN || secrets.BLOGGER_REFFRESH_TOKEN }}
         run: python blogger_daily_publish.py
 
-      - name: Preparar rascunho semanal na Família Servita
+      - name: Gerar prévia ou publicar resumo semanal
         if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.inventory_only) && ((github.event_name == 'schedule' && github.event.schedule == '0 11 * * 0') || (github.event_name == 'workflow_dispatch' && inputs.run_weekly)) }}
         env:
           BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
