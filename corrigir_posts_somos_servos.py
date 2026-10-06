@@ -113,7 +113,8 @@ def locate_blog_id(service) -> str:
 def list_all_posts(service, blog_id: str) -> list[dict]:
     """Lê posts live, draft e scheduled com corpo completo e view ADMIN."""
     posts: dict[str, dict] = {}
-    for status in ("live", "draft", "scheduled"):
+    # A biblioteca cliente valida os valores do enum em maiúsculas.
+    for status in ("LIVE", "DRAFT", "SCHEDULED"):
         page_token = None
         while True:
             params = {
