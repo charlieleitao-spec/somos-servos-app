@@ -88,7 +88,7 @@ jobs:
         run: python blogger_daily_publish.py
 
       - name: Publicar resumo semanal na Família Servita
-        if: ${{ !(github.event_name == 'workflow_dispatch' && (inputs.inventory_only || inputs.audit_1c)) && ((github.event_name == 'schedule' && github.event.schedule == '0 11 * * 0') || (github.event_name == 'workflow_dispatch' && inputs.run_weekly)) }}
+        if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.inventory_only) && ((github.event_name == 'schedule' && github.event.schedule == '0 11 * * 0') || (github.event_name == 'workflow_dispatch' && inputs.run_weekly)) }}
         env:
           BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
           BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
