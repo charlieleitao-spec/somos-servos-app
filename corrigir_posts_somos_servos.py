@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import argparse
 import difflib
+import html
 import hashlib
 import json
 import os
@@ -216,48 +217,72 @@ def plain_text_or_unwrap(anchor) -> None:
 
 
 def clean_broken_links(content: str) -> tuple[str, list[str]]:
-    soup = parse_html(content)
     changed = []
-    # Copiamos a lista porque a substituição altera a árvore.
-    for anchor in list(soup.find_all("a", href=True)):
+    anchor_re = re.compile(r"(?is)<a\b[^>]*>.*?</a\s*>|<a\b[^>]*/\s*>")
+    open_tag_re = re.compile(r"(?is)^<a\b[^>]*>")
+    href_attr_re = re.compile(r"(?is)\s+href\s*=\s*(?:\"[^\"]*\"|'[^']*'|[^\s>]+)")
+
+    def replace_anchor(match: re.Match) -> str:
+        fragment = match.group(0)
+        anchor = parse_html(fragment).find("a")
+        if not anchor or not anchor.has_attr("href"):
+            return fragment
         href = normalized_href(anchor.get("href", ""))
         if href in BROKEN_LINKS:
-            plain_text_or_unwrap(anchor)
             changed.append(f"link 404 convertido em texto: {href}")
-        elif has_invalid_blogger_href(href):
-            # A diretriz específica pede manter a tag e seu texto interno.
-            del anchor["href"]
+            if anchor.find("img"):
+                # Mantém a imagem e o HTML interno, retirando apenas a ligação.
+                unwrapped = open_tag_re.sub("", fragment, count=1)
+                return re.sub(r"(?is)</a\s*>", "", unwrapped, count=1)
+            # Obtém o texto visível com BeautifulSoup e o escapa como texto HTML.
+            return html.escape(anchor.get_text("", strip=False), quote=False)
+        if has_invalid_blogger_href(href):
             changed.append(f"atributo href inválido removido: {href}")
-    return str(soup), changed
+            opening = open_tag_re.match(fragment)
+            if not opening:
+                return fragment
+            clean_opening = href_attr_re.sub("", opening.group(0), count=1)
+            return clean_opening + fragment[opening.end():]
+        return fragment
+
+    # BeautifulSoup interpreta os atributos; a substituição cirúrgica conserva
+    # o restante do HTML original sem reformatar o corpo inteiro.
+    return anchor_re.sub(replace_anchor, content or ""), changed
 
 
 def remove_unavailable_mother_video(content: str, title: str) -> tuple[str, list[str]]:
     if not normalized_title(title).startswith(normalized_title(MOTHER_VIDEO_TITLE)):
         return content, []
 
-    soup = parse_html(content)
     removed = []
-    for frame in list(soup.find_all("iframe")):
+    iframe_re = re.compile(r"(?is)<iframe\b[^>]*>.*?</iframe\s*>")
+    wrapper_re = re.compile(r"(?is)<(?P<tag>center|p|div)\b[^>]*>\s*.*?\s*</(?P=tag)\s*>")
+    spans_to_remove = []
+    for match in iframe_re.finditer(content or ""):
+        frame_html = match.group(0)
+        frame = parse_html(frame_html).find("iframe")
+        if not frame:
+            continue
         src = frame.get("src", "")
         host = (urlsplit(src).hostname or "").casefold()
         if MOTHER_VIDEO_ID in src and (
             host.endswith("youtube.com") or host.endswith("youtube-nocookie.com")
         ):
-            parent = frame.parent
-            frame.decompose()
             removed.append(f"iframe YouTube indisponível removido ({MOTHER_VIDEO_ID})")
-            # Retira somente um wrapper que ficou vazio; preserva textos e outros
-            # elementos do post.
-            while (
-                parent
-                and getattr(parent, "name", None) in {"p", "div"}
-                and not parent.get_text(" ", strip=True)
-                and not parent.find(["img", "iframe", "video", "object", "embed", "a"])
-            ):
-                next_parent = parent.parent
-                parent.decompose()
-                parent = next_parent
-    return str(soup), removed
+            containing = []
+            for wrapper in wrapper_re.finditer(content or ""):
+                if wrapper.start() <= match.start() and wrapper.end() >= match.end():
+                    parsed = parse_html(wrapper.group(0))
+                    frames = parsed.find_all("iframe")
+                    non_iframe_tags = [tag for tag in parsed.find_all(True) if tag.name != "iframe"]
+                    if len(frames) == 1 and not non_iframe_tags and not parsed.get_text(" ", strip=True):
+                        containing.append(wrapper)
+            target = max(containing, key=lambda item: item.end() - item.start()) if containing else match
+            spans_to_remove.append((target.start(), target.end()))
+    result = content or ""
+    for start, end in reversed(spans_to_remove):
+        result = result[:start] + result[end:]
+    return result, removed
 
 
 def source_fingerprint(post: dict) -> str:
