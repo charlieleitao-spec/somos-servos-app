@@ -34,18 +34,30 @@ def required(name):
 
 def request_json(url, method="GET", payload=None, token=None, content_type="application/json"):
     data = None if payload is None else json.dumps(payload, ensure_ascii=False).encode("utf-8")
-    req = urllib.request.Request(url, data=data, method=method)
-    if token:
-        req.add_header("Authorization", f"Bearer {token}")
-    if data is not None:
-        req.add_header("Content-Type", content_type)
-    try:
-        with urllib.request.urlopen(req, timeout=45) as response:
-            return json.load(response)
-    except urllib.error.HTTPError as exc:
-        raise RuntimeError(f"Blogger API retornou HTTP {exc.code} em {method} {urllib.parse.urlsplit(url).path}.") from None
-    except urllib.error.URLError:
-        raise RuntimeError(f"Falha de conexão com a Blogger API em {method}.") from None
+    path = urllib.parse.urlsplit(url).path
+    for attempt in range(5):
+        req = urllib.request.Request(url, data=data, method=method)
+        if token:
+            req.add_header("Authorization", f"Bearer {token}")
+        if data is not None:
+            req.add_header("Content-Type", content_type)
+        try:
+            with urllib.request.urlopen(req, timeout=45) as response:
+                return json.load(response)
+        except urllib.error.HTTPError as exc:
+            if exc.code in {429, 500, 502, 503, 504} and attempt < 4:
+                delay = min(2 ** (attempt + 1), 20)
+                print(f"Blogger API respondeu HTTP {exc.code}; nova tentativa em {delay}s.", flush=True)
+                time.sleep(delay)
+                continue
+            raise RuntimeError(f"Blogger API retornou HTTP {exc.code} em {method} {path}.") from None
+        except urllib.error.URLError:
+            if attempt < 4:
+                delay = min(2 ** (attempt + 1), 20)
+                print(f"Conexão com Blogger API interrompida; nova tentativa em {delay}s.", flush=True)
+                time.sleep(delay)
+                continue
+            raise RuntimeError(f"Falha de conexão com a Blogger API em {method} {path}.") from None
 
 
 def access_token():
