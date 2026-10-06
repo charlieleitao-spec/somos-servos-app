@@ -18,7 +18,7 @@ from pathlib import Path
 from blogger_inventory import access_token, locate_blog, list_resources
 
 BLOG_HOST = "somosservos.blogspot.com"
-YOUTUBE_HOSTS = {"youtube.com", "www.youtube.com", "m.youtube.com", "youtube-nocookie.com", "www.youtube-nocookie.com"}
+YOUTUBE_HOSTS = {"youtube.com", "www.youtube.com", "m.youtube.com", "youtube-nocookie.com", "www.youtube-nocookie.com", "youtu.be"}
 
 class ContentParser(HTMLParser):
     def __init__(self):
@@ -63,6 +63,18 @@ def canonical_url(url):
     if u.scheme not in {"http","https"} or not u.netloc: return None
     return urllib.parse.urlunsplit((u.scheme,u.netloc,u.path or "/",u.query,""))
 
+def youtube_watch_url(url):
+    u=urllib.parse.urlsplit(url)
+    h=(u.hostname or "").lower()
+    video_id=None
+    if h=="youtu.be": video_id=u.path.strip("/").split("/")[0]
+    elif h in YOUTUBE_HOSTS:
+        video_id=urllib.parse.parse_qs(u.query).get("v",[None])[0]
+        if not video_id:
+            m=re.search(r"/(?:embed|shorts|live)/([A-Za-z0-9_-]{6,})",u.path)
+            if m: video_id=m.group(1)
+    return "https://www.youtube.com/watch?v="+video_id if video_id else None
+
 def fetch_status(url):
     headers={"User-Agent":"Mozilla/5.0 (compatible; SomosServosReadOnlyAudit/1.0)","Range":"bytes=0-0"}
     for method in ("HEAD","GET"):
@@ -88,7 +100,8 @@ def video_oembed(url):
             data=json.load(r)
             return {"available":True,"status":r.status,"title":data.get("title","")}
     except urllib.error.HTTPError as e:
-        return {"available":False,"status":e.code,"title":""}
+        if e.code in {404,410}: return {"available":False,"status":e.code,"title":""}
+        return {"available":None,"status":e.code,"title":"","error":"oEmbed negou ou limitou a consulta"}
     except Exception as e:
         return {"available":None,"status":None,"title":"","error":type(e).__name__+": "+str(e)[:160]}
 
@@ -105,11 +118,9 @@ def main():
     videos={}; refs={}
     for item in posts:
         key=str(item.get("id") or item.get("url")); p,_=parsed[key]
-        for src in p.iframes:
-            h=host(src)
-            if h in YOUTUBE_HOSTS:
-                video=canonical_url(src)
-                if video: videos.setdefault(video,[]).append(item)
+        for src in p.iframes+p.links:
+            video=youtube_watch_url(src)
+            if video: videos.setdefault(video,[]).append(item)
         for href in p.links:
             link=canonical_url(href)
             h=host(link or "")
