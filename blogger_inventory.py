@@ -18,10 +18,18 @@ BLOGS_URL = "https://www.googleapis.com/blogger/v3/users/self/blogs"
 API_BASE = "https://www.googleapis.com/blogger/v3"
 TARGET_HOST = "somosservos.blogspot.com"
 SHORT_POST_CHARS = 500
+YOUTUBE_RE = re.compile(r"(?:youtube(?:-nocookie)?\.com|youtu\.be)", re.IGNORECASE)
+VIDEO_HOST_RE = re.compile(r"(?:youtube(?:-nocookie)?\.com|youtu\.be|vimeo\.com)", re.IGNORECASE)
+VIDEO_FILE_RE = re.compile(r"\.(?:mp4|m4v|mov|webm|ogv|avi|mpeg|mpg)(?:$|[?#])", re.IGNORECASE)
+PDF_RE = re.compile(r"\.pdf(?:$|[?#])", re.IGNORECASE)
+ATTACHMENT_RE = re.compile(
+    r"\.(?:pdf|doc|docx|odt|rtf|xls|xlsx|ods|ppt|pptx|odp|txt|csv|zip|rar|7z|epub|ics)(?:$|[?#])",
+    re.IGNORECASE,
+)
 
 
 class BodyParser(HTMLParser):
-    """Extrai texto visível e conta links e imagens sem baixar recursos."""
+    """Extrai texto visível e conta links, imagens e mídias incorporadas."""
     HIDDEN = {"script", "style", "noscript", "template"}
 
     def __init__(self):
@@ -30,14 +38,50 @@ class BodyParser(HTMLParser):
         self.parts = []
         self.links = 0
         self.images = 0
+        self.iframes = 0
+        self.embed_objects = 0
+        self.youtube_embeds = 0
+        self.pdf_embeds = 0
+        self.video_present = False
+        self.attachment_present = False
 
     def handle_starttag(self, tag, attrs):
+        attributes = {key.lower(): (value or "") for key, value in attrs}
         if tag in self.HIDDEN:
             self.hidden_depth += 1
         if tag == "a":
             self.links += 1
         elif tag == "img":
             self.images += 1
+        elif tag == "iframe":
+            self.iframes += 1
+        elif tag in {"embed", "object"}:
+            self.embed_objects += 1
+
+        references = " ".join(
+            attributes.get(key, "") for key in ("href", "src", "data", "poster")
+        )
+        embed_tag = tag in {"iframe", "embed", "object"}
+        if embed_tag and YOUTUBE_RE.search(references):
+            self.youtube_embeds += 1
+        if embed_tag and (
+            PDF_RE.search(references)
+            or attributes.get("type", "").lower().split(";")[0].strip() == "application/pdf"
+        ):
+            self.pdf_embeds += 1
+
+        media_reference = VIDEO_HOST_RE.search(references) or VIDEO_FILE_RE.search(references)
+        if tag == "video" or media_reference:
+            self.video_present = True
+        if tag == "source" and attributes.get("type", "").lower().startswith("video/"):
+            self.video_present = True
+
+        if (
+            "download" in attributes
+            or ATTACHMENT_RE.search(references)
+            or re.search(r"(?:drive|docs)\.google\.com/(?:file/|uc\?|document/)", references, re.IGNORECASE)
+        ):
+            self.attachment_present = True
 
     def handle_endtag(self, tag):
         if tag in self.HIDDEN and self.hidden_depth:
@@ -46,7 +90,6 @@ class BodyParser(HTMLParser):
     def handle_data(self, data):
         if not self.hidden_depth:
             self.parts.append(data)
-
 
 def required(name):
     value = os.environ.get(name, "").strip()
@@ -127,8 +170,24 @@ def body_stats(content):
     parser.feed(content or "")
     parser.close()
     visible_text = re.sub(r"\s+", " ", " ".join(parser.parts)).strip()
-    return visible_text, parser.links, parser.images
-
+    embedded_count = parser.iframes + parser.embed_objects
+    body_empty = not (
+        visible_text or parser.links or parser.images or embedded_count
+        or parser.video_present or parser.attachment_present
+    )
+    return {
+        "visible_text": visible_text,
+        "links": parser.links,
+        "images": parser.images,
+        "iframes": parser.iframes,
+        "embed_objects": parser.embed_objects,
+        "embedded_total": embedded_count,
+        "youtube_embeds": parser.youtube_embeds,
+        "pdf_embeds": parser.pdf_embeds,
+        "video_present": parser.video_present,
+        "attachment_present": parser.attachment_present,
+        "body_empty": body_empty,
+    }
 
 def title_key(title):
     return re.sub(r"\s+", " ", (title or "").strip()).casefold()
@@ -144,18 +203,20 @@ def build_rows(posts, pages):
 
     rows = []
     for kind, item in entries:
-        content = item.get("content") or ""
-        visible_text, link_count, image_count = body_stats(content)
+        stats = body_stats(item.get("content") or "")
+        visible_text = stats["visible_text"]
         chars = len(visible_text)
         title = item.get("title") or ""
         labels = item.get("labels") or []
         if not isinstance(labels, list):
             labels = [str(labels)]
         flags = []
-        if not visible_text:
+        if stats["body_empty"]:
             flags.append("corpo vazio")
-        if re.search(r"\bconferir\b", visible_text, flags=re.IGNORECASE) and link_count == 0:
+        if re.search(r"\bconferir\b", visible_text, flags=re.IGNORECASE) and stats["links"] == 0:
             flags.append("texto 'conferir' sem link")
+        if not title.strip():
+            flags.append("título vazio")
         if title and title_counts.get(title_key(title), 0) > 1:
             flags.append("título duplicado")
         if kind == "post" and chars <= SHORT_POST_CHARS:
@@ -167,13 +228,20 @@ def build_rows(posts, pages):
             "data": item.get("published") or item.get("updated") or item.get("created") or "",
             "marcadores atuais": " | ".join(str(label) for label in labels),
             "número de caracteres": chars,
-            "corpo vazio": "sim" if not visible_text else "não",
-            "número de links": link_count,
-            "número de imagens": image_count,
+            "corpo vazio": "sim" if stats["body_empty"] else "não",
+            "número de links": stats["links"],
+            "número de imagens": stats["images"],
+            "número de iframes/embeds": stats["embedded_total"],
+            "número de iframes": stats["iframes"],
+            "número de embeds/objetos": stats["embed_objects"],
+            "número de embeds YouTube": stats["youtube_embeds"],
+            "número de embeds PDF": stats["pdf_embeds"],
+            "vídeo presente": "sim" if stats["video_present"] else "não",
+            "arquivo anexo presente": "sim" if stats["attachment_present"] else "não",
+            "título vazio": "sim" if not title.strip() else "não",
             "suspeitas": " | ".join(flags),
         })
     return rows
-
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -188,7 +256,9 @@ def main():
     rows = build_rows(posts, pages)
     fields = ["tipo", "título", "URL", "data", "marcadores atuais",
               "número de caracteres", "corpo vazio", "número de links",
-              "número de imagens", "suspeitas"]
+              "número de imagens", "número de iframes/embeds", "número de iframes",
+              "número de embeds/objetos", "número de embeds YouTube", "número de embeds PDF",
+              "vídeo presente", "arquivo anexo presente", "título vazio", "suspeitas"]
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("w", encoding="utf-8-sig", newline="") as csv_file:
