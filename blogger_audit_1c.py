@@ -6,6 +6,7 @@ import json
 import re
 import sys
 import time
+import unicodedata
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -52,6 +53,11 @@ def parse_body(item):
 def normalized_text(s):
     return re.sub(r"\s+"," ",s).strip().casefold()
 
+def title_group_key(s):
+    folded=unicodedata.normalize("NFKD",(s or "").casefold())
+    folded="".join(c for c in folded if not unicodedata.combining(c))
+    return re.sub(r"[^a-z0-9]+"," ",folded).strip()
+
 def canonical_url(url):
     u=urllib.parse.urlsplit(html.unescape(url.strip()))
     if u.scheme not in {"http","https"} or not u.netloc: return None
@@ -65,7 +71,7 @@ def fetch_status(url):
             with urllib.request.urlopen(req,timeout=18) as resp:
                 return {"status":resp.status,"final_url":resp.geturl(),"error":""}
         except urllib.error.HTTPError as e:
-            if method=="HEAD" and e.code in {400,403,405,501}: continue
+            if method=="HEAD" and e.code in {400,403,404,405,410,501}: continue
             return {"status":e.code,"final_url":e.geturl(),"error":""}
         except Exception as e:
             if method=="HEAD": continue
@@ -73,7 +79,9 @@ def fetch_status(url):
     return {"status":None,"final_url":"","error":"requisição inconclusiva"}
 
 def video_oembed(url):
-    endpoint="https://www.youtube.com/oembed?"+urllib.parse.urlencode({"url":url,"format":"json"})
+    video_id=(re.search(r"/(?:embed|shorts)/([A-Za-z0-9_-]{6,})",urllib.parse.urlsplit(url).path) or [None,None])[1]
+    watch_url="https://www.youtube.com/watch?v="+video_id if video_id else url
+    endpoint="https://www.youtube.com/oembed?"+urllib.parse.urlencode({"url":watch_url,"format":"json"})
     try:
         req=urllib.request.Request(endpoint,headers={"User-Agent":"Mozilla/5.0"})
         with urllib.request.urlopen(req,timeout=18) as r:
@@ -119,11 +127,14 @@ def main():
     for u,items in videos.items():
         r=video_results[u]
         youtube.append({"url":u,"available":r["available"],"status":r.get("status"),"title":r.get("title",""),"posts":[{"title":x.get("title",""),"url":x.get("url","")} for x in items],"error":r.get("error","")})
-    broken=[]; inconclusive=[]
+    broken=[]; inconclusive=[]; restricted=[]; server_errors=[]
     for u,items in refs.items():
         r=link_results[u]; rec={"url":u,"status":r.get("status"),"final_url":r.get("final_url"),"error":r.get("error"),"posts":[{"title":x.get("title",""),"url":x.get("url","")} for x in items]}
-        if r.get("status") is not None and r["status"]>=400: broken.append(rec)
-        elif r.get("status") is None: inconclusive.append(rec)
+        status=r.get("status")
+        if status in {404,410}: broken.append(rec)
+        elif status in {401,403,429}: restricted.append(rec)
+        elif status is not None and status>=500: server_errors.append(rec)
+        elif status is None: inconclusive.append(rec)
     concepts={
       "Província/década de 1960":lambda t: "provincia" in t and ("1960" in t or "decada" in t),
       "Frei Paolino":lambda t: "paolino" in t or "baldassari" in t,
@@ -136,17 +147,22 @@ def main():
     for label,matcher in concepts.items():
         group=[]
         for x in posts:
-            title=normalized_text(x.get("title") or "")
+            title=title_group_key(x.get("title") or "")
             if matcher(title):
                 key=str(x.get("id") or x.get("url")); p,text=parsed[key]
                 raw=x.get("content") or ""
-                group.append({"title":x.get("title",""),"url":x.get("url",""),"published":x.get("published",""),"sha256":hashlib.sha256(raw.encode("utf-8")).hexdigest(),"normalized":normalized_text(text),"characters":len(text)})
-        pairs=[]
-        for i in range(len(group)):
-            for j in range(i+1,len(group)):
-                status,pct=classify_pair(group[i],group[j])
-                pairs.append({"post_a":group[i]["url"],"title_a":group[i]["title"],"post_b":group[j]["url"],"title_b":group[j]["title"],"classification":status,"similarity_pct":pct})
-        comparisons.append({"group":label,"posts":[{k:v for k,v in x.items() if k not in {"normalized","sha256"}} for x in group],"pairs":pairs})
+                group.append({"title":x.get("title",""),"title_key":title,"url":x.get("url",""),"published":x.get("published",""),"sha256":hashlib.sha256(raw.encode("utf-8")).hexdigest(),"normalized":normalized_text(text),"characters":len(text)})
+        buckets={}
+        for item in group: buckets.setdefault(item["title_key"],[]).append(item)
+        subgroups=[]
+        for title_key,items in buckets.items():
+            pairs=[]
+            for i in range(len(items)):
+                for j in range(i+1,len(items)):
+                    status,pct=classify_pair(items[i],items[j])
+                    pairs.append({"post_a":items[i]["url"],"title_a":items[i]["title"],"post_b":items[j]["url"],"title_b":items[j]["title"],"classification":status,"similarity_pct":pct})
+            subgroups.append({"normalized_title":title_key,"posts":[{k:v for k,v in x.items() if k not in {"normalized","sha256","title_key"}} for x in items],"pairs":pairs})
+        comparisons.append({"group":label,"subgroups":subgroups})
     attachments=[]
     for item in posts+pages:
         key=str(item.get("id") or item.get("url")); p,text=parsed[key]
@@ -160,9 +176,9 @@ def main():
         likely_pdf=any(".pdf" in u.lower() for u in source_candidates) or "pdf" in (title+" "+text[:500]).casefold()
         if likely_pdf or is_home:
             attachments.append({"type":"página inicial sem título" if is_home else "post relacionado a PDF","title":title,"url":item.get("url",""),"text":text,"raw_html":item.get("content") or "","links":p.links,"iframes":p.iframes,"embedded_files":p.files,"candidate_attachments":list(dict.fromkeys(source_candidates))})
-    result={"post_count":len(posts),"page_count":len(pages),"youtube_embed_count":len(videos),"youtube":youtube,"external_link_count":len(refs),"broken_external_links":broken,"inconclusive_external_links":inconclusive,"comparisons":comparisons,"pdf_and_home_items":attachments,"read_only":True,"generated_at_utc":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime())}
+    result={"post_count":len(posts),"page_count":len(pages),"youtube_embed_count":sum(len(items) for items in videos.values()),"youtube_unique_video_count":len(videos),"youtube":youtube,"external_link_count":len(refs),"broken_external_links":broken,"restricted_external_links":restricted,"server_error_links":server_errors,"inconclusive_external_links":inconclusive,"comparisons":comparisons,"pdf_and_home_items":attachments,"read_only":True,"generated_at_utc":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime())}
     out=Path("auditoria-1c.json"); out.write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding="utf-8")
-    print(json.dumps({"post_count":len(posts),"page_count":len(pages),"youtube_embed_count":len(videos),"youtube_unavailable":[x for x in youtube if x["available"] is False],"youtube_inconclusive":[x for x in youtube if x["available"] is None],"external_unique_links":len(refs),"broken_external_links":broken,"inconclusive_external_links":inconclusive,"comparisons":comparisons,"pdf_and_home_items":[{k:v for k,v in x.items() if k!="raw_html"} for x in attachments],"artifact":"auditoria-1c.json"},ensure_ascii=False))
+    print(json.dumps({"post_count":len(posts),"page_count":len(pages),"youtube_embed_count":sum(len(items) for items in videos.values()),"youtube_unique_video_count":len(videos),"youtube_unavailable":[x for x in youtube if x["available"] is False],"youtube_inconclusive":[x for x in youtube if x["available"] is None],"external_unique_links":len(refs),"broken_external_links":broken,"restricted_external_links":restricted,"server_error_links":server_errors,"inconclusive_external_links":inconclusive,"comparisons":comparisons,"pdf_and_home_items":[{k:v for k,v in x.items() if k!="raw_html"} for x in attachments],"artifact":"auditoria-1c.json"},ensure_ascii=False))
 
 if __name__=="__main__":
     try: main()
