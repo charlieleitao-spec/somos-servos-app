@@ -29,11 +29,6 @@ on:
         required: false
         default: false
         type: boolean
-      audit_1c:
-        description: "Executar auditoria somente de leitura de vídeos, links e corpos"
-        required: false
-        default: false
-        type: boolean
 
 permissions:
   contents: write
@@ -45,7 +40,6 @@ jobs:
       PUBLISH_DATE: ${{ inputs.publish_date }}
       WEEKLY_START_DATE: ${{ inputs.weekly_start_date }}
       INVENTORY_ONLY: ${{ inputs.inventory_only }}
-      AUDIT_1C: ${{ inputs.audit_1c }}
       WEEKLY_DRY_RUN: ${{ github.event_name == 'schedule' && github.event.schedule == '0 11 * * 0' && 'false' || 'true' }}
       DRY_RUN: ${{ github.event_name == 'schedule' && 'false' || (inputs.create_draft && 'false' || 'true') }}
       DRAFT: ${{ github.event_name == 'schedule' && 'false' || (inputs.create_draft && 'true' || 'false') }}
@@ -58,7 +52,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Instalar Pillow
-        if: env.INVENTORY_ONLY != 'true' && env.AUDIT_1C != 'true'
+        if: env.INVENTORY_ONLY != 'true'
         run: python -m pip install --disable-pip-version-check Pillow
 
       - name: Validar branch da publicação
@@ -85,26 +79,8 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-      - name: Executar auditoria da Etapa 1C somente de leitura
-        if: github.event_name == 'workflow_dispatch' && inputs.audit_1c
-        env:
-          BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
-          BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
-          BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN || secrets.BLOGGER_REFFRESH_TOKEN }}
-          BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
-        run: python blogger_audit_1c.py
-
-      - name: Disponibilizar relatório da Etapa 1C
-        if: success() && github.event_name == 'workflow_dispatch' && inputs.audit_1c
-        uses: actions/upload-artifact@v4
-        with:
-          name: auditoria-somos-servos-1c-${{ github.run_id }}
-          path: auditoria-1c.json
-          if-no-files-found: error
-          retention-days: 14
-
       - name: Publicar celebração e ofício OSM do dia
-        if: ${{ !(github.event_name == 'workflow_dispatch' && (inputs.inventory_only || inputs.audit_1c)) && (github.event_name != 'schedule' || github.event.schedule == '5 9 * * *') }}
+        if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.inventory_only) && (github.event_name != 'schedule' || github.event.schedule == '5 9 * * *') }}
         env:
           BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
           BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
