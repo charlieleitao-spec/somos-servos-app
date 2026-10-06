@@ -274,7 +274,12 @@ def remove_unavailable_mother_video(content: str, title: str) -> tuple[str, list
                 if wrapper.start() <= match.start() and wrapper.end() >= match.end():
                     parsed = parse_html(wrapper.group(0))
                     frames = parsed.find_all("iframe")
-                    non_iframe_tags = [tag for tag in parsed.find_all(True) if tag.name != "iframe"]
+                    wrapper_tag = parsed.find()
+                    wrapper_name = wrapper_tag.name if wrapper_tag else None
+                    non_iframe_tags = [
+                        tag for tag in parsed.find_all(True)
+                        if tag.name not in {"iframe", wrapper_name}
+                    ]
                     if len(frames) == 1 and not non_iframe_tags and not parsed.get_text(" ", strip=True):
                         containing.append(wrapper)
             target = max(containing, key=lambda item: item.end() - item.start()) if containing else match
