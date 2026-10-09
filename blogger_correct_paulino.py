@@ -222,6 +222,51 @@ def audit_live_pages(pages: list[dict], posts: list[dict]) -> None:
             print("- Nenhum bloco com oração e referência a Frei Paulino foi localizado.")
 
 
+def audit_live_posts(posts: list[dict]) -> int:
+    """Conta e busca somente nos posts LIVE, sem gravar no Blogger."""
+    patterns = [
+        ("Paolino", re.compile(r"paolino", re.IGNORECASE)),
+        ("Baldassari (um r)", re.compile(r"baldassari(?!r)", re.IGNORECASE)),
+        ("Paulino Maria", re.compile(r"\bpaulino\s+maria\b", re.IGNORECASE)),
+    ]
+    live_posts = [post for post in posts
+                  if str(post.get("status") or "").upper() == "LIVE"]
+    matches = []
+    prayer_locations = set()
+    for post in live_posts:
+        title = post.get("title") or "(sem título)"
+        url = post.get("url") or ""
+        soup = BeautifulSoup(post.get("content") or "", "html.parser")
+        protected = protected_prayer_nodes(soup)
+        sources = [("título", title, False)]
+        for node in soup.find_all(string=True):
+            if isinstance(node, Comment) or (node.parent and node.parent.name in {"script", "style"}):
+                continue
+            text = re.sub(r"\s+", " ", str(node)).strip()
+            if text:
+                sources.append(("oração aprovada" if node in protected else "conteúdo",
+                                text, node in protected))
+        for location, text, is_prayer in sources:
+            for form, pattern in patterns:
+                if pattern.search(text):
+                    matches.append((form, title, url, location, is_prayer))
+                    if is_prayer:
+                        prayer_locations.add((title, url))
+    print(f"Posts LIVE verificados: {len(live_posts)}.")
+    print("Ocorrências fora da oração aprovada (forma | título | URL):")
+    outside = [item for item in matches if not item[4]]
+    if outside:
+        for form, title, url, _, _ in outside:
+            print(f"- {form} | {title} | {url}")
+    else:
+        print("Nenhuma.")
+    if prayer_locations:
+        print("Oração aprovada preservada; ocorrência encontrada em:")
+        for title, url in sorted(prayer_locations):
+            print(f"- {title} | {url}")
+    return len(live_posts)
+
+
 def process_item(api, blog_id: str, kind: str, item: dict, apply: bool) -> dict | None:
     url = item.get("url", "")
     if kind == "post" and url.rstrip("/").lower() in {u.rstrip("/").lower() for u in SKIP_URLS}:
@@ -274,6 +319,14 @@ def main() -> None:
     api = service()
     blog_id = locate_blog(api)
     posts = list_posts(api, blog_id)
+    live_count = audit_live_posts(posts)
+    REPORT_PATH.write_text(json.dumps({
+        "mode": "dry-run",
+        "posts_live_scanned": live_count,
+    }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print("Modo=simulação; nenhuma alteração enviada ao Blogger.")
+    return
+
     pages = list_pages(api, blog_id)
     audit_live_pages(pages, posts)
     all_items = [("post", x) for x in posts] + [("page", x) for x in pages]
