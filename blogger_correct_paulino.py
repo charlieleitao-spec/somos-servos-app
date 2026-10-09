@@ -159,6 +159,7 @@ def audit_live_pages(pages: list[dict], posts: list[dict]) -> None:
                   if str(page.get("status") or "LIVE").upper() == "LIVE"]
     matches = []
     prayer_items = []
+    prayer_candidates = []
 
     for page in live_pages:
         title = page.get("title") or "(sem título)"
@@ -194,17 +195,31 @@ def audit_live_pages(pages: list[dict], posts: list[dict]) -> None:
         for item in items:
             soup = BeautifulSoup(item.get("content") or "", "html.parser")
             visible = re.sub(r"\s+", " ", soup.get_text(" ", strip=True)).casefold()
+            title = item.get("title") or "(sem título)"
+            date = item.get("published") or item.get("updated") or item.get("created") or ""
+            status = str(item.get("status") or "LIVE").upper()
+            url = item.get("url") or ""
             if PRAYER_HEADING.casefold() in visible:
-                prayer_items.append((kind, item.get("title") or "(sem título)",
-                                     item.get("published") or item.get("updated") or item.get("created") or "",
-                                     str(item.get("status") or "LIVE").upper(), item.get("url") or ""))
+                prayer_items.append((kind, title, date, status, url))
+            elif ("oraç" in visible or "orac" in visible) and any(
+                    term in visible for term in ("paulino", "paolino", "baldassari", "beatificação", "canonização")):
+                excerpt = next((visible[max(0, m.start()-80):m.end()+160]
+                                for pattern in (r"oraç\w*", r"orac\w*")
+                                for m in re.finditer(pattern, visible)), visible[:220])
+                prayer_candidates.append((kind, title, date, status, excerpt, url))
 
     print("Oração aprovada (localização em páginas e posts):")
     if prayer_items:
         for kind, title, date, status, url in prayer_items:
             print(f"- {kind} | {title} | {date} | {status} | {PRAYER_HEADING} | {url}")
     else:
-        print("- Cabeçalho da oração aprovada não encontrado nas páginas nem nos posts consultados.")
+        print("- Cabeçalho exato da oração aprovada não encontrado nas páginas nem nos posts consultados.")
+        if prayer_candidates:
+            print("Referências de oração ligadas a Frei Paulino para conferência:")
+            for kind, title, date, status, excerpt, url in prayer_candidates:
+                print(f"- {kind} | {title} | {date} | {status} | …{excerpt}… | {url}")
+        else:
+            print("- Nenhum bloco com oração e referência a Frei Paulino foi localizado.")
 
 
 def process_item(api, blog_id: str, kind: str, item: dict, apply: bool) -> dict | None:
