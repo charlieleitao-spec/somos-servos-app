@@ -148,6 +148,66 @@ def change_content(content: str) -> tuple[str, int]:
     return soup.decode(formatter="minimal"), count
 
 
+def audit_live_pages(pages: list[dict]) -> None:
+    """Lista as grafias alvo nas páginas publicadas sem alterar o Blogger."""
+    patterns = [
+        ("Paolino", re.compile(r"paolino", re.IGNORECASE)),
+        ("Baldassari", re.compile(r"baldassari(?!r)", re.IGNORECASE)),
+        ("Paulino Maria", re.compile(r"\bpaulino\s+maria\b", re.IGNORECASE)),
+    ]
+    live_pages = [page for page in pages
+                  if str(page.get("status") or "LIVE").upper() == "LIVE"]
+    prayer_pages = []
+    matches = []
+
+    for page in live_pages:
+        title = page.get("title") or "(sem título)"
+        url = page.get("url") or ""
+        date = page.get("published") or page.get("updated") or page.get("created") or ""
+        soup = BeautifulSoup(page.get("content") or "", "html.parser")
+        protected = protected_prayer_nodes(soup)
+
+        has_prayer = any(
+            not isinstance(node, Comment)
+            and re.sub(r"\s+", " ", str(node)).strip().casefold()
+                .find(PRAYER_HEADING.casefold()) >= 0
+            for node in soup.find_all(string=True)
+        )
+        if has_prayer:
+            prayer_pages.append((title, date, url))
+
+        sources = [("título", title, set())]
+        for node in soup.find_all(string=True):
+            if isinstance(node, Comment) or (node.parent and node.parent.name in {"script", "style"}):
+                continue
+            text = re.sub(r"\s+", " ", str(node)).strip()
+            if text:
+                sources.append(("oração aprovada" if node in protected else "conteúdo", text, protected if node in protected else set()))
+
+        for source, text, _ in sources:
+            for form, pattern in patterns:
+                for match in pattern.finditer(text):
+                    start = max(0, match.start() - 70)
+                    end = min(len(text), match.end() + 70)
+                    excerpt = text[start:end]
+                    marked_source = "ORAÇÃO APROVADA — preservar" if source == "oração aprovada" else source
+                    matches.append((title, date, url, form, marked_source, excerpt))
+
+    print(f"Auditoria de grafia: {len(live_pages)} páginas LIVE verificadas.")
+    print("Ocorrências: forma | página | data | localização | trecho")
+    outside_matches = [row for row in matches if row[4] != "ORAÇÃO APROVADA — preservar"]
+    if not outside_matches:
+        print("Nenhuma ocorrência das formas solicitadas fora da oração aprovada.")
+    for title, date, url, form, source, excerpt in matches:
+        print(f"- {form} | {title} | {date} | {source} | …{excerpt}… | {url}")
+    print("Oração aprovada (localização):")
+    if prayer_pages:
+        for title, date, url in prayer_pages:
+            print(f"- {title} | {date} | {PRAYER_HEADING} | {url}")
+    else:
+        print("- Cabeçalho da oração aprovada não encontrado nas páginas LIVE.")
+
+
 def process_item(api, blog_id: str, kind: str, item: dict, apply: bool) -> dict | None:
     url = item.get("url", "")
     if kind == "post" and url.rstrip("/").lower() in {u.rstrip("/").lower() for u in SKIP_URLS}:
@@ -201,6 +261,7 @@ def main() -> None:
     blog_id = locate_blog(api)
     posts = list_posts(api, blog_id)
     pages = list_pages(api, blog_id)
+    audit_live_pages(pages)
     all_items = [("post", x) for x in posts] + [("page", x) for x in pages]
     changes = []
     for kind, item in all_items:
