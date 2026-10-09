@@ -156,8 +156,10 @@ def list_resources(blog_id, token, kind, statuses):
             page = json_request(url, token=token,
                                 operation=f"Listagem de {kind}s ({status})")
             for item in page.get("items", []):
+                annotated_item = dict(item)
+                annotated_item["_inventory_status"] = str(item.get("status") or status).upper()
                 key = str(item.get("id") or item.get("url") or item.get("title"))
-                found[key] = item
+                found[key] = annotated_item
             page_token = page.get("nextPageToken")
             if not page_token:
                 break
@@ -222,6 +224,7 @@ def build_rows(posts, pages):
             flags.append(f"post muito curto (≤{SHORT_POST_CHARS} caracteres)")
         rows.append({
             "tipo": kind,
+            "status": item.get("_inventory_status") or str(item.get("status") or "").upper(),
             "título": title,
             "URL": item.get("url", ""),
             "data": item.get("published") or item.get("updated") or item.get("created") or "",
@@ -253,7 +256,7 @@ def main():
     posts = list_resources(blog_id, token, "post", ("live", "draft", "scheduled"))
     pages = list_resources(blog_id, token, "página", ("live", "draft"))
     rows = build_rows(posts, pages)
-    fields = ["tipo", "título", "URL", "data", "marcadores atuais",
+    fields = ["tipo", "status", "título", "URL", "data", "marcadores atuais",
               "número de caracteres", "corpo vazio", "número de links",
               "número de imagens", "número de iframes/embeds", "número de iframes",
               "número de embeds/objetos", "número de embeds YouTube", "número de embeds PDF",
@@ -266,6 +269,9 @@ def main():
         writer.writerows(rows)
     print(f"Inventário somente de leitura concluído: {len(posts)} posts, "
           f"{len(pages)} páginas; {len(rows)} linhas em {output}.")
+    print("Páginas (título | data | status):")
+    for row in (row for row in rows if row["tipo"] == "página"):
+        print(f"- {row['título'] or '(sem título)'} | {row['data']} | {row['status']}")
     print(f"Critério de post muito curto: até {SHORT_POST_CHARS} caracteres de texto visível.")
     print("Nenhum post ou página foi criado, editado, publicado ou apagado.")
 
