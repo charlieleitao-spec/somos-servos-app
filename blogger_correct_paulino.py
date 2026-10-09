@@ -148,8 +148,8 @@ def change_content(content: str) -> tuple[str, int]:
     return soup.decode(formatter="minimal"), count
 
 
-def audit_live_pages(pages: list[dict]) -> None:
-    """Lista as grafias alvo nas páginas publicadas sem alterar o Blogger."""
+def audit_live_pages(pages: list[dict], posts: list[dict]) -> None:
+    """Audita grafias nas páginas publicadas e localiza a oração aprovada."""
     patterns = [
         ("Paolino", re.compile(r"paolino", re.IGNORECASE)),
         ("Baldassari", re.compile(r"baldassari(?!r)", re.IGNORECASE)),
@@ -157,8 +157,8 @@ def audit_live_pages(pages: list[dict]) -> None:
     ]
     live_pages = [page for page in pages
                   if str(page.get("status") or "LIVE").upper() == "LIVE"]
-    prayer_pages = []
     matches = []
+    prayer_items = []
 
     for page in live_pages:
         title = page.get("title") or "(sem título)"
@@ -166,46 +166,45 @@ def audit_live_pages(pages: list[dict]) -> None:
         date = page.get("published") or page.get("updated") or page.get("created") or ""
         soup = BeautifulSoup(page.get("content") or "", "html.parser")
         protected = protected_prayer_nodes(soup)
-
-        has_prayer = any(
-            not isinstance(node, Comment)
-            and re.sub(r"\s+", " ", str(node)).strip().casefold()
-                .find(PRAYER_HEADING.casefold()) >= 0
-            for node in soup.find_all(string=True)
-        )
-        if has_prayer:
-            prayer_pages.append((title, date, url))
-
-        sources = [("título", title, set())]
+        sources = [("título", title, False)]
         for node in soup.find_all(string=True):
             if isinstance(node, Comment) or (node.parent and node.parent.name in {"script", "style"}):
                 continue
             text = re.sub(r"\s+", " ", str(node)).strip()
             if text:
-                sources.append(("oração aprovada" if node in protected else "conteúdo", text, protected if node in protected else set()))
-
-        for source, text, _ in sources:
+                sources.append(("oração aprovada" if node in protected else "conteúdo",
+                                text, node in protected))
+        for location, text, is_prayer in sources:
             for form, pattern in patterns:
                 for match in pattern.finditer(text):
                     start = max(0, match.start() - 70)
                     end = min(len(text), match.end() + 70)
-                    excerpt = text[start:end]
-                    marked_source = "ORAÇÃO APROVADA — preservar" if source == "oração aprovada" else source
-                    matches.append((title, date, url, form, marked_source, excerpt))
+                    matches.append((title, date, url, form, location, text[start:end], is_prayer))
 
+    outside_matches = [row for row in matches if not row[6]]
     print(f"Auditoria de grafia: {len(live_pages)} páginas LIVE verificadas.")
     print("Ocorrências: forma | página | data | localização | trecho")
-    outside_matches = [row for row in matches if row[4] != "ORAÇÃO APROVADA — preservar"]
     if not outside_matches:
         print("Nenhuma ocorrência das formas solicitadas fora da oração aprovada.")
-    for title, date, url, form, source, excerpt in matches:
-        print(f"- {form} | {title} | {date} | {source} | …{excerpt}… | {url}")
-    print("Oração aprovada (localização):")
-    if prayer_pages:
-        for title, date, url in prayer_pages:
-            print(f"- {title} | {date} | {PRAYER_HEADING} | {url}")
+    for title, date, url, form, location, excerpt, is_prayer in matches:
+        marker = " — preservar" if is_prayer else ""
+        print(f"- {form} | {title} | {date} | {location}{marker} | …{excerpt}… | {url}")
+
+    for kind, items in (("página", pages), ("post", posts)):
+        for item in items:
+            soup = BeautifulSoup(item.get("content") or "", "html.parser")
+            visible = re.sub(r"\s+", " ", soup.get_text(" ", strip=True)).casefold()
+            if PRAYER_HEADING.casefold() in visible:
+                prayer_items.append((kind, item.get("title") or "(sem título)",
+                                     item.get("published") or item.get("updated") or item.get("created") or "",
+                                     str(item.get("status") or "LIVE").upper(), item.get("url") or ""))
+
+    print("Oração aprovada (localização em páginas e posts):")
+    if prayer_items:
+        for kind, title, date, status, url in prayer_items:
+            print(f"- {kind} | {title} | {date} | {status} | {PRAYER_HEADING} | {url}")
     else:
-        print("- Cabeçalho da oração aprovada não encontrado nas páginas LIVE.")
+        print("- Cabeçalho da oração aprovada não encontrado nas páginas nem nos posts consultados.")
 
 
 def process_item(api, blog_id: str, kind: str, item: dict, apply: bool) -> dict | None:
@@ -261,7 +260,7 @@ def main() -> None:
     blog_id = locate_blog(api)
     posts = list_posts(api, blog_id)
     pages = list_pages(api, blog_id)
-    audit_live_pages(pages)
+    audit_live_pages(pages, posts)
     all_items = [("post", x) for x in posts] + [("page", x) for x in pages]
     changes = []
     for kind, item in all_items:
