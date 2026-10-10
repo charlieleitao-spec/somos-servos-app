@@ -65,4 +65,4 @@ O identificador do pacote é `br.com.somosservos.app`. O release usa uma chave p
 
 Use uma versão pública maior em cada release. O `versionCode` é calculado como `MAJOR × 1.000.000 + MINOR × 1.000 + PATCH`; mantenha `MINOR` e `PATCH` abaixo de 1000. O APK de teste atual usa a chave de depuração, portanto não pode ser atualizado diretamente para o primeiro APK estável: será necessário desinstalar o APK de teste antes da primeira instalação assinada. Depois, todas as releases devem usar o mesmo keystore para permitir atualizações normais.
 
-O arquivo `scripts/configure-android-release.py` configura somente o projeto Android temporário do runner. Senhas e keystore não são gravados no repositório.
+Nos pull requests, o mesmo fluxo compila e verifica um APK assinado com uma chave descartável de teste, sem usar os segredos permanentes nem publicar uma release. O arquivo `scripts/configure-android-release.py` configura somente o projeto Android temporário do runner. Senhas e keystore não são gravados no repositório.
