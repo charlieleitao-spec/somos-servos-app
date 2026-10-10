@@ -1,40 +1,42 @@
-# Liturgia OSM 4.4.0 — compilação Android
+# Somos Servos — compilação Android
 
 ## Requisitos
-- Node.js 22 ou compatível
-- npm
-- Android Studio atualizado
-- Android SDK instalado
-- JDK 17
 
-## Primeira preparação
+- Node.js 22
+- npm
+- Android Studio e Android SDK atualizados
+- JDK 21
+
+O fluxo automático do GitHub Actions usa essas versões.
+
+## Preparar e sincronizar
+
+Na primeira preparação:
+
 ```bash
 npm install
 npm run android:init
 npm run android:sync
 ```
 
-## Abrir no Android Studio
+Para abrir o projeto no Android Studio:
+
 ```bash
 npm run android:open
 ```
 
-No Android Studio, aguarde o Gradle sincronizar e teste primeiro em um aparelho/emulador Android 16.
+## APK de teste
 
-## Gerar APK de teste
 ```bash
 npm run android:debug
 ```
-O APK normalmente será criado em `android/app/build/outputs/apk/debug/app-debug.apk`.
 
-## Gerar versão de distribuição
-Antes de uma versão release, configure uma chave própria e permanente no Android Studio/Gradle. Não use uma chave diferente a cada versão; o Android só aceita atualizações do mesmo pacote quando a assinatura é compatível.
+O arquivo será gerado em `android/app/build/outputs/apk/debug/app-debug.apk`. O fluxo **Build APK Somos Servos** também disponibiliza esse APK como artefato temporário do GitHub Actions. Essa compilação de depuração serve para testes e não é uma versão assinada para distribuição geral.
 
-O identificador oficial deste projeto é:
-`com.liturgia_osm.app`
+## Versão de distribuição
 
-Nome exibido:
-`Liturgia OSM`
+O identificador Android deste projeto é `br.com.somosservos.app`, e o nome exibido é **Somos Servos**.
 
-## Observação sobre atualização de APK antigo
-Se um APK anterior de `com.liturgia_osm.app` foi assinado com outra chave (por exemplo, uma chave criada por ferramenta de terceiros), a nova versão não poderá ser instalada por cima dele. Nesse caso, é necessário desinstalar a versão antiga ou assinar a nova versão com a mesma chave original.
+Antes de distribuir uma versão release, configure no Gradle uma chave de assinatura própria e permanente. Guarde a chave e as senhas em local seguro, fora do repositório. Todas as versões futuras precisam usar uma assinatura compatível para que possam atualizar a instalação existente. Se a assinatura mudar, o Android exigirá a remoção da versão anterior antes da instalação.
+
+O projeto inclui o comando `npm run android:release`, mas a distribuição só deve ocorrer depois da configuração e verificação da assinatura release.
