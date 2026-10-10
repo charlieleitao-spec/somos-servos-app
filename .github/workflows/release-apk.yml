@@ -122,23 +122,21 @@ jobs:
       - name: Preparar chave temporária
         if: github.event_name != 'pull_request'
         env:
-          KEYSTORE_BASE64: ${{ secrets.SOMOS_SERVOS_KEYSTORE_BASE64 }}
-          STORE_PASSWORD: ${{ secrets.SOMOS_SERVOS_STORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.SOMOS_SERVOS_KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.SOMOS_SERVOS_KEY_PASSWORD }}
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: liturgia-osm
         run: |
-          test -n "$KEYSTORE_BASE64" || { echo "Falta o segredo SOMOS_SERVOS_KEYSTORE_BASE64."; exit 1; }
-          test -n "$STORE_PASSWORD" || { echo "Falta o segredo SOMOS_SERVOS_STORE_PASSWORD."; exit 1; }
-          test -n "$KEY_ALIAS" || { echo "Falta o segredo SOMOS_SERVOS_KEY_ALIAS."; exit 1; }
-          test -n "$KEY_PASSWORD" || { echo "Falta o segredo SOMOS_SERVOS_KEY_PASSWORD."; exit 1; }
+          test -n "$KEYSTORE_BASE64" || { echo "Falta o segredo ANDROID_KEYSTORE_BASE64."; exit 1; }
+          test -n "$STORE_PASSWORD" || { echo "Falta o segredo ANDROID_KEYSTORE_PASSWORD."; exit 1; }
           umask 077
           key_path="$RUNNER_TEMP/somos-servos-release.jks"
           printf '%s' "$KEYSTORE_BASE64" | base64 --decode > "$key_path"
           test -s "$key_path"
+          keytool -list -keystore "$key_path" -storepass "$STORE_PASSWORD" -alias "$KEY_ALIAS" >/dev/null
           echo "SOMOS_SERVOS_KEYSTORE_PATH=$key_path" >> "$GITHUB_ENV"
           echo "SOMOS_SERVOS_STORE_PASSWORD=$STORE_PASSWORD" >> "$GITHUB_ENV"
           echo "SOMOS_SERVOS_KEY_ALIAS=$KEY_ALIAS" >> "$GITHUB_ENV"
-          echo "SOMOS_SERVOS_KEY_PASSWORD=$KEY_PASSWORD" >> "$GITHUB_ENV"
+          echo "SOMOS_SERVOS_KEY_PASSWORD=$STORE_PASSWORD" >> "$GITHUB_ENV"
 
       - name: Configurar versão e assinatura
         env:
