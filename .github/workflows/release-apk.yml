@@ -1,11 +1,14 @@
 name: Release APK Somos Servos
 
 on:
+  pull_request:
+    branches: [main]
   workflow_dispatch:
     inputs:
       version_name:
         description: "Versão pública no formato MAJOR.MINOR.PATCH (ex.: 1.0.1)"
         required: true
+        default: 1.0.1
         type: string
 
 permissions:
@@ -17,7 +20,7 @@ concurrency:
 
 jobs:
   release:
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Baixar o código
@@ -27,7 +30,8 @@ jobs:
         id: version
         env:
           GH_TOKEN: ${{ github.token }}
-          VERSION_NAME: ${{ inputs.version_name }}
+          VERSION_NAME: ${{ inputs.version_name || '1.0.1' }}
+          CHECK_RELEASE_TAG: ${{ github.event_name != 'pull_request' }}
         run: |
           python3 - <<'PY'
           import os, re
@@ -47,14 +51,15 @@ jobs:
           )
           print(f"Release {version}; versionCode {code}")
 
-          tag = f"v{version}"
-          import subprocess
-          result = subprocess.run(
-              ["gh", "release", "view", tag],
-              stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-          )
-          if result.returncode == 0:
-              raise SystemExit(f"A release {tag} já existe.")
+          if os.environ["CHECK_RELEASE_TAG"] == "true":
+              tag = f"v{version}"
+              import subprocess
+              result = subprocess.run(
+                  ["gh", "release", "view", tag],
+                  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+              )
+              if result.returncode == 0:
+                  raise SystemExit(f"A release {tag} já existe.")
           PY
 
       - name: Configurar Node.js
@@ -98,7 +103,24 @@ jobs:
       - name: Sincronizar aplicativo
         run: npx cap sync android
 
+      - name: Criar chave descartável para validar PR
+        if: github.event_name == 'pull_request'
+        env:
+          TEST_KEYSTORE_PATH: ${{ runner.temp }}/somos-servos-test.jks
+          TEST_PASSWORD: github-actions-test-only
+          TEST_ALIAS: somos-servos-test
+        run: |
+          keytool -genkeypair -noprompt -keystore "$TEST_KEYSTORE_PATH" \
+            -storepass "$TEST_PASSWORD" -keypass "$TEST_PASSWORD" \
+            -alias "$TEST_ALIAS" -keyalg RSA -keysize 2048 -validity 2 \
+            -dname "CN=Somos Servos CI, OU=Testing, O=Somos Servos, C=BR"
+          echo "SOMOS_SERVOS_KEYSTORE_PATH=$TEST_KEYSTORE_PATH" >> "$GITHUB_ENV"
+          echo "SOMOS_SERVOS_STORE_PASSWORD=$TEST_PASSWORD" >> "$GITHUB_ENV"
+          echo "SOMOS_SERVOS_KEY_ALIAS=$TEST_ALIAS" >> "$GITHUB_ENV"
+          echo "SOMOS_SERVOS_KEY_PASSWORD=$TEST_PASSWORD" >> "$GITHUB_ENV"
+
       - name: Preparar chave temporária
+        if: github.event_name != 'pull_request'
         env:
           KEYSTORE_BASE64: ${{ secrets.SOMOS_SERVOS_KEYSTORE_BASE64 }}
           STORE_PASSWORD: ${{ secrets.SOMOS_SERVOS_STORE_PASSWORD }}
@@ -142,6 +164,7 @@ jobs:
           "$build_tools/apksigner" verify --verbose --print-certs "$apk"
 
       - name: Publicar release estável
+        if: github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION_NAME: ${{ steps.version.outputs.version_name }}
