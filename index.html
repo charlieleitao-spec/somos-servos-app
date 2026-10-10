@@ -9,7 +9,7 @@
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon-192.png" type="image/png" sizes="192x192">
   <link rel="apple-touch-icon" href="./icon-192.png">
-  <link rel="stylesheet" href="./styles.css?v=2">
+  <link rel="stylesheet" href="./styles.css?v=3">
 </head>
 <body>
   <main>
@@ -21,16 +21,16 @@
       referrerpolicy="strict-origin-when-cross-origin">
     </iframe>
 
-    <section id="fallback" class="fallback" hidden>
+    <section id="fallback" class="fallback" hidden aria-live="polite">
       <img src="./icon-192.png" alt="Somos Servos" width="96" height="96">
       <h1>Somos Servos</h1>
-      <p>Não foi possível carregar o blog agora. Verifique sua conexão com a internet.</p>
+      <p>Os artigos são carregados do blog e precisam de conexão com a internet. Verifique sua conexão e tente novamente.</p>
       <button id="retryButton" type="button">Tentar novamente</button>
       <a href="https://somosservos.blogspot.com/?m=1" target="_blank" rel="noopener">Abrir no navegador</a>
     </section>
   </main>
 
   <button id="installButton" type="button" hidden aria-label="Instalar Somos Servos">Instalar</button>
-  <script src="./app.js?v=19"></script>
+  <script src="./app.js?v=20"></script>
 </body>
 </html>
