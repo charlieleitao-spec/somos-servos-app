@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version_name:
-        description: Versão pública no formato MAJOR.MINOR.PATCH (ex.: 1.0.1)
+        description: "Versão pública no formato MAJOR.MINOR.PATCH (ex.: 1.0.1)"
         required: true
         type: string
 
