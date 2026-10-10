@@ -8,7 +8,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -71,3 +71,15 @@ jobs:
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
+
+      - name: Publicar link direto do APK de teste
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="apk-debug-${GITHUB_RUN_NUMBER}"
+          gh release create "$TAG" android/app/build/outputs/apk/debug/app-debug.apk \
+            --target "$GITHUB_SHA" \
+            --title "Somos Servos APK de teste #${GITHUB_RUN_NUMBER}" \
+            --notes "APK debug para testes. Não é uma versão estável assinada para distribuição geral." \
+            --prerelease
