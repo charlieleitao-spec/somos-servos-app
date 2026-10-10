@@ -177,4 +177,4 @@ jobs:
 
       - name: Apagar chave temporária
         if: always()
-        run: rm -f "$RUNNER_TEMP/somos-servos-release.jks"
+        run: rm -f "$RUNNER_TEMP/somos-servos-release.jks" "$RUNNER_TEMP/somos-servos-test.jks"
