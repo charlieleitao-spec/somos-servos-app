@@ -26,6 +26,7 @@ jobs:
       - name: Validar versão e calcular versionCode
         id: version
         env:
+          GH_TOKEN: ${{ github.token }}
           VERSION_NAME: ${{ inputs.version_name }}
         run: |
           python3 - <<'PY'
