@@ -9,6 +9,7 @@ let installPrompt;
 let connectionCheck = 0;
 
 function showOffline() {
+  connectionCheck += 1;
   frame.hidden = true;
   fallback.hidden = false;
 }
@@ -87,7 +88,7 @@ if (isNative) {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', async () => {
       try {
-        const registration = await navigator.serviceWorker.register('./service-worker.js?v=21');
+        const registration = await navigator.serviceWorker.register('./service-worker.js?v=22');
         await registration.update();
       } catch (error) {
         console.warn('Não foi possível atualizar o cache do aplicativo:', error);
