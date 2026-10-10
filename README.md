@@ -14,4 +14,4 @@ O aplicativo mantém em cache os arquivos necessários para abrir sua interface.
 
 O fluxo [Build APK Somos Servos](https://github.com/charlieleitao-spec/somos-servos-app/actions/workflows/main.yml) compila automaticamente um APK de depuração para testes. O artefato fica disponível por tempo limitado na execução do Actions; ele não equivale a uma versão assinada para distribuição geral.
 
-Veja [BUILD-ANDROID.md](BUILD-ANDROID.md) para preparar uma compilação local e configurar uma futura versão de distribuição.
+O fluxo [Release APK Somos Servos](https://github.com/charlieleitao-spec/somos-servos-app/actions/workflows/release-apk.yml) gera e publica uma versão estável, assinada com uma chave dedicada ao app. Configure os segredos e siga o procedimento em [BUILD-ANDROID.md](BUILD-ANDROID.md) antes de executar esse fluxo.
