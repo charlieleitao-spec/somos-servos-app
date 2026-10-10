@@ -1,0 +1,156 @@
+name: Release APK Somos Servos
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_name:
+        description: Versão pública no formato MAJOR.MINOR.PATCH (ex.: 1.0.1)
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: somos-servos-android-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Validar versão e calcular versionCode
+        id: version
+        env:
+          VERSION_NAME: ${{ inputs.version_name }}
+        run: |
+          python3 - <<'PY'
+          import os, re
+          from pathlib import Path
+
+          version = os.environ["VERSION_NAME"]
+          if not re.fullmatch(r"\d+\.\d+\.\d+", version):
+              raise SystemExit("Use MAJOR.MINOR.PATCH, por exemplo 1.0.1.")
+          major, minor, patch = map(int, version.split("."))
+          if minor >= 1000 or patch >= 1000:
+              raise SystemExit("Os componentes minor e patch devem ser menores que 1000.")
+          code = major * 1_000_000 + minor * 1_000 + patch
+          if not 1 <= code <= 2_100_000_000:
+              raise SystemExit("versionCode calculado fora do intervalo Android permitido.")
+          Path(os.environ["GITHUB_OUTPUT"]).write_text(
+              f"version_name={version}\nversion_code={code}\n", encoding="utf-8"
+          )
+          print(f"Release {version}; versionCode {code}")
+
+          tag = f"v{version}"
+          import subprocess
+          result = subprocess.run(
+              ["gh", "release", "view", tag],
+              stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+          )
+          if result.returncode == 0:
+              raise SystemExit(f"A release {tag} já existe.")
+          PY
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Configurar JDK 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Preparar arquivos web
+        run: |
+          mkdir -p www
+          cp index.html app.js styles.css manifest.webmanifest service-worker.js icon-192.png icon-512.png icon.svg www/
+
+      - name: Adicionar Android
+        run: npx cap add android
+
+      - name: Gerar ícone oficial Android
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+          rm -f android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+          rm -f android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
+          for item in mdpi:48 hdpi:72 xhdpi:96 xxhdpi:144 xxxhdpi:192; do
+            density="${item%%:*}"
+            size="${item##*:}"
+            output="android/app/src/main/res/mipmap-${density}"
+            mkdir -p "${output}"
+            convert icon-512.png -resize "${size}x${size}" "${output}/ic_launcher.png"
+            cp "${output}/ic_launcher.png" "${output}/ic_launcher_round.png"
+          done
+
+      - name: Sincronizar aplicativo
+        run: npx cap sync android
+
+      - name: Preparar chave temporária
+        env:
+          KEYSTORE_BASE64: ${{ secrets.SOMOS_SERVOS_KEYSTORE_BASE64 }}
+          STORE_PASSWORD: ${{ secrets.SOMOS_SERVOS_STORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.SOMOS_SERVOS_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.SOMOS_SERVOS_KEY_PASSWORD }}
+        run: |
+          test -n "$KEYSTORE_BASE64" || { echo "Falta o segredo SOMOS_SERVOS_KEYSTORE_BASE64."; exit 1; }
+          test -n "$STORE_PASSWORD" || { echo "Falta o segredo SOMOS_SERVOS_STORE_PASSWORD."; exit 1; }
+          test -n "$KEY_ALIAS" || { echo "Falta o segredo SOMOS_SERVOS_KEY_ALIAS."; exit 1; }
+          test -n "$KEY_PASSWORD" || { echo "Falta o segredo SOMOS_SERVOS_KEY_PASSWORD."; exit 1; }
+          umask 077
+          key_path="$RUNNER_TEMP/somos-servos-release.jks"
+          printf '%s' "$KEYSTORE_BASE64" | base64 --decode > "$key_path"
+          test -s "$key_path"
+          echo "SOMOS_SERVOS_KEYSTORE_PATH=$key_path" >> "$GITHUB_ENV"
+          echo "SOMOS_SERVOS_STORE_PASSWORD=$STORE_PASSWORD" >> "$GITHUB_ENV"
+          echo "SOMOS_SERVOS_KEY_ALIAS=$KEY_ALIAS" >> "$GITHUB_ENV"
+          echo "SOMOS_SERVOS_KEY_PASSWORD=$KEY_PASSWORD" >> "$GITHUB_ENV"
+
+      - name: Configurar versão e assinatura
+        env:
+          SOMOS_SERVOS_VERSION_NAME: ${{ steps.version.outputs.version_name }}
+          SOMOS_SERVOS_VERSION_CODE: ${{ steps.version.outputs.version_code }}
+        run: python3 scripts/configure-android-release.py
+
+      - name: Compilar APK assinado
+        run: |
+          chmod +x android/gradlew
+          cd android
+          ./gradlew assembleRelease
+
+      - name: Verificar pacote, versão e assinatura
+        env:
+          VERSION_NAME: ${{ steps.version.outputs.version_name }}
+          VERSION_CODE: ${{ steps.version.outputs.version_code }}
+        run: |
+          apk="android/app/build/outputs/apk/release/app-release.apk"
+          test -s "$apk"
+          build_tools="$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n 1)"
+          "$build_tools/aapt" dump badging "$apk" | grep -F "package: name='br.com.somosservos.app' versionCode='$VERSION_CODE' versionName='$VERSION_NAME'"
+          "$build_tools/apksigner" verify --verbose --print-certs "$apk"
+
+      - name: Publicar release estável
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION_NAME: ${{ steps.version.outputs.version_name }}
+          VERSION_CODE: ${{ steps.version.outputs.version_code }}
+        run: |
+          gh release create "v$VERSION_NAME" android/app/build/outputs/apk/release/app-release.apk \
+            --target "$GITHUB_SHA" \
+            --title "Somos Servos $VERSION_NAME" \
+            --notes "APK Android assinado do Somos Servos. versionCode: $VERSION_CODE. Instalações anteriores assinadas com outra chave podem exigir remoção antes da atualização."
+
+      - name: Apagar chave temporária
+        if: always()
+        run: rm -f "$RUNNER_TEMP/somos-servos-release.jks"
