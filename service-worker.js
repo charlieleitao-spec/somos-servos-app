@@ -1,9 +1,10 @@
-const CACHE = 'somos-servos-shell-v7';
+const CACHE = 'somos-servos-shell-v8';
 const APP_SHELL = [
   './',
   './index.html',
   './recursos.html',
   './percurso-servita.html',
+  './percurso-servita.pdf',
   './styles.css?v=4',
   './app.js?v=21',
   './manifest.webmanifest',
