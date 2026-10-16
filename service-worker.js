@@ -1,9 +1,10 @@
-const CACHE = 'somos-servos-shell-v5';
+const CACHE = 'somos-servos-shell-v6';
 const APP_SHELL = [
   './',
   './index.html',
-  './styles.css?v=3',
-  './app.js?v=20',
+  './recursos.html',
+  './styles.css?v=4',
+  './app.js?v=21',
   './manifest.webmanifest',
   './icon-192.png',
   './icon-512.png'

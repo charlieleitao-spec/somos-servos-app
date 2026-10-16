@@ -15,3 +15,9 @@ iframe { display: block; width: 100%; height: 100%; border: 0; background: #fff;
 .fallback button { background: #5a2029; color: #fff; margin-top: 8px; }
 .fallback a { display: inline-flex; align-items: center; color: #5a2029; margin-top: 4px; text-decoration: none; }
 @media (display-mode: standalone) { #installButton { display: none !important; } }
+
+/* Acesso aos projetos sem sobrepor a leitura do blog. */
+body{display:grid;grid-template-rows:auto minmax(0,1fr)}
+.resource-nav{padding:8px max(16px,env(safe-area-inset-right)) 8px max(16px,env(safe-area-inset-left));background:#f7f4ed;border-bottom:1px solid #d8c799;font:15px/1.4 Georgia,serif;text-align:center}
+.resource-nav a{display:inline-flex;align-items:center;min-height:44px;color:#173b67;text-underline-offset:3px}
+.resource-nav a:focus-visible{outline:3px solid #946e22;outline-offset:2px}
