@@ -21,6 +21,7 @@ PAGES_URL = "https://charlieleitao-spec.github.io/somos-servos-app/"
 WEEKDAYS = ("segunda-feira", "terça-feira", "quarta-feira", "quinta-feira",
             "sexta-feira", "sábado", "domingo")
 LABELS = ["Liturgia"]
+SABADO_MARIANO = "Desde a Idade Média, a Igreja consagra o sábado à memória de Nossa Senhora. Para nós, Servos de Maria, é um dia de especial devoção à Mãe das Dores, que permaneceu fiel junto à cruz. Reserve um momento para rezar com Maria: uma dezena do Rosário, a ladainha ou o Ofício da Bem-aventurada Virgem Maria."
 
 
 def required(name):
@@ -145,7 +146,7 @@ def make_content(santoral, start, cards_dir):
                 )
             parts.append("</li>")
         parts.append("</ul>")
-    parts.append("<p>No Sábado Mariano, a Família Servita honra de modo especial a Bem-aventurada Virgem Maria, recordando sua presença materna e confiando à sua intercessão as necessidades da Igreja e do mundo.</p>")
+    parts.append(f"<p><strong>Sábado Mariano.</strong> {html.escape(SABADO_MARIANO)}</p>")
     parts.append(f'<p><a href="{APP_URL}">Hoje na Família Servita</a></p>')
     return "\n".join(parts)
 
@@ -159,9 +160,9 @@ def find_duplicate(posts, marker):
 def create_post(title, content, marker, token, blog_id):
     payload = json.dumps({"kind": "blogger#post", "title": title, "content": content,
                           "labels": LABELS}, ensure_ascii=False).encode("utf-8")
-    # A publicação direta dos resumos semanais foi autorizada.
-    url = f"https://www.googleapis.com/blogger/v3/blogs/{blog_id}/posts/?isDraft=false"
-    created = json_request(url, "POST", payload, token, "application/json; charset=UTF-8", "Publicação do resumo semanal")
+    # Os resumos semanais permanecem como rascunhos para conferência.
+    url = f"https://www.googleapis.com/blogger/v3/blogs/{blog_id}/posts/?isDraft=true"
+    created = json_request(url, "POST", payload, token, "application/json; charset=UTF-8", "Criação do rascunho semanal")
     post_id = created.get("id")
     if not post_id:
         raise RuntimeError("A API não devolveu o identificador da publicação.")
@@ -172,9 +173,9 @@ def create_post(title, content, marker, token, blog_id):
         raise RuntimeError("A leitura de volta não confirmou título e identificador.")
     if marker not in (verified.get("content") or ""):
         raise RuntimeError("A leitura de volta não confirmou o marcador de origem.")
-    if str(verified.get("status", "")).upper() != "LIVE":
-        raise RuntimeError("A leitura de volta não confirmou o estado publicado.")
-    print(f"Publicação confirmada pela API: {verified.get('title')} (ID {post_id})")
+    if str(verified.get("status", "")).upper() != "DRAFT":
+        raise RuntimeError("A leitura de volta não confirmou o estado de rascunho.")
+    print(f"Rascunho confirmado pela API: {verified.get('title')} (ID {post_id})")
 
 
 def main(argv=None):
