@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Gera o cartão compartilhável (PNG 1080x1350) do santo do dia.
-Uso: python3 scripts/gerar-cartao.py [MM-DD] [--dir www/data] [--out saida]
+Uso: python3 gerar-cartao.py [MM-DD|--todos] --dir <pasta-do-santoral> --emblema <arquivo.png> [--out saida]
 Saídas: <out>/cartao-MM-DD.png e <out>/cartao-MM-DD.txt (legenda para colar).
 Não reescreve o texto da fonte: usa apenas o começo da memória (bio), cortado em fim de frase."""
 import argparse, json, os, re, sys
@@ -58,7 +58,8 @@ def quebrar(draw, texto, fnt, largura):
         if draw.textlength(teste, font=fnt) <= largura:
             atual = teste
         else:
-            linhas.append(atual); atual = pal
+            if atual: linhas.append(atual)
+            atual = pal
     return linhas + ([atual] if atual else [])
 
 def centro(draw, y, texto, fnt, cor):
@@ -79,11 +80,18 @@ def main(argv=None):
     with open(os.path.join(a.dir, "santoral.json"), encoding="utf-8") as f:
         dados = json.load(f)
     if a.todos:
+        if not isinstance(dados, list):
+            raise ValueError("santoral.json deve conter uma lista de celebrações")
+        chaves = set()
         for item in dados:
             if not isinstance(item, dict):
                 continue
             mm, dd = int(item["month"]), int(item["day"])
+            if (mm, dd) in chaves:
+                raise ValueError(f"Data duplicada no santoral: {mm:02d}-{dd:02d}")
+            chaves.add((mm, dd))
             main([f"{mm:02d}-{dd:02d}", "--dir", a.dir, "--out", a.out, "--emblema", a.emblema])
+        print(f"{len(chaves)} cartões gerados com o santoral oficial")
         return 0
     s = achar(dados, mes, dia)
     if not s:
@@ -109,7 +117,7 @@ def main(argv=None):
     while tam > 44:  # reduz a fonte até o título caber em 4 linhas
         ft = fonte(tam, True)
         linhas = quebrar(d, titulo, ft, W - 200)
-        if len(linhas) <= 4:
+        if len(linhas) <= 3:
             break
         tam -= 4
     y = 350
@@ -117,11 +125,15 @@ def main(argv=None):
         centro(d, y, l, ft, CREME)
         y += int(tam * 1.3)
 
-    y += 40
+    y += 25
+    if y > 920:
+        raise ValueError(f"Título muito longo para o cartão: {titulo}")
     d.line([W/2 - 40, y, W/2 + 40, y], fill=OURO, width=2)
     y += 50
     fc = fonte(36)
-    for l in quebrar(d, trecho(s.get("bio", "")), fc, W - 220)[:9]:
+    for l in quebrar(d, trecho(s.get("bio", "")), fc, W - 220):
+        if y + 56 > H - 245:
+            raise ValueError(f"Biografia excede a área útil do cartão: {titulo}")
         centro(d, y, l, fc, (214, 205, 190))
         y += 56
 
