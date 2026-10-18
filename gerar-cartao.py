@@ -67,28 +67,43 @@ def centro(draw, y, texto, fnt, cor):
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("chave", nargs="?")
+    ap.add_argument("chave", nargs="?", help="MM-DD ou --todos")
+    ap.add_argument("--todos", action="store_true", help="Gera cartões para todas as celebrações")
+    ap.add_argument("--emblema", required=True, help="PNG oficial do emblema OSM fornecido pelo usuário")
     ap.add_argument("--dir", default=".")
     ap.add_argument("--out", default="saida")
     a = ap.parse_args(argv)
     hoje = datetime.now(ZoneInfo("America/Sao_Paulo"))
-    mes, dia = map(int, (a.chave or hoje.strftime("%m-%d")).split("-"))
+    mes, dia = map(int, (a.chave or hoje.strftime("%m-%d")).split("-")) if not a.todos else (0, 0)
     chave = f"{mes:02d}-{dia:02d}"
     with open(os.path.join(a.dir, "santoral.json"), encoding="utf-8") as f:
-        s = achar(json.load(f), mes, dia)
+        dados = json.load(f)
+    if a.todos:
+        for item in dados:
+            if not isinstance(item, dict):
+                continue
+            mm, dd = int(item["month"]), int(item["day"])
+            main([f"{mm:02d}-{dd:02d}", "--dir", a.dir, "--out", a.out, "--emblema", a.emblema])
+        return 0
+    s = achar(dados, mes, dia)
     if not s:
         print(f"Sem celebração para {chave}; nenhum cartão gerado.")
         return 0
 
     titulo = s.get("title") or s.get("name")
+    if not os.path.isfile(a.emblema):
+        raise FileNotFoundError("Emblema oficial OSM não encontrado: " + a.emblema)
     img = Image.new("RGB", (W, H), FUNDO)
     d = ImageDraw.Draw(img)
     d.rectangle([40, 40, W - 41, H - 41], outline=OURO, width=3)
     d.rectangle([56, 56, W - 57, H - 57], outline=(70, 58, 38), width=1)
+    emblema = Image.open(a.emblema).convert("RGBA")
+    emblema.thumbnail((110, 110), Image.Resampling.LANCZOS)
+    img.paste(emblema, ((W - emblema.width)//2, 72), emblema)
 
-    centro(d, 110, "HOJE NA FAMÍLIA SERVITA", fonte(30), OURO)
-    centro(d, 175, f"{dia} de {MESES[mes-1]}", fonte(46), CREME)
-    d.line([W/2 - 60, 250, W/2 + 60, 250], fill=OURO, width=3)
+    centro(d, 188, "SANTORAL SERVITA", fonte(30), OURO)
+    centro(d, 238, f"{dia} de {MESES[mes-1]}", fonte(42), CREME)
+    d.line([W/2 - 60, 306, W/2 + 60, 306], fill=OURO, width=3)
 
     tam = 84
     while tam > 44:  # reduz a fonte até o título caber em 4 linhas
@@ -97,7 +112,7 @@ def main(argv=None):
         if len(linhas) <= 4:
             break
         tam -= 4
-    y = 310
+    y = 350
     for l in linhas:
         centro(d, y, l, ft, CREME)
         y += int(tam * 1.3)
@@ -110,7 +125,7 @@ def main(argv=None):
         centro(d, y, l, fc, (214, 205, 190))
         y += 56
 
-    centro(d, H - 190, "Leia a liturgia completa do dia", fonte(30), SUAVE)
+    centro(d, H - 190, "ORDEM DOS SERVOS DE MARIA", fonte(30), SUAVE)
     centro(d, H - 140, LINK, fonte(30, True), OURO)
 
     os.makedirs(a.out, exist_ok=True)
