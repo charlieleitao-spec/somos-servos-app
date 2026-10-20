@@ -38,6 +38,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: blogger-publicacao-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   publicar:
     runs-on: ubuntu-latest
@@ -84,15 +88,15 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-      - name: Publicar celebração e ofício OSM do dia
+      - name: Validar autenticação e executar publicação diária
         if: ${{ !(github.event_name == 'workflow_dispatch' && (inputs.inventory_only || inputs.create_weekly_draft)) && (github.event_name != 'schedule' || github.event.schedule == '5 9 * * *') }}
         env:
           BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
           BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
           BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN || secrets.BLOGGER_REFFRESH_TOKEN }}
-        run: python blogger_daily_publish.py
+        run: python publication_run.py diário
 
-      - name: Gerar prévia ou publicar resumo semanal
+      - name: Validar autenticação e executar resumo semanal
         if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.inventory_only) && ((github.event_name == 'schedule' && github.event.schedule == '0 11 * * 0') || (github.event_name == 'workflow_dispatch' && (inputs.run_weekly || inputs.create_weekly_draft))) }}
         env:
           BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
@@ -103,7 +107,7 @@ jobs:
             echo 'Informe o primeiro dia da semana (AAAA-MM-DD) antes de criar o rascunho.'
             exit 1
           fi
-          python weekly_servita.py
+          python publication_run.py semanal
 
       - name: Salvar cartão e legenda no GitHub Pages
         if: success() && (github.event_name != 'schedule' || github.event.schedule == '5 9 * * *') && env.DRY_RUN == 'false' && env.CARD_COMMIT == 'true'
@@ -129,3 +133,19 @@ jobs:
             cartoes/*.txt
           if-no-files-found: ignore
           retention-days: 14
+
+
+      - name: Preservar evidência mesmo em falha
+        if: always() && hashFiles('.publicacoes-pendentes.jsonl') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: auditoria-publicacoes-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            publicacoes.csv
+            .publicacoes-pendentes.jsonl
+          include-hidden-files: true
+          if-no-files-found: error
+
+      - name: Registrar execução no repositório
+        if: always() && hashFiles('.publicacoes-pendentes.jsonl') != ''
+        run: python commit_publicacoes.py
