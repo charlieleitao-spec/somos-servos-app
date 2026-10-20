@@ -20,6 +20,11 @@ on:
         required: false
         default: false
         type: boolean
+      create_weekly_draft:
+        description: "Criar rascunho semanal real (sem publicar; exige data da semana)"
+        required: false
+        default: false
+        type: boolean
       weekly_start_date:
         description: "Primeiro dia da semana para a prévia (AAAA-MM-DD; vazio = hoje)"
         required: false
@@ -40,7 +45,7 @@ jobs:
       PUBLISH_DATE: ${{ inputs.publish_date }}
       WEEKLY_START_DATE: ${{ inputs.weekly_start_date }}
       INVENTORY_ONLY: ${{ inputs.inventory_only }}
-      WEEKLY_DRY_RUN: ${{ github.event_name == 'schedule' && github.event.schedule == '0 11 * * 0' && 'false' || 'true' }}
+      WEEKLY_DRY_RUN: ${{ (github.event_name == 'schedule' && github.event.schedule == '0 11 * * 0') || (github.event_name == 'workflow_dispatch' && inputs.create_weekly_draft) && 'false' || 'true' }}
       DRY_RUN: ${{ github.event_name == 'schedule' && 'false' || (inputs.create_draft && 'false' || 'true') }}
       DRAFT: ${{ github.event_name == 'schedule' && 'false' || (inputs.create_draft && 'true' || 'false') }}
       CARD_COMMIT: 'false'
@@ -80,7 +85,7 @@ jobs:
           retention-days: 14
 
       - name: Publicar celebração e ofício OSM do dia
-        if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.inventory_only) && (github.event_name != 'schedule' || github.event.schedule == '5 9 * * *') }}
+        if: ${{ !(github.event_name == 'workflow_dispatch' && (inputs.inventory_only || inputs.create_weekly_draft)) && (github.event_name != 'schedule' || github.event.schedule == '5 9 * * *') }}
         env:
           BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
           BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
@@ -88,12 +93,17 @@ jobs:
         run: python blogger_daily_publish.py
 
       - name: Gerar prévia ou publicar resumo semanal
-        if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.inventory_only) && ((github.event_name == 'schedule' && github.event.schedule == '0 11 * * 0') || (github.event_name == 'workflow_dispatch' && inputs.run_weekly)) }}
+        if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.inventory_only) && ((github.event_name == 'schedule' && github.event.schedule == '0 11 * * 0') || (github.event_name == 'workflow_dispatch' && (inputs.run_weekly || inputs.create_weekly_draft))) }}
         env:
           BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
           BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
           BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN || secrets.BLOGGER_REFFRESH_TOKEN }}
-        run: python weekly_servita.py
+        run: |
+          if [ "${{ github.event_name }}" = 'workflow_dispatch' ] && [ "${{ inputs.create_weekly_draft }}" = 'true' ] && [ -z "$WEEKLY_START_DATE" ]; then
+            echo 'Informe o primeiro dia da semana (AAAA-MM-DD) antes de criar o rascunho.'
+            exit 1
+          fi
+          python weekly_servita.py
 
       - name: Salvar cartão e legenda no GitHub Pages
         if: success() && (github.event_name != 'schedule' || github.event.schedule == '5 9 * * *') && env.DRY_RUN == 'false' && env.CARD_COMMIT == 'true'
