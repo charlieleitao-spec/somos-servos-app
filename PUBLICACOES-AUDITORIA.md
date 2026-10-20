@@ -79,3 +79,22 @@ Fontes oficiais:
 
 A confirmação do status do projeto e, se necessária, a autorização/renovação pessoal
 são pendências do titular. Não é necessário enviar credenciais ao assistente.
+
+## Resultado real da prévia manual
+
+Execução #45 em 20/10/2026, 07:27 (São Paulo):
+https://github.com/charlieleitao-spec/somos-servos-app/actions/runs/39407997158
+
+- `DRY_RUN=true`, `WEEKLY_DRY_RUN=true`, `DRAFT=false`.
+- Falha inicial comprovada: `Autenticação OAuth: HTTP 400 (invalid_grant).`
+- Exit code 1 e execução vermelha, antes de chamar o publicador.
+- Summary exibiu data, tipo diário e erro; título/ID/URL vazios porque nenhum post foi criado.
+- Artefato de auditoria salvo; etapa de commit confirmou `publicacoes.csv salvo com [skip ci]`.
+- Leitura do CSV remoto confirmou: `2026-10-20T07:27:02-03:00,diário,,erro`.
+- 8 testes locais passaram, com chamadas de API simuladas.
+
+Não comprovados: modo Teste/Produção do projeto, motivo específico da invalidação,
+renovação do token, publicação real com HTTP 200 e criação real de rascunho semanal.
+O semanal foi testado localmente com mocks; não foi disparado nesta execução real.
+Não houve merge nem alteração de Secrets. O próximo passo do titular é conferir
+Público-alvo no projeto OAuth; em seguida, renovar o token seguindo as etapas acima.
