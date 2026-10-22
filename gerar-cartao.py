@@ -13,7 +13,7 @@ LINK = "charlieleitao-spec.github.io/hoje-familia-servita"
 LIMITE_TRECHO = 140
 MESES = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"]
 W, H = 1080, 1350
-FUNDO, CREME, OURO, SUAVE = (20, 17, 15), (244, 236, 222), (196, 160, 98), (170, 160, 146)
+FUNDO, CREME, OURO, SUAVE = (250, 247, 240), (23, 59, 103), (151, 115, 49), (104, 108, 112)
 FONTES = ["/usr/share/fonts/truetype/dejavu/DejaVuSerif{}.ttf", "/usr/share/fonts/dejavu/DejaVuSerif{}.ttf"]
 
 def fonte(tam, negrito=False):
@@ -130,7 +130,7 @@ def main(argv=None):
     img = Image.new("RGB", (W, H), FUNDO)
     d = ImageDraw.Draw(img)
     d.rectangle([40, 40, W - 41, H - 41], outline=OURO, width=3)
-    d.rectangle([56, 56, W - 57, H - 57], outline=(70, 58, 38), width=1)
+    d.rectangle([56, 56, W - 57, H - 57], outline=(224, 214, 195), width=1)
     emblema = Image.open(a.emblema).convert("RGBA")
     emblema.thumbnail((110, 110), Image.Resampling.LANCZOS)
     img.paste(emblema, ((W - emblema.width)//2, 72), emblema)
@@ -173,11 +173,10 @@ def main(argv=None):
     for l in linhas_resumo:
         if y + 56 > H - 245:
             raise ValueError(f"Biografia excede a área útil do cartão: {titulo}")
-        centro(d, y, l, fc, (214, 205, 190))
+        centro(d, y, l, fc, (65, 76, 86))
         y += 56
 
-    centro(d, H - 190, "ORDEM DOS SERVOS DE MARIA", fonte(30), SUAVE)
-    centro(d, H - 140, LINK, fonte(30, True), OURO)
+    centro(d, H - 160, "ORDEM DOS SERVOS DE MARIA", fonte(30), SUAVE)
 
     os.makedirs(a.out, exist_ok=True)
     img.save(os.path.join(a.out, f"cartao-{chave}.png"), optimize=True)
