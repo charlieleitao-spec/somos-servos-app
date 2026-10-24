@@ -1,8 +1,9 @@
-const CACHE = 'somos-servos-shell-v16';
+const CACHE = 'somos-servos-shell-v17';
 const APP_SHELL = [
   './',
   './index.html',
   './recursos.html',
+  './data/biblioteca-servita-catalogo.json',
   './cartoes/index.html',
   './percurso-servita.html',
   './percurso-servita.pdf',

@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "title": "Biblioteca Servita",
+  "language": "pt-BR",
+  "status": "offline",
+  "documents": [
+    {
+      "id": "constituicoes-osm",
+      "title": "Constituições da Ordem dos Servos de Maria",
+      "edition": "Cúria Geral OSM, 2015",
+      "source_group": "volume-osm-2015",
+      "offline_asset": "./data/pdfs/biblioteca/constituicoes-regra-diretorio-osm-2015.pdf",
+      "start_page": 43
+    },
+    {
+      "id": "regra-santo-agostinho",
+      "title": "Regra de Santo Agostinho",
+      "edition": "Cúria Geral OSM, 2015",
+      "source_group": "volume-osm-2015",
+      "offline_asset": "./data/pdfs/biblioteca/constituicoes-regra-diretorio-osm-2015.pdf",
+      "start_page": 25
+    },
+    {
+      "id": "diretorio-geral",
+      "title": "Diretório Geral",
+      "edition": "Cúria Geral OSM, 2015",
+      "source_group": "volume-osm-2015",
+      "offline_asset": "./data/pdfs/biblioteca/constituicoes-regra-diretorio-osm-2015.pdf",
+      "start_page": 131
+    },
+    {
+      "id": "ratio-institutionis",
+      "title": "Ratio Institutionis OSM",
+      "source_url": "https://servidimaria.net/sitoosm/po/formacao/ratio/texto.pdf",
+      "offline_asset": "./data/pdfs/biblioteca/ratio-institutionis-osm-2015.pdf",
+      "edition": "Cúria Geral OSM, 2015",
+      "start_page": 1
+    },
+    {
+      "id": "regra-ordem-secular",
+      "title": "Regra de Vida da Ordem Secular dos Servos de Maria",
+      "source_url": "https://servidimaria.net/sitoosm/po/regrossm.pdf",
+      "offline_asset": "./data/pdfs/biblioteca/regra-vida-ordem-secular-1995.pdf",
+      "edition": "Roma, 1995",
+      "start_page": 1
+    }
+  ]
+}
