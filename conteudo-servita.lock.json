@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "repository": "charlieleitao-spec/liturgia-osm",
+  "commit": "2016f2d828c3d46b2c50455414dd016f12411b74",
+  "catalog_path": "www/data/biblioteca-servita-catalogo.json",
+  "catalog_sha256": "47224d8067e41a31375c646e4c20c7f99a41827ce2701de2fd542f70ed029640",
+  "assets": {
+    "data/pdfs/biblioteca/constituicoes-regra-diretorio-osm-2015.pdf": {
+      "sha256": "dde52f1feeed23b275f27bb230a7d56c27949272dade68504b1bd5423c79341a",
+      "size": 1070418
+    },
+    "data/pdfs/biblioteca/ratio-institutionis-osm-2015.pdf": {
+      "sha256": "9291d4b292f34b2751ad391fddc9f76840dd5df51e2a8b1918fbd681188188d2",
+      "size": 1872785
+    },
+    "data/pdfs/biblioteca/regra-vida-ordem-secular-1995.pdf": {
+      "sha256": "8a33963bbc8c88d3a40466b4ae13664df264e492359ec6fd97e889125d5452d8",
+      "size": 244252
+    }
+  }
+}

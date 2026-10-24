@@ -1,0 +1,52 @@
+name: Validar catálogo compartilhado da Biblioteca
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'conteudo-servita.lock.json'
+      - 'data/biblioteca-servita-catalogo.json'
+      - 'recursos.html'
+      - '.github/workflows/validate-shared-content.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'conteudo-servita.lock.json'
+      - 'data/biblioteca-servita-catalogo.json'
+      - 'recursos.html'
+      - '.github/workflows/validate-shared-content.yml'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: target
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Resolver revisão fixa da fonte
+        id: source
+        run: |
+          python - <<'PYTHON'
+          import json,os,re
+          from pathlib import Path
+          lock=json.loads(Path('target/conteudo-servita.lock.json').read_text())
+          commit=lock.get('commit','')
+          if lock.get('repository')!='charlieleitao-spec/liturgia-osm' or not re.fullmatch('[0-9a-f]{40}',commit):
+              raise SystemExit('Fonte ou revisão inválida')
+          with open(os.environ['GITHUB_OUTPUT'],'a') as output:
+              output.write('commit='+commit+'\n')
+          PYTHON
+      - uses: actions/checkout@v4
+        with:
+          repository: charlieleitao-spec/liturgia-osm
+          ref: ${{ steps.source.outputs.commit }}
+          path: source
+          persist-credentials: false
+      - name: Conferir cópia local, procedência e arquivos
+        env:
+          SOURCE_COMMIT: ${{ steps.source.outputs.commit }}
+        run: python source/scripts/sync-servita-content.py --source source --target target --profile somos --source-commit "$SOURCE_COMMIT" --check
