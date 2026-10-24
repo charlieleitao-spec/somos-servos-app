@@ -260,7 +260,7 @@ def entry_for_date(santoral, date):
     return entries[0] if entries else None
 
 
-def generate_card(santoral, date):
+def generate_card(santoral, date, post_url=None):
     generator = Path(__file__).with_name("gerar-cartao.py")
     if not generator.is_file():
         raise RuntimeError("O gerador gerar-cartao.py não está disponível no repositório.")
@@ -273,7 +273,9 @@ def generate_card(santoral, date):
         with (data_dir / "santoral.json").open("w", encoding="utf-8") as data_file:
             json.dump(santoral, data_file, ensure_ascii=False)
         result = subprocess.run(
-            [sys.executable, str(generator), key, "--dir", str(data_dir), "--out", str(output_dir)],
+            [sys.executable, str(generator), key, "--dir", str(data_dir), "--out", str(output_dir),
+             "--emblema", str(Path(__file__).with_name("assets") / "emblema-osm-oficial.png")]
+            + (["--post-url", post_url] if post_url else []),
             check=False, capture_output=True, text=True,
         )
     if result.stdout.strip():
@@ -284,7 +286,7 @@ def generate_card(santoral, date):
 
     png_path = output_dir / f"cartao-{key}.png"
     caption_path = output_dir / f"cartao-{key}.txt"
-    if not png_path.is_file() or not caption_path.is_file():
+    if not png_path.is_file() or (post_url and not caption_path.is_file()):
         raise RuntimeError("O gerador não produziu o PNG e a legenda esperados.")
     return png_path, caption_path
 
@@ -325,6 +327,8 @@ def main():
     source_marker = f"somos-servos-source-id:{entry.get('id')}"
     duplicate = find_duplicate(posts, source_marker)
     if duplicate:
+        if duplicate.get("url"):
+            generate_card(santoral, date, duplicate["url"])
         existing_content = duplicate.get("content") or ""
         card_path = f"cartoes/{png_path.name}"
         if card_path in existing_content:
@@ -341,7 +345,7 @@ def main():
         print(f"Conteúdo preparado; tamanho {len(content)} caracteres.")
         print(f"PNG da prévia: {png_path}")
         print("Legenda do cartão:")
-        print(caption_path.read_text(encoding="utf-8").strip())
+        print(caption_path.read_text(encoding="utf-8").strip() if caption_path.exists() else "Legenda pendente até existir a URL real da postagem.")
         return
 
     payload = json.dumps({"kind": "blogger#post", "title": title, "content": content,
@@ -364,6 +368,8 @@ def main():
         raise RuntimeError("A leitura de volta da API não confirmou o marcador de origem.")
     if is_draft and str(verified.get("status", "")).upper() != "DRAFT":
         raise RuntimeError("A leitura de volta da API não confirmou o estado de rascunho.")
+    if verified.get("url"):
+        generate_card(santoral, date, verified["url"])
     result_label = "Rascunho criado e confirmado" if is_draft else "Publicado e confirmado"
     set_github_env("CARD_COMMIT", "true")
     set_github_env("CARD_PUBLIC_URL", card_url)

@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 """Gera o cartão compartilhável (PNG 1080x1350) do santo do dia.
-Uso: python3 gerar-cartao.py [MM-DD|--todos] --dir <pasta-do-santoral> --emblema <arquivo.png> [--out saida]
-Saídas: <out>/cartao-MM-DD.png e <out>/cartao-MM-DD.txt (legenda para colar).
+Uso: python3 gerar-cartao.py [MM-DD|--todos] --dir <pasta-do-santoral> --emblema <arquivo.png> [--out saida] [--post-url URL]
+Saídas: <out>/cartao-MM-DD.png; com --post-url, também .txt (legenda para colar).
+Sem URL real, não produz legenda incompleta. --todos gera somente os PNGs.
 Não reescreve o texto da fonte: usa apenas o começo da memória (bio), cortado em fim de frase."""
-import argparse, json, os, re, sys
+import argparse, io, json, os, re, sys
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from PIL import Image, ImageDraw, ImageFont
 
 LINK = "charlieleitao-spec.github.io/hoje-familia-servita"
+LIMITE_TRECHO = 140
 MESES = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"]
 W, H = 1080, 1350
-FUNDO, CREME, OURO, SUAVE = (20, 17, 15), (244, 236, 222), (196, 160, 98), (170, 160, 146)
+FUNDO, CREME, OURO, SUAVE = (250, 247, 240), (23, 59, 103), (151, 115, 49), (104, 108, 112)
 FONTES = ["/usr/share/fonts/truetype/dejavu/DejaVuSerif{}.ttf", "/usr/share/fonts/dejavu/DejaVuSerif{}.ttf"]
 
 def fonte(tam, negrito=False):
@@ -37,19 +39,34 @@ def achar(santoral, mes, dia):
     return None
 # --------------------------------------------------------------------------------
 
-def trecho(bio, limite=230):
+def trecho(bio, limite=LIMITE_TRECHO):
     t = " ".join(str(bio).split())
     if t.startswith("*"):  # remove a linha de datas (* nascimento † morte, local, UF)
         t = re.sub(r"^\*.*?†.*?\b[A-Z]{2}\s+(?=[A-ZÁÉÍÓÚÂÊÔÃÕ])", "", t, count=1)
-    frases = re.split(r"(?<=[.!?])\s+", t)
-    saida = ""
-    for f in frases:
-        if saida and len(saida) + len(f) + 1 > limite:
-            break
-        saida = (saida + " " + f).strip()
-        if len(saida) >= limite * 0.55:
-            break
-    return saida
+    t = t.strip()
+    if len(t) <= limite:
+        return t
+    # Não confundir iniciais e abreviações com o fim de uma frase.
+    finais = []
+    for m in re.finditer(r'[.!?](?:[”"\u2019])?(?=\s|$)', t):
+        palavra = t[:m.start()+1].split()[-1]
+        if re.fullmatch(r'[A-Za-zÀ-ÿ]\.', palavra) or palavra.lower() in {'frei.', 'sr.', 'sra.', 'dr.', 'dra.', 'cf.', 'etc.'}:
+            continue
+        if m.end() <= limite:
+            finais.append(m.end())
+    if finais:
+        return t[:finais[-1]].strip()
+    # Se a primeira frase já exceder o limite, preservar palavras inteiras.
+    palavras = t[:limite+1].rsplit(' ', 1)
+    return palavras[0].rstrip(' ,;:') if len(palavras) > 1 else ''
+
+def legenda(titulo, grau, data, post_url):
+    from urllib.parse import urlparse
+    if urlparse(post_url).scheme not in ('https', 'http') or not urlparse(post_url).netloc:
+        raise ValueError('Informe a URL real do post do dia em --post-url')
+    cabecalho = ' · '.join(x for x in (titulo, grau, data) if x)
+    return (f'{cabecalho}\n\nConheça esta memória da família servita e reze conosco.\n\n'
+            f'Post do dia: {post_url}\nHoje na Família Servita: https://{LINK}/\n')
 
 def quebrar(draw, texto, fnt, largura):
     linhas, atual = [], ""
@@ -73,6 +90,7 @@ def main(argv=None):
     ap.add_argument("--emblema", required=True, help="PNG oficial do emblema OSM fornecido pelo usuário")
     ap.add_argument("--dir", default=".")
     ap.add_argument("--out", default="saida")
+    ap.add_argument("--post-url", help="URL real do post do dia; sem ela, gera apenas o PNG, sem inventar link")
     a = ap.parse_args(argv)
     hoje = datetime.now(ZoneInfo("America/Sao_Paulo"))
     mes, dia = map(int, (a.chave or hoje.strftime("%m-%d")).split("-")) if not a.todos else (0, 0)
@@ -80,6 +98,8 @@ def main(argv=None):
     with open(os.path.join(a.dir, "santoral.json"), encoding="utf-8") as f:
         dados = json.load(f)
     if a.todos:
+        if a.post_url:
+            raise ValueError('--post-url é específico de um dia; não use com --todos')
         if not isinstance(dados, list):
             raise ValueError("santoral.json deve conter uma lista de celebrações")
         chaves = set()
@@ -99,12 +119,18 @@ def main(argv=None):
         return 0
 
     titulo = s.get("title") or s.get("name")
+    grau = str(s.get('grau') or '').strip()
+    grau_exibido = {'comemoracao': 'Comemoração', 'memoria': 'Memória',
+                    'memoria_facultativa': 'Memória facultativa',
+                    'festa': 'Festa', 'solenidade': 'Solenidade'}.get(grau, grau)
+    data = f"{dia} de {MESES[mes-1]}"
+    texto_legenda = legenda(titulo, grau_exibido, data, a.post_url) if a.post_url else None
     if not os.path.isfile(a.emblema):
         raise FileNotFoundError("Emblema oficial OSM não encontrado: " + a.emblema)
     img = Image.new("RGB", (W, H), FUNDO)
     d = ImageDraw.Draw(img)
     d.rectangle([40, 40, W - 41, H - 41], outline=OURO, width=3)
-    d.rectangle([56, 56, W - 57, H - 57], outline=(70, 58, 38), width=1)
+    d.rectangle([56, 56, W - 57, H - 57], outline=(224, 214, 195), width=1)
     emblema = Image.open(a.emblema).convert("RGBA")
     emblema.thumbnail((110, 110), Image.Resampling.LANCZOS)
     img.paste(emblema, ((W - emblema.width)//2, 72), emblema)
@@ -126,24 +152,45 @@ def main(argv=None):
         y += int(tam * 1.3)
 
     y += 25
+    if grau_exibido:
+        fg = fonte(32)
+        if d.textlength(grau_exibido, font=fg) > W - 200:
+            raise ValueError('Grau excede a largura do cartão')
+        centro(d, y, grau_exibido, fg, OURO)
+        y += 65
     if y > 920:
         raise ValueError(f"Título muito longo para o cartão: {titulo}")
     d.line([W/2 - 40, y, W/2 + 40, y], fill=OURO, width=2)
     y += 50
     fc = fonte(36)
-    for l in quebrar(d, trecho(s.get("bio", "")), fc, W - 220):
+    resumo = trecho(s.get('bio', ''))
+    linhas_resumo = quebrar(d, resumo, fc, W - 220)
+    for limite in range(LIMITE_TRECHO - 1, 0, -1):
+        if len(linhas_resumo) <= 3 and all(d.textlength(l, font=fc) <= W - 220 for l in linhas_resumo):
+            break
+        resumo = trecho(s.get('bio', ''), limite)
+        linhas_resumo = quebrar(d, resumo, fc, W - 220)
+    for l in linhas_resumo:
         if y + 56 > H - 245:
             raise ValueError(f"Biografia excede a área útil do cartão: {titulo}")
-        centro(d, y, l, fc, (214, 205, 190))
+        centro(d, y, l, fc, (65, 76, 86))
         y += 56
 
-    centro(d, H - 190, "ORDEM DOS SERVOS DE MARIA", fonte(30), SUAVE)
-    centro(d, H - 140, LINK, fonte(30, True), OURO)
+    centro(d, H - 160, "ORDEM DOS SERVOS DE MARIA", fonte(30), SUAVE)
 
     os.makedirs(a.out, exist_ok=True)
-    img.save(os.path.join(a.out, f"cartao-{chave}.png"), optimize=True)
-    with open(os.path.join(a.out, f"cartao-{chave}.txt"), "w", encoding="utf-8") as f:
-        f.write(f"{titulo} — {dia} de {MESES[mes-1]}\n\n{trecho(s.get('bio',''))}\n\nLiturgia completa do dia: https://{LINK}/\n")
+    png = io.BytesIO()
+    img.save(png, format="PNG", optimize=True)
+    with open(os.path.join(a.out, f"cartao-{chave}.png"), "wb") as output:
+        output.write(png.getvalue())
+    caminho_legenda = os.path.join(a.out, f"cartao-{chave}.txt")
+    if texto_legenda:
+        with open(caminho_legenda, 'w', encoding='utf-8') as f:
+            f.write(texto_legenda)
+    else:
+        if os.path.exists(caminho_legenda):
+            os.remove(caminho_legenda)
+        print('Legenda pendente: informe --post-url com o endereço real do post do dia.')
     print(f"Gerado: cartao-{chave}.png ({titulo})")
     return 0
 

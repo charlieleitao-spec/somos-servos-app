@@ -18,3 +18,6 @@ O PNG original fornecido pelo responsável está em `assets/emblema-osm-oficial.
 
 Consulta e download: https://charlieleitao-spec.github.io/somos-servos-app/cartoes/
 Nenhuma postagem automática no Blogger é realizada por este gerador.
+
+## Revisão de 24/10/2026
+Trecho de até 140 caracteres e três linhas, fundo marfim, títulos azul-marinho e nenhuma URL no PNG. O gerador diário recebe a URL real do post para criar a legenda. A coleção geral usa links identificados para a página inicial do blog e do Hoje na Família Servita, sem inventar URLs de posts. Regenerar a coleção com `python3 scripts/atualizar-cartoes.py`.
