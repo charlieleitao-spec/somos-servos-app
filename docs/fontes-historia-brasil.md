@@ -170,3 +170,10 @@ Centenário: a agenda oficial da Arquidiocese de Bolonha, publicada em 01/04/202
 Fonte da data e da participação comunitária: “Notícias da Postulação Geral dos Servos de Maria”, Somos Servos, setembro de 2026, seção “Servo de Deus frei Egidio M. Moscini”, consultada diretamente em 25/10/2026: https://somosservos.blogspot.com/2026/09/noticias-da-postulacao-geral-dos-servos.html . A crônica informa inauguração em 13/01/2023 por Frei Charlie M. Leitão de Souza, então prior provincial, e colaboração dos OSMeninos de Turvo e da Associação dos Descendentes Italianos de Turvo (ADIT).
 
 Correção de denominação: Frei Charlie esclareceu em 25/10/2026 que se trata de um memorial. Adota-se essa identificação direta, corrigindo a denominação empregada pela crônica consultada e pela versão anterior da síntese. A inauguração do memorial permanece distinta da abertura da fase diocesana da causa em 07/07/2024. Não se deduz traslado de restos mortais, reconhecimento canônico, beatificação ou canonização a partir dessa inauguração.
+
+
+## Escola de Formação Servita Sete Santos Fundadores — 2020
+
+Fonte principal: “Relatório da Província versão final”, encaminhado em 25/11/2021 para o Capítulo de 2022. O anexo DOCX foi novamente consultado em 25/10/2026; a página 3 da extração registra início em 27/07/2020, modalidade on-line, destinatários e proposta de formação sobre Catecismo, Sagrada Escritura e Mariologia, com colaboração dos frades. A redação histórica resume a proposta documentada, sem afirmar que todos os cursos planejados tenham sido concluídos.
+
+O registro específico substitui a menção breve à Escola no marco geral do centenário, evitando repetição. Não se publica o relatório interno, não se reproduzem seus assuntos pessoais e não se apresentam os horários ou números de inscritos de 2021 como dados atuais, nem se indica abertura de inscrições em 2026.
