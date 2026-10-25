@@ -145,3 +145,12 @@ Fonte principal: Diocese de Criciúma, “Diocese de Criciúma abre processo de 
 O Inter Nós de julho de 2024, página 2, já consultado na revisão do encontro dos formandos, corrobora a participação dos formandos na abertura em 07/07/2024. O anúncio diocesano de junho não é tratado como prova isolada da realização.
 
 A redação descreve o ato histórico de início da fase diocesana. Não o apresenta como beatificação ou canonização, não infere progresso posterior nem modifica dados do santoral ou páginas de causas dos outros aplicativos.
+
+
+## Causa de Frei Paulino — abertura em 2022 e acompanhamento em 2024
+
+Fonte principal: “Notícias da Postulação Geral dos Servos de Maria”, Somos Servos, setembro de 2026, seção “Servo de Deus padre Paulino M. Baldassarri” e “Acompanhamento do processo no Acre”, consultadas em 25/10/2026: https://somosservos.blogspot.com/2026/09/noticias-da-postulacao-geral-dos-servos.html . A crônica confirma abertura em 21/05/2022 e visita de Frei Franco a Rio Branco e Sena Madureira em julho de 2024, com reuniões sobre a comissão histórica e acompanhamento de testemunhos e documentação.
+
+Corroboração contemporânea: ContilNet, “Igreja Católica dá início ao processo de beatificação de Padre Paolino: ‘Momento histórico’”, de 21/05/2022, trecho indexado consultado; a abertura é situada em Sena Madureira, com presença do bispo diocesano. https://contilnetnoticias.com.br/destaque/igreja-catolica-da-inicio-ao-processo-de-beatificacao-de-padre-paolino-momento-historico/ . Como a crônica usa “em Rio Branco” e a notícia local identifica Sena Madureira, a síntese adota “na Diocese de Rio Branco”, distinguindo a circunscrição eclesiástica do local físico da sessão.
+
+Os dois marcos descrevem acontecimentos datados, sem atribuir conclusão da fase diocesana, reconhecimento de milagre, beatificação ou canonização. Não se reproduzem depoimentos individuais nem relatos de saúde. Mantém-se a grafia Paulino M. Baldassarri usada no catálogo e no blog; notícias locais também usam Paolino Baldassari.
