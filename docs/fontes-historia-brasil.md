@@ -136,3 +136,12 @@ Fonte principal: Inter Nós, julho de 2024, enviado em 14/07/2024. A capa (p. 1)
 Fonte complementar: programação “retiro e semana dos formandos em Turvo — julho 2024”, encaminhada em 29/04/2024, três páginas lidas integralmente. Trata-se de programação prévia, com recepção indicada em 03/07. Para o período efetivamente registrado adota-se o relato posterior do Inter Nós (02–12/07), sem confundir recepção prevista, retiro e encontro completo.
 
 A síntese não atribui o título “II Encontro Nacional” ao evento de 2024, pois tal numeração não consta das páginas consultadas. Mantém o encontro de 2019 como marco próprio e registra este outro encontro em 2024. Não publica listas, fotos ou testemunhos pessoais dos formandos.
+
+
+## Abertura da fase diocesana da causa de Frei Egídio — 2024
+
+Fonte principal: Diocese de Criciúma, “Diocese de Criciúma abre processo de beatificação e canonização de Frei Egídio”, publicada em 07/07/2024 às 20h31, consultada diretamente: https://www.diocesecriciuma.com.br/noticias/diocese-de-criciuma-abre-processo-de-beatificacao-e-canonizacao-de-frei-egidio-2024-07-07-20-31-17 . A notícia posterior à sessão confirma data, Centro de Eventos de Turvo, presidência de Dom Jacinto Inácio Flach, instalação do tribunal, celebração eucarística e Frei Franco Maria Azzalli como postulador.
+
+O Inter Nós de julho de 2024, página 2, já consultado na revisão do encontro dos formandos, corrobora a participação dos formandos na abertura em 07/07/2024. O anúncio diocesano de junho não é tratado como prova isolada da realização.
+
+A redação descreve o ato histórico de início da fase diocesana. Não o apresenta como beatificação ou canonização, não infere progresso posterior nem modifica dados do santoral ou páginas de causas dos outros aplicativos.
