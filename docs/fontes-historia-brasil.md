@@ -69,4 +69,19 @@ O congresso de Caruaru de 2026 é distinto do Congresso Mariano de Belo Horizont
 - **29/09/2023 — Frei Gilson M. de Lima Freitas:** comunicado oficial da Cúria Geral, “Elezione nuovi priori provinciali / Election of new prior provincials”, recebido em 03/10/2023 e lido integralmente. Distingue a data de eleição da divulgação e da confirmação prevista no início do capítulo provincial. A síntese registra eleição e duração de quatro anos, sem confundir esses atos nem publicar detalhes do escrutínio.
 - **Novembro de 2025 — Frei Sergio M. Ziliani:** eleito 106º prior geral no 215º Capítulo Geral em Ariccia, para 2025–2031. Fonte institucional: União dos Superiores Gerais, notícia de 30/12/2025: https://www.usgroma.org/l/i-servi-di-maria/ . A notícia de dezembro não é tratada como data da eleição. A sucessão de Frei Gottfried M. Wolff é corroborada pelo comunicado noticioso de 21/11/2025: https://www.agensir.it/quotidiano/2025/11/21/vita-consacrata-servi-di-maria-p-ziliani-nuovo-priore-generale/ .
 
-Os dois marcos se inserem na cronologia existente, sem nova entrada principal, lista adicional de autoridades ou reprodução de correspondência privada.
+Os dois marcos permanecem na cronologia existente e são complementados pelo quadro de sucessão, sem nova entrada principal nem reprodução de correspondência privada.
+
+
+## Sucessão dos priores: quadro histórico
+
+O quadro abrange a Província desde a instalação de 1962 e os generalatos contemporâneos, incluindo Montà, iniciado em 1953. Não pretende ser o elenco integral dos priores gerais desde o século XIII.
+
+- **1962–1967:** Milanez, Parte I: Giocondo Grotti (1962), André Ficarelli (1963–julho/1967), Tarcísio Balthazar (julho/1967–fevereiro/1970).
+- **1970–1984:** Milanez, Parte II: Moacyr Grechi (1970–meados/1972), Otávio Destro (1972), Francisco Xavier Carnimeo (1973–1978; 1982–1984), Tomás Trombetti (1979–1981). O quadro não transforma toda substituição em eleição.
+- **1985–2005:** Milanez, Parte IV: José Milanez (1985–1987; 1988–1990; 1997–1999), Nivaldo Machado (1991–1993; 1994–1996), Jorge Borges (2000–2002; 2003–2005).
+- **2006–2020:** BRACatálogoOSM.docx, versão revista por Frei José Milanez e enviada em 28/01/2019, lida integralmente: Joacir Borges (2006–2009), Nivaldo Machado (2009–2012), Paulo Sergio Angeloni (2012–2016), Charlie Leitão de Souza (2016–2020). Os intervalos de 2006–2012 usam os anos de transição do catálogo; a Parte IV de Milanez apresenta 2006–2008 e 2009–2011. Não se afirma contradição nem se inventam dias de eleição para harmonizar convenções distintas.
+- **2020–2023:** comunicação de Frei Charlie de 20/01/2020, lida no encadeamento de correspondência, confirma a continuidade no governo após o Capítulo de 9–14/01/2020 em Aparecida; relatório 2020–2023 e eleição do sucessor confirmam o período. Nenhum assunto pessoal da correspondência integra a síntese.
+- **Desde 2023:** comunicado oficial já documentado acima; duração prevista de quatro anos, sem converter 29/09/2023 em data de posse.
+- **Generalatos 1953–2025:** Breve História da Ordem no site institucional confirma Montà, Loftus, Graffius e a eleição de Sincerny em 1977 e reeleição em 1983. A relação GCatholic (https://gcatholic.org/orders/037), consultada diretamente, complementa os limites e a sucessão de Moons, Ruiz Garnica e Wolff. Para Sergio Ziliani e 2025–2031 mantém-se a notícia institucional da USG já citada.
+
+Apresentação: duas tabelas no mesmo bloco recolhível dentro de História; mantém as cinco áreas principais e todos os marcos existentes. Nomes e períodos históricos não constituem declaração sobre o estado canônico atual de cada pessoa. O conteúdo pessoal e disciplinar das fontes do catálogo não é reproduzido.
