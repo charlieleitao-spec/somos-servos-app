@@ -85,3 +85,8 @@ O quadro abrange a Província desde a instalação de 1962 e os generalatos cont
 - **Generalatos 1953–2025:** Breve História da Ordem no site institucional confirma Montà, Loftus, Graffius e a eleição de Sincerny em 1977 e reeleição em 1983. A relação GCatholic (https://gcatholic.org/orders/037), consultada diretamente, complementa os limites e a sucessão de Moons, Ruiz Garnica e Wolff. Para Sergio Ziliani e 2025–2031 mantém-se a notícia institucional da USG já citada.
 
 Apresentação: duas tabelas no mesmo bloco recolhível dentro de História; mantém as cinco áreas principais e todos os marcos existentes. Nomes e períodos históricos não constituem declaração sobre o estado canônico atual de cada pessoa. O conteúdo pessoal e disciplinar das fontes do catálogo não é reproduzido.
+
+
+## Eleição de Frei Charlie em 2015
+
+Informação fornecida diretamente por Frei Charlie em 25/10/2026, com solicitação expressa de inclusão: foi eleito prior provincial em 2015, quando estava em Moçambique desde 2013. Inclui-se esse marco na cronologia e uma nota na linha correspondente da tabela. O início do mandato em 2016 permanece conforme o catálogo da Ordem já consultado. Não se infere dia ou mês de eleição, nem se atribui à permanência em Moçambique uma função não informada.
