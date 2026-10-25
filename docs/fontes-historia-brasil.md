@@ -109,3 +109,14 @@ Fonte principal: Relatório da Província dos anos de 2020 e 2021, versão final
 Corroboração de preparação: mensagem de Frei Rinaldo de 29/07/2020, “Revista de São Peregrino”, informa o envio do arquivo à gráfica. Esse envio não é confundido com o dia de lançamento; por isso, a síntese indica apenas o ano confirmado pelo relatório posterior.
 
 Não se reproduzem o relatório privado ou sua correspondência, nem dados pessoais das demais seções. O link temporário de transferência à gráfica não é publicado nem usado como acesso à revista. A existência de uma versão digital, registrada na fonte, não equivale à confirmação de um endereço público atual para download.
+
+
+## Documentário sobre São Peregrino — 2020
+
+Fonte principal: Relatório da Província dos anos de 2020 e 2021, versão final enviada em 25/11/2021, seção “Centenário da presença dos frades no Brasil”, páginas 2–3. O texto confirma lançamento no início de 2020, apresentação aos frades e formandos e reprises em rede nacional pela TV Aparecida e pela TV Canção Nova.
+
+Referências públicas consultadas:
+- Página oficial da Província, “Documentário de São Peregrino”: https://servitasbrasil.org/documentario-de-sao-peregrino/ . Incluída como acesso institucional ao documentário; não se afirma teste de reprodução integral do vídeo.
+- TV Aparecida/A12, “São Peregrino Laziosi: conheça a vida do santo protetor contra o câncer”: https://www.a12.com/tv/sao-peregrino-laziosi-conheca-a-vida-do-santo-protetor-contra-o-cancer . O registro público confirma a divulgação de uma exibição; não é usado para deduzir a data de lançamento.
+
+A síntese não inventa dia de estreia, ficha técnica, diretor ou um título cinematográfico não confirmado. A disponibilidade futura em plataformas de streaming, mencionada no relatório, não é tratada como realizada. Nenhum relatório ou conteúdo privado é anexado à página pública.
