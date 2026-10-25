@@ -49,3 +49,16 @@ Critérios editoriais:
 - Campos incompletos do relatório preparado para 2025 não foram preenchidos por suposição.
 - Informações pessoais, de saúde, financeiras, situações canônicas individuais e discussões internas não integram o texto público.
 - A redação conserva as cinco áreas e os marcos históricos anteriores. Os catálogos e os PDFs da Biblioteca não são modificados.
+
+
+## Congressos e colaboração internacional: complementação
+
+| Marco | Fonte e alcance da verificação |
+| --- | --- |
+| VI Congresso Internacional da UNIFAS, 07–14/07/2010, Centro de Estudos do Sumaré, Rio de Janeiro; tema sobre o cuidado da criação | Comunicação do Secretário Provincial de 29/07/2010, posterior ao evento, com registro fotográfico; referência pública da Cúria Geral: https://servidimaria.net/sitoosm/po/6congreso.pdf |
+| Encontro das conferências da América do Norte e do Cone Sul no Rio, outubro de 2016 | Notas bilíngues de John Fontana, encaminhadas em novembro de 2016 e novamente em janeiro de 2017, lidas integralmente. Confirmam o encontro e as cinco províncias representadas. As propostas de unificação das conferências e de eventos futuros não são tratadas como realizações. |
+| Contexto do encontro internacional de 2016 | Convocação Prot. 415b/2015, revista em 20/01/2016, lida integralmente: reunião do Conselho Geral com os priores, vigário e delegados provinciais anunciada para 10–15/10/2016 na Casa de Retiro Padre Anchieta, Rio. A convocação isolada não é usada como comprovação de todas as atividades realizadas. |
+| I Congresso Mariano Servita, Belo Horizonte, 27–29/07/2018 | Correspondência de preparação e mensagens posteriores, de 30/07 e 01/08/2018, confirmam a realização; complemento ao relatório de 2019 já consultado. |
+| Congresso Mariológico em Caruaru, 16–18/10/2026 | Realização informada pelo responsável editorial em 24/10/2026; datas, local, título e realização conjunta conferidos na divulgação oficial da Diocese. https://www.diocesedecaruarupe.com/congressomariologico |
+
+O congresso de Caruaru de 2026 é distinto do Congresso Mariano de Belo Horizonte de 2018. A correspondência de novembro de 2025 e abril de 2026 documenta preparação e propostas, não comprova sozinha a realização ou a confirmação de patrocínios. Não se publicam contatos privados, dados de inscritos nem propostas internas. Não se atribuem resultados ou resoluções ao congresso sem documentação posterior.
