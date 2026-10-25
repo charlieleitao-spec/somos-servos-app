@@ -62,3 +62,11 @@ Critérios editoriais:
 | Congresso Mariológico em Caruaru, 16–18/10/2026 | Realização informada pelo responsável editorial em 24/10/2026; datas, local, título e realização conjunta conferidos na divulgação oficial da Diocese. https://www.diocesedecaruarupe.com/congressomariologico |
 
 O congresso de Caruaru de 2026 é distinto do Congresso Mariano de Belo Horizonte de 2018. A correspondência de novembro de 2025 e abril de 2026 documenta preparação e propostas, não comprova sozinha a realização ou a confirmação de patrocínios. Não se publicam contatos privados, dados de inscritos nem propostas internas. Não se atribuem resultados ou resoluções ao congresso sem documentação posterior.
+
+
+## Eleições dos priores provincial e geral
+
+- **29/09/2023 — Frei Gilson M. de Lima Freitas:** comunicado oficial da Cúria Geral, “Elezione nuovi priori provinciali / Election of new prior provincials”, recebido em 03/10/2023 e lido integralmente. Distingue a data de eleição da divulgação e da confirmação prevista no início do capítulo provincial. A síntese registra eleição e duração de quatro anos, sem confundir esses atos nem publicar detalhes do escrutínio.
+- **Novembro de 2025 — Frei Sergio M. Ziliani:** eleito 106º prior geral no 215º Capítulo Geral em Ariccia, para 2025–2031. Fonte institucional: União dos Superiores Gerais, notícia de 30/12/2025: https://www.usgroma.org/l/i-servi-di-maria/ . A notícia de dezembro não é tratada como data da eleição. A sucessão de Frei Gottfried M. Wolff é corroborada pelo comunicado noticioso de 21/11/2025: https://www.agensir.it/quotidiano/2025/11/21/vita-consacrata-servi-di-maria-p-ziliani-nuovo-priore-generale/ .
+
+Os dois marcos se inserem na cronologia existente, sem nova entrada principal, lista adicional de autoridades ou reprodução de correspondência privada.
