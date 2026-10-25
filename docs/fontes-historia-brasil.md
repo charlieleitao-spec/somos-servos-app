@@ -90,3 +90,13 @@ Apresentação: duas tabelas no mesmo bloco recolhível dentro de História; man
 ## Eleição de Frei Charlie em 2015
 
 Informação fornecida diretamente por Frei Charlie em 25/10/2026, com solicitação expressa de inclusão: foi eleito prior provincial em 2015, quando estava em Moçambique desde 2013. Inclui-se esse marco na cronologia e uma nota na linha correspondente da tabela. O início do mandato em 2016 permanece conforme o catálogo da Ordem já consultado. Não se infere dia ou mês de eleição, nem se atribui à permanência em Moçambique uma função não informada.
+
+
+## Matola em 2013 e cúria provincial em 2017
+
+Fonte: BRACatálogoOSM.docx, versão revista por Frei José M. Milanez e enviada em 28/01/2019, já lida integralmente nesta revisão histórica.
+
+- **2013:** a seção de dados históricos registra a agregação da fundação dos Servos de Maria em Moçambique à Província no Capítulo Geral de Pietralba, em setembro de 2013. A ficha de Matola indica a fundação em 16/12/1984 e ereção canônica em 22/09/1985. A síntese distingue a fundação anterior da integração provincial em 2013; não atribui a esta data o início da presença servita em Moçambique.
+- **2017:** a seção histórica e a ficha de São José dos Campos registram a inauguração do novo convento e a transferência da cúria provincial do Rio de Janeiro em 2017. Não se inventa dia ou mês.
+
+Os dois marcos são acrescentados na ordem cronológica e mantêm o registro pessoal de Frei Charlie, as tabelas de sucessão, as cinco áreas principais e os demais conteúdos já publicados.
