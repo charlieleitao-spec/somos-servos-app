@@ -177,3 +177,10 @@ Correção de denominação: Frei Charlie esclareceu em 25/10/2026 que se trata 
 Fonte principal: “Relatório da Província versão final”, encaminhado em 25/11/2021 para o Capítulo de 2022. O anexo DOCX foi novamente consultado em 25/10/2026; a página 3 da extração registra início em 27/07/2020, modalidade on-line, destinatários e proposta de formação sobre Catecismo, Sagrada Escritura e Mariologia, com colaboração dos frades. A redação histórica resume a proposta documentada, sem afirmar que todos os cursos planejados tenham sido concluídos.
 
 O registro específico substitui a menção breve à Escola no marco geral do centenário, evitando repetição. Não se publica o relatório interno, não se reproduzem seus assuntos pessoais e não se apresentam os horários ou números de inscritos de 2021 como dados atuais, nem se indica abertura de inscrições em 2026.
+
+
+## Publicações sobre missão e espiritualidade no contexto do centenário — 2020–2021
+
+Fonte principal: “Relatório da Província versão final”, enviado em 25/11/2021 para o Capítulo de 2022, página 3 da extração do DOCX, consultada novamente em 25/10/2026. O texto registra a publicação de um livro de Irmã Lina Boff com leitura teológica da primeira década da missão no Acre, como homenagem da Congregação à presença centenária da Ordem no Brasil; registra também uma publicação recente de Frei Alécio M. Azevedo sobre espiritualidade servita.
+
+O marco usa a faixa contextual 2020–2021 e atribui os dados ao relatório de 2021, sem fixar datas exatas de lançamento não documentadas. Não se atribuem títulos, editora, ISBN ou filiação congregacional a partir de identificação incerta, nem se apresentam manuscritos em revisão como publicações. Uma referência bibliográfica localizada em artigo da UFAC aponta uma obra de Lina Boff sobre o centenário, mas não foi suficiente para identificar com segurança a edição citada pelo relatório; por isso não é usada para completar o título. Não se oferece download sem exemplar e autorização verificados.

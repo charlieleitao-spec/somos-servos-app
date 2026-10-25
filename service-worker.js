@@ -1,4 +1,4 @@
-const CACHE = 'somos-servos-shell-v34';
+const CACHE = 'somos-servos-shell-v35';
 const APP_SHELL = [
   './',
   './index.html',
