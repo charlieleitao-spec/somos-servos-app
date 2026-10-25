@@ -100,3 +100,12 @@ Fonte: BRACatálogoOSM.docx, versão revista por Frei José M. Milanez e enviada
 - **2017:** a seção histórica e a ficha de São José dos Campos registram a inauguração do novo convento e a transferência da cúria provincial do Rio de Janeiro em 2017. Não se inventa dia ou mês.
 
 Os dois marcos são acrescentados na ordem cronológica e mantêm o registro pessoal de Frei Charlie, as tabelas de sucessão, as cinco áreas principais e os demais conteúdos já publicados.
+
+
+## Revista Comemorativa São Peregrino — 2020
+
+Fonte principal: Relatório da Província dos anos de 2020 e 2021, versão final enviada em 25/11/2021, seção “Centenário da presença dos frades no Brasil”, página 3. O trecho confirma publicação em 2020, tiragem de cinco mil exemplares, distribuição às comunidades e versão digital. A redação não transforma a revista em periódico de circulação contínua nem afirma que foi a primeira publicação com esse título.
+
+Corroboração de preparação: mensagem de Frei Rinaldo de 29/07/2020, “Revista de São Peregrino”, informa o envio do arquivo à gráfica. Esse envio não é confundido com o dia de lançamento; por isso, a síntese indica apenas o ano confirmado pelo relatório posterior.
+
+Não se reproduzem o relatório privado ou sua correspondência, nem dados pessoais das demais seções. O link temporário de transferência à gráfica não é publicado nem usado como acesso à revista. A existência de uma versão digital, registrada na fonte, não equivale à confirmação de um endereço público atual para download.
