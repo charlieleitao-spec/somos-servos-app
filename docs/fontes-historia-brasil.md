@@ -127,3 +127,12 @@ A síntese não inventa dia de estreia, ficha técnica, diretor ou um título ci
 Fonte principal: “Informativo sobre o 1º Encontro Nacional dos Formandos Servitas”, relato de quatro páginas, datado de julho de 2019, encaminhado em 25/09/2019, lido integralmente. Registra a realização em Turvo-SC, de 08 a 12/07/2019, com 33 participantes do aspirantado ao professado, em preparação ao centenário. O relato documenta estudos históricos, reflexão sobre o carisma, oração, convivência e visita missionária aos doentes das comunidades locais.
 
 A síntese adota os dados consolidados do informativo e não reproduz listas de participantes ou avaliações pessoais. O anexo com médias de avaliações não foi necessário para este marco histórico. O envio da correspondência em setembro não é confundido com a data do evento em julho. Não se deduz realização periódica ou de edições posteriores a partir deste primeiro encontro.
+
+
+## Retiro e encontro dos formandos em Turvo — 2024
+
+Fonte principal: Inter Nós, julho de 2024, enviado em 14/07/2024. A capa (p. 1) registra 32 formandos reunidos em Turvo de 02 a 12/07/2024. A mensagem do prior provincial, datada de 13/07/2024 (p. 2), confirma a realização do retiro, formação com Frei Franco, peregrinação e convivência; a seção de formação histórica (p. 6) identifica Frei Franco M. Azzalli. Essas páginas foram lidas na extração do anexo. A extração geral é marcada como incompleta; não se declara leitura integral das 22 páginas e não se usam informações ausentes do trecho disponível.
+
+Fonte complementar: programação “retiro e semana dos formandos em Turvo — julho 2024”, encaminhada em 29/04/2024, três páginas lidas integralmente. Trata-se de programação prévia, com recepção indicada em 03/07. Para o período efetivamente registrado adota-se o relato posterior do Inter Nós (02–12/07), sem confundir recepção prevista, retiro e encontro completo.
+
+A síntese não atribui o título “II Encontro Nacional” ao evento de 2024, pois tal numeração não consta das páginas consultadas. Mantém o encontro de 2019 como marco próprio e registra este outro encontro em 2024. Não publica listas, fotos ou testemunhos pessoais dos formandos.
