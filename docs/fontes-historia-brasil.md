@@ -120,3 +120,10 @@ Referências públicas consultadas:
 - TV Aparecida/A12, “São Peregrino Laziosi: conheça a vida do santo protetor contra o câncer”: https://www.a12.com/tv/sao-peregrino-laziosi-conheca-a-vida-do-santo-protetor-contra-o-cancer . O registro público confirma a divulgação de uma exibição; não é usado para deduzir a data de lançamento.
 
 A síntese não inventa dia de estreia, ficha técnica, diretor ou um título cinematográfico não confirmado. A disponibilidade futura em plataformas de streaming, mencionada no relatório, não é tratada como realizada. Nenhum relatório ou conteúdo privado é anexado à página pública.
+
+
+## I Encontro Nacional dos Formandos Servitas — 2019
+
+Fonte principal: “Informativo sobre o 1º Encontro Nacional dos Formandos Servitas”, relato de quatro páginas, datado de julho de 2019, encaminhado em 25/09/2019, lido integralmente. Registra a realização em Turvo-SC, de 08 a 12/07/2019, com 33 participantes do aspirantado ao professado, em preparação ao centenário. O relato documenta estudos históricos, reflexão sobre o carisma, oração, convivência e visita missionária aos doentes das comunidades locais.
+
+A síntese adota os dados consolidados do informativo e não reproduz listas de participantes ou avaliações pessoais. O anexo com médias de avaliações não foi necessário para este marco histórico. O envio da correspondência em setembro não é confundido com a data do evento em julho. Não se deduz realização periódica ou de edições posteriores a partir deste primeiro encontro.
