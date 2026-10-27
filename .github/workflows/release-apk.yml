@@ -3,7 +3,7 @@ name: Release APK Somos Servos
 on:
   push:
     branches: [main]
-    paths: ['.github/workflows/release-apk.yml', 'package.json']
+    paths: ['package.json']
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -90,8 +90,8 @@ jobs:
       - name: Preparar arquivos web
         run: |
           mkdir -p www
-          cp index.html recursos.html percurso-servita.html percurso-servita.pdf app.js styles.css manifest.webmanifest service-worker.js icon-192.png icon-512.png icon.svg www/
-          cp -R cartoes assets www/
+          cp index.html recursos.html percurso-servita.html aprofundamento-servita.html comunidades-servitas.html percurso-servita.pdf recursos-offline.js app.js styles.css manifest.webmanifest service-worker.js icon-192.png icon-512.png icon.svg www/
+          cp -R cartoes assets data www/
 
       - name: Adicionar Android
         run: npx cap add android
