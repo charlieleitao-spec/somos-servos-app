@@ -3,20 +3,21 @@
 Publicada em 27/10/2026:
 https://somosservos.blogspot.com/p/biblioteca-e-formacao-servita.html
 
-## Conteúdo publicado
+## Arquivos e implantação
 
-- `biblioteca-formacao-servita.html`: corpo da página, com as cinco seções preservadas. O título é fornecido pelo Blogger, evitando duplicação.
-- `menu-biblioteca-formacao-servita.html`: conteúdo do gadget de navegação publicado. Mantém os dez destinos principais; Maria e Documentos e História abrem com `details`/`summary` nativos. Os endereços anteriores continuam como primeiro link dos respectivos submenus.
-- Biblioteca acrescentada a Documentos e História; Escola de Mariologia Servita presente também em Maria. Os demais itens foram preservados.
-- Georgia e cores do tema preservadas. Ajuste CSS restrito às novas classes do gadget, com links separados e altura mínima de 44 px.
-- Sem links externos diretos de PDF. A página orienta ao acervo offline do Liturgia OSM 4.9.120 pela página Aplicativos Servitas.
+- `biblioteca-formacao-servita.html`: corpo publicado, com as cinco seções preservadas. O Blogger fornece o título, evitando duplicação.
+- `menu-biblioteca-formacao-servita.html`: gadget publicado. Mantém os dez destinos principais; Maria e Documentos e História usam `details`/`summary` nativos, com a página principal como primeiro destino.
+- Biblioteca em Documentos e História; Escola de Mariologia Servita também em Maria. Demais destinos preservados.
+- Georgia e cores do tema preservadas. CSS restrito às novas classes do gadget, com links separados e altura mínima de 44 px. Nenhuma substituição do XML do tema.
+- Sem links diretos de PDF externos. Acesso orientado ao acervo offline Liturgia OSM 4.9.120 pela página Aplicativos Servitas.
 
-## Verificações realizadas
+## Verificações concluídas
 
-Os cinco destinos retornaram HTTP 200 e títulos correspondentes: Constituições e Regra, Escola de Mariologia, Ladainhas, Linha do Tempo e Aplicativos Servitas. A página pública foi aberta e inspecionada no navegador de computador, com as cinco seções e o índice de âncoras. Os submenus Maria e Documentos e História foram abertos e seus destinos conferidos. Uma regra antiga do tema colocava links lado a lado; foi corrigida somente para os novos submenus e confirmada no navegador.
+- Os cinco destinos retornaram HTTP 200 e títulos correspondentes: Constituições e Regra, Escola de Mariologia, Ladainhas, Linha do Tempo e Aplicativos Servitas.
+- Página pública inspecionada no navegador de computador: cinco seções, índice e tipografia.
+- Submenus Maria e Documentos e História abertos e destinos conferidos. Uma regra antiga do tema juntava links; corrigida exclusivamente nas novas classes e confirmada visualmente.
+- Prévia Smartphone do próprio Blogger utilizada: conteúdo, índice, quebra de linhas, abertura do menu e ambos os submenus conferidos visualmente. Escola de Mariologia e Biblioteca visíveis nos grupos corretos; links separados, sem sobreposição na prévia.
 
-## Limite da verificação
+A verificação móvel foi realizada na prévia do Blogger, sem declarar teste novo em aparelho físico ou no Samsung A56.
 
-O ambiente de navegação não disponibilizou alteração efetiva da largura de tela. A inspeção visual em largura de celular e o teste em aparelho físico permanecem pendentes; não foram declarados aprovados. O tema responsivo existente foi mantido, sem substituir o XML do tema.
-
-Nenhuma alteração no aplicativo, workflows ou APK. Não houve execução de testes de aplicativos nem alteração em outros projetos.
+Nenhuma alteração no aplicativo, workflows ou APK; nenhum teste de aplicativo repetido; nenhum outro projeto modificado. A publicação no Blogger independe do merge desta PR.
