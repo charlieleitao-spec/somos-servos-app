@@ -27,3 +27,11 @@ Nenhuma alteração no aplicativo, workflows ou APK; nenhum teste de aplicativo 
 Publicados: Conhecer os Servos de Maria; Viver o carisma servita; Aprofundar a formação. Atalhos disponíveis no início da Biblioteca; cinco seções originais preservadas.
 
 Revisão final: 14 destinos distintos de leitura com HTTP 200; âncoras internas resolvidas; nenhum identificador duplicado. Na prévia Smartphone do Blogger, os três percursos foram inspecionados visualmente. Largura útil de 397 px, sem transbordamento horizontal; títulos, parágrafos e links dentro da área de leitura. Não foi realizado novo teste em aparelho físico.
+
+## Roteiro de encontros — 27/10/2026
+
+Publicado: https://somosservos.blogspot.com/p/roteiro-de-encontros-da-familia-servita.html
+
+Fonte: `roteiro-encontros-familia-servita.html`. Seis encontros, dois por percurso, com leituras, oração, partilha e compromissos. Acesso acrescentado no início da Biblioteca; retorno à Biblioteca presente no roteiro. Ambos os links percorridos na página pública.
+
+Verificação desta publicação: uma única seção de conteúdo; seis encontros e seis âncoras válidas; Georgia; nenhuma rolagem horizontal no computador (1363 px) nem na prévia Smartphone do Blogger (397 px úteis). Primeiro atalho do índice acionado na prévia móvel. Versão editável em DOCX entregue separadamente. Testes anteriormente aprovados do menu e do aplicativo não repetidos.
