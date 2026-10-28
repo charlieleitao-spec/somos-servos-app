@@ -56,6 +56,9 @@ jobs:
             cp "${output}/ic_launcher.png" "${output}/ic_launcher_round.png"
           done
 
+      - name: Instalar tratamento de links dos feeds
+        run: cp android-src/MainActivity.java android/app/src/main/java/br/com/somosservos/app/MainActivity.java
+
       - name: Sincronizar aplicativo
         run: npx cap sync android
 

@@ -14,6 +14,7 @@ O GitHub Actions usa essas versões.
 ```bash
 npm install
 npm run android:init
+cp android-src/MainActivity.java android/app/src/main/java/br/com/somosservos/app/MainActivity.java
 npm run android:sync
 npm run android:debug
 ```
@@ -66,3 +67,9 @@ O identificador do pacote é `br.com.somosservos.app`. O release usa uma chave p
 Use uma versão pública maior em cada release. O `versionCode` é calculado como `MAJOR × 1.000.000 + MINOR × 1.000 + PATCH`; mantenha `MINOR` e `PATCH` abaixo de 1000. O APK de teste atual usa a chave de depuração, portanto não pode ser atualizado diretamente para o primeiro APK estável: será necessário desinstalar o APK de teste antes da primeira instalação assinada. Depois, todas as releases devem usar o mesmo keystore para permitir atualizações normais.
 
 Nos pull requests, o mesmo fluxo compila e verifica um APK assinado com uma chave descartável de teste, sem usar os segredos permanentes nem publicar uma release. O arquivo `scripts/configure-android-release.py` configura somente o projeto Android temporário do runner. Senhas e keystore não são gravados no repositório.
+
+## Links dos feeds
+
+`android-src/MainActivity.java` mantém os recursos do Capacitor e trata novas janelas abertas por toque (`target="_blank"`), inclusive nos feeds dentro do iframe do Blogger. O destino HTTP/HTTPS é aberto pelo navegador externo, preservando o blog no aplicativo. Os dois fluxos de compilação instalam esse arquivo após gerar o projeto Android.
+
+Validação no aparelho: abrir uma notícia em cada feed (Vatican News, CNBB e CRB Nacional), voltar ao APK e conferir que o blog permanece aberto; conferir também menus internos, Voltar e a tela sem conexão.
