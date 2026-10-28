@@ -9,9 +9,9 @@ on:
   workflow_dispatch:
     inputs:
       version_name:
-        description: "Versão pública no formato MAJOR.MINOR.PATCH (ex.: 1.0.3)"
+        description: "Versão pública no formato MAJOR.MINOR.PATCH (ex.: 1.0.4)"
         required: true
-        default: 1.0.3
+        default: 1.0.4
         type: string
 
 permissions:
@@ -33,7 +33,7 @@ jobs:
         id: version
         env:
           GH_TOKEN: ${{ github.token }}
-          VERSION_NAME: ${{ inputs.version_name || '1.0.3' }}
+          VERSION_NAME: ${{ inputs.version_name || '1.0.4' }}
           CHECK_RELEASE_TAG: ${{ github.event_name != 'pull_request' }}
         run: |
           python3 - <<'PY'
@@ -42,7 +42,7 @@ jobs:
 
           version = os.environ["VERSION_NAME"]
           if not re.fullmatch(r"\d+\.\d+\.\d+", version):
-              raise SystemExit("Use MAJOR.MINOR.PATCH, por exemplo 1.0.3.")
+              raise SystemExit("Use MAJOR.MINOR.PATCH, por exemplo 1.0.4.")
           major, minor, patch = map(int, version.split("."))
           if minor >= 1000 or patch >= 1000:
               raise SystemExit("Os componentes minor e patch devem ser menores que 1000.")
@@ -181,11 +181,11 @@ jobs:
           "$build_tools/apksigner" verify --verbose --print-certs "$apk" > assinatura.txt
           cat assinatura.txt
           if [ "$BUILD_EVENT" != pull_request ]; then
-            gh release download v1.0.2 --repo "$GITHUB_REPOSITORY" --pattern app-release.apk --dir baseline
-          "$build_tools/apksigner" verify --print-certs baseline/app-release.apk > assinatura-anterior.txt
+            gh release download v1.0.3 --repo "$GITHUB_REPOSITORY" --pattern Somos-Servos-1.0.3.apk --dir baseline
+          "$build_tools/apksigner" verify --print-certs baseline/Somos-Servos-1.0.3.apk > assinatura-anterior.txt
           test "$(sed -n 's/.*certificate SHA-256 digest: //p' assinatura.txt | head -1)" = "$(sed -n 's/.*certificate SHA-256 digest: //p' assinatura-anterior.txt | head -1)"
           fi
-          test "$VERSION_CODE" -gt 1000002
+          test "$VERSION_CODE" -gt 1000003
           python3 - <<'PY'
           from pathlib import Path
           import zipfile
@@ -217,7 +217,7 @@ jobs:
           gh release create "v$VERSION_NAME" "Somos-Servos-$VERSION_NAME.apk" \
             --target "$(git rev-parse HEAD)" \
             --title "Somos Servos $VERSION_NAME" \
-            --notes-file docs/releases/1.0.3.md --latest
+            --notes-file docs/releases/1.0.4.md --latest
 
       - name: Apagar chave temporária
         if: always()
