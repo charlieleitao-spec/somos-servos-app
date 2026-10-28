@@ -4,6 +4,8 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -27,6 +29,8 @@ public class MainActivity extends BridgeActivity {
                 // O HitTestResult do pai não contém o destino de links em iframes.
                 // O transporte entrega o URL real à WebView temporária, sem exibi-la.
                 WebView popup = new WebView(MainActivity.this);
+                Handler popupHandler = new Handler(Looper.getMainLooper());
+                Runnable cleanup = popup::destroy;
                 popup.setWebViewClient(new WebViewClient() {
                     private boolean handled;
 
@@ -48,7 +52,8 @@ public class MainActivity extends BridgeActivity {
                                         Toast.LENGTH_LONG).show();
                             }
                         }
-                        popup.post(popup::destroy);
+                        popupHandler.removeCallbacks(cleanup);
+                        popupHandler.post(cleanup);
                         return true;
                     }
 
@@ -64,7 +69,7 @@ public class MainActivity extends BridgeActivity {
                     }
                 });
                 // Descarta também janelas que nunca recebem um destino.
-                popup.postDelayed(popup::destroy, 15000);
+                popupHandler.postDelayed(cleanup, 15000);
                 WebView.WebViewTransport transport =
                         (WebView.WebViewTransport) resultMsg.obj;
                 transport.setWebView(popup);
