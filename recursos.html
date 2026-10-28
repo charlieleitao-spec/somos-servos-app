@@ -33,7 +33,8 @@ footer{font-size:.9rem;color:#625b50}.skip{position:absolute;left:12px;top:-100p
 <section aria-labelledby="areas-title" class="areas">
 <h2 id="areas-title">Recursos da Família Servita</h2>
 <p>Escolha uma das cinco áreas para encontrar documentos, oração, história e caminhos de participação no carisma.</p>
-<nav class="section-nav" aria-label="Ir para uma área dos recursos"><a href="#biblioteca">Biblioteca e formação</a><a href="#espiritualidade">Espiritualidade e orações</a><a href="#historia">História da Ordem</a><a href="#familia">Família e vocação</a><a href="#santos">Santos e memória</a></nav>
+<nav class="section-nav" aria-label="Ir para uma área dos recursos"><a href="#biblioteca">Biblioteca e formação</a><a href="#espiritualidade">Espiritualidade e orações</a><a href="#historia">História da Ordem</a><a href="#familia">Família e vocação</a><a href="#santos">Santos e memória</a><a href="#noticias-igreja">Notícias da Igreja</a></nav>
+<details class="resource-area" id="noticias-igreja"><summary><span>Notícias da Igreja<small>Vatican News em português · requer internet</small></span></summary><p>Notícias e vídeos do Papa e da Santa Sé, pelo widget oficial do Vatican News.</p><p id="vatican-widget-status" role="status">Abra esta área com internet para carregar as notícias.</p><div id="vatican-widget-host" style="max-width:100%;min-width:0"><vaticannews-widget lang="pt" fontSize="16" carouselVideoAuto="false"></vaticannews-widget></div><p><a href="https://www.vaticannews.va/pt.html" target="_blank" rel="noopener noreferrer">Abrir Vatican News em português</a></p></details>
 <details class="resource-area" id="biblioteca"><summary><span>Biblioteca e documentos<small>Constituições, Regra e formação</small></span></summary>
 <!-- BEGIN SERVITA CATALOG -->
 <p>Constituições da Ordem dos Servos de Maria; Regra de Santo Agostinho; Diretório Geral; Ratio Institutionis OSM; Regra de Vida da Ordem Secular dos Servos de Maria.</p>
@@ -150,6 +151,20 @@ footer{font-size:.9rem;color:#625b50}.skip{position:absolute;left:12px;top:-100p
 </main>
 <footer>Família servita · oração, formação e memória</footer>
 <script>
+const vaticanNewsArea=document.getElementById('noticias-igreja');
+let vaticanWidgetLoading=false;
+vaticanNewsArea.addEventListener('toggle',()=>{
+  if(!vaticanNewsArea.open||vaticanWidgetLoading)return;
+  const status=document.getElementById('vatican-widget-status');
+  if(!navigator.onLine){status.textContent='Sem conexão. As notícias precisam de internet; os demais recursos salvos continuam disponíveis.';return}
+  vaticanWidgetLoading=true;status.textContent='Carregando Vatican News…';
+  const widget=document.querySelector('vaticannews-widget');
+  if(window.matchMedia('(max-width: 600px)').matches)widget.setAttribute('mobile','true');
+  const script=document.createElement('script');script.src='https://www.vaticannews.va/widget.js';script.async=true;
+  script.onload=()=>{status.textContent='Conteúdo oficial do Vatican News. Se não aparecer, utilize o link abaixo.'};
+  script.onerror=()=>{vaticanWidgetLoading=false;script.remove();status.textContent='Não foi possível carregar as notícias. Use o link abaixo ou feche e abra esta área para tentar novamente.'};
+  document.head.append(script);
+});
 function revealResourceAnchor(){
   const id=location.hash.slice(1);if(!id)return;
   const target=document.getElementById(id);if(!target)return;
