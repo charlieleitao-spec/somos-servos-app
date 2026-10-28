@@ -1,0 +1,43 @@
+<details class="ss-fold"><summary>Ver últimas notícias</summary>
+<ul id="ss-feed-HTML12"><li><a href="https://crbnacional.org.br/crb-espirito-santo-celebra-35-anos-com-assembleia-formativa-e-reflexao-sobre-os-caminhos-da-vida-religiosa-consagrada/" target="_blank" rel="noopener noreferrer">CRB Espírito Santo celebra 35 anos com Assembleia Formativa e reflexão sobre os caminhos da Vida Religiosa Consagrada</a></li><li><a href="https://crbnacional.org.br/crb-nacional-participa-de-congresso-sobre-pastoral-escolar-e-universitaria-no-vaticano/" target="_blank" rel="noopener noreferrer">CRB Nacional participa de Congresso sobre pastoral escolar e universitária no Vaticano</a></li><li><a href="https://crbnacional.org.br/crb-nacional-publica-carta-sobre-democracia-e-discernimento-no-segundo-turno-das-eleicoes/" target="_blank" rel="noopener noreferrer">CRB Nacional publica carta sobre democracia e discernimento no segundo turno das eleições</a></li></ul>
+<p class="ss-feed-more"><a href="https://crbnacional.org.br/noticias/" target="_blank" rel="noopener noreferrer">Mais notícias →</a></p>
+<script>(function(){
+  var config={"source": "crb", "host": "crbnacional.org.br", "initial": {"name": "CRB Nacional", "page": "https://crbnacional.org.br/noticias/", "feed": "https://crbnacional.org.br/feed/", "updated_at": "2026-10-28T16:36:44.624433+00:00", "items": [{"title": "CRB Espírito Santo celebra 35 anos com Assembleia Formativa e reflexão sobre os caminhos da Vida Religiosa Consagrada", "link": "https://crbnacional.org.br/crb-espirito-santo-celebra-35-anos-com-assembleia-formativa-e-reflexao-sobre-os-caminhos-da-vida-religiosa-consagrada/"}, {"title": "CRB Nacional participa de Congresso sobre pastoral escolar e universitária no Vaticano", "link": "https://crbnacional.org.br/crb-nacional-participa-de-congresso-sobre-pastoral-escolar-e-universitaria-no-vaticano/"}, {"title": "CRB Nacional publica carta sobre democracia e discernimento no segundo turno das eleições", "link": "https://crbnacional.org.br/crb-nacional-publica-carta-sobre-democracia-e-discernimento-no-segundo-turno-das-eleicoes/"}]}};
+  var el=document.getElementById('ss-feed-HTML12');
+  if(!el)return;
+  var current=config.initial;
+  var cacheKey='ss-noticias-v2-'+config.source;
+  function valid(source){
+    if(!source||!Array.isArray(source.items)||source.items.length!==3||!isFinite(Date.parse(source.updated_at)))return false;
+    return source.items.every(function(item){
+      try{
+        var u=new URL(item.link);
+        return typeof item.title==='string'&&item.title.trim()&&u.protocol==='https:'&&
+          (u.hostname===config.host||u.hostname==='www.'+config.host)&&
+          !/\/(feed\/?|[^/]*\.xml)$/i.test(u.pathname);
+      }catch(error){return false;}
+    });
+  }
+  function render(source){
+    if(!valid(source)||Date.parse(source.updated_at)<Date.parse(current.updated_at))return false;
+    el.innerHTML='';
+    source.items.forEach(function(item){
+      var li=document.createElement('li'),a=document.createElement('a');
+      a.href=item.link;a.target='_blank';a.rel='noopener noreferrer';a.textContent=item.title;
+      li.appendChild(a);el.appendChild(li);
+    });
+    el.title='Manchetes consultadas em '+new Date(source.updated_at).toLocaleString('pt-BR');
+    current=source;
+    return true;
+  }
+  render(current);
+  try{render(JSON.parse(localStorage.getItem(cacheKey)));}catch(error){}
+  var ctl=window.AbortController?new AbortController():null;
+  var timer=setTimeout(function(){if(ctl)ctl.abort();},8000);
+  fetch('https://raw.githubusercontent.com/charlieleitao-spec/somos-servos-app/main/data/noticias-igreja.json',ctl?{signal:ctl.signal}:{}).
+    then(function(response){if(!response.ok)throw new Error('http');return response.json();}).
+    then(function(data){
+      var source=data.sources&&data.sources[config.source];
+      if(render(source)){try{localStorage.setItem(cacheKey,JSON.stringify(source));}catch(error){}}
+    }).catch(function(){}).then(function(){clearTimeout(timer);});
+})();</script></details>
