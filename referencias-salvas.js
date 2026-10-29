@@ -137,6 +137,37 @@
     refreshButtons();
   }
   function link(label, url) { const a = document.createElement('a'); a.textContent = label; a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer'; return a; }
+  function formatReference(value) {
+    const item = normalize(value);
+    return [
+      item.title,
+      item.authors ? 'Autoria: ' + item.authors : '',
+      item.publication ? 'Publicação: ' + item.publication : '',
+      item.year ? 'Ano: ' + item.year : '',
+      'Fonte: ' + item.source,
+      'Link: ' + item.url,
+      item.fulltext ? 'Texto na fonte: ' + item.fulltext : '',
+      item.credit ? 'Crédito/origem: ' + item.credit : '',
+      item.license ? 'Licença informada: ' + item.license : item.type === 'image' ? 'Licença não informada; consulte as condições na fonte.' : '',
+      item.licenseURL ? 'Condições da licença: ' + item.licenseURL : ''
+    ].filter(Boolean).join('\n');
+  }
+  async function copyReference(item, host, button, status) {
+    if (button.disabled) return;
+    const contents = formatReference(item); button.disabled = true;
+    try {
+      if (!navigator.clipboard?.writeText) throw Error('Cópia indisponível');
+      await navigator.clipboard.writeText(contents);
+      if (!host.isConnected) return;
+      host.querySelector('.reference-copy')?.remove(); status.textContent = 'Referência copiada.';
+    } catch {
+      if (!host.isConnected) return;
+      let field = host.querySelector('.reference-copy');
+      if (!field) { field = document.createElement('textarea'); field.className = 'reference-copy'; field.readOnly = true; field.setAttribute('aria-label', 'Referência para copiar manualmente'); host.append(field); }
+      field.value = contents; field.focus(); field.select();
+      status.textContent = 'A cópia automática não está disponível. O texto está selecionado abaixo; use a opção Copiar do seu aparelho.';
+    } finally { button.disabled = false; }
+  }
   function mount(root, status) {
     function render(focusIndex) {
       let items;
@@ -152,14 +183,17 @@
         actions.className = 'actions'; actions.append(link('Abrir fonte', item.url));
         if (item.fulltext) actions.append(link('Ler texto na fonte', item.fulltext));
         if (item.licenseURL) actions.append(link('Consultar licença', item.licenseURL));
-        button.type = 'button'; button.textContent = 'Remover da lista'; button.setAttribute('aria-label', 'Remover da lista: ' + item.title);
+        button.type = 'button'; button.dataset.removeReference = ''; button.textContent = 'Remover da lista'; button.setAttribute('aria-label', 'Remover da lista: ' + item.title);
         button.addEventListener('click', () => {
           try { remove(item.url); render(index); } catch { status.textContent = 'Não foi possível remover a referência. A lista foi preservada.'; }
         });
-        actions.append(button); article.append(h, meta); if (details.textContent) article.append(details); article.append(actions); root.append(article);
+        const copy = document.createElement('button'), copyStatus = document.createElement('p');
+        copy.type = 'button'; copy.className = 'copy-reference'; copy.textContent = 'Copiar referência'; copy.setAttribute('aria-label', 'Copiar referência: ' + item.title);
+        copyStatus.className = 'note'; copyStatus.setAttribute('role', 'status'); copy.addEventListener('click', () => copyReference(item, article, copy, copyStatus));
+        actions.append(button, copy); article.append(h, meta); if (details.textContent) article.append(details); article.append(actions, copyStatus); root.append(article);
       });
       if (Number.isInteger(focusIndex)) {
-        const buttons = root.querySelectorAll('button');
+        const buttons = root.querySelectorAll('[data-remove-reference]');
         if (buttons.length) buttons[Math.min(focusIndex, buttons.length - 1)].focus(); else status.focus();
       }
     }
@@ -169,5 +203,5 @@
   }
   window.addEventListener('servita-saved-change', refreshButtons);
   window.addEventListener('storage', event => { if (event.key === KEY || event.key === null) refreshButtons(); });
-  window.ServitaSaved = { addButton, mount, read, normalize, save, remove, buildBackup, importBackup };
+  window.ServitaSaved = { addButton, mount, read, normalize, save, remove, buildBackup, importBackup, formatReference };
 })();
