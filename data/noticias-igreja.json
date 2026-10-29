@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-10-29T13:14:04.308314+00:00",
+      "updated_at": "2026-10-29T19:42:14.893300+00:00",
       "items": [
         {
-          "title": "O Papa retorna às paróquias romanas, com visitas nos domingos do Advento",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-10/papa-leao-xiv-visitas-paroquias-diocese-de-roma-domingos-advento.html"
+          "title": "Reaberto o Processo de apelação vaticano, próximas audiências em janeiro de 2027",
+          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-10/processo-apelacao-fundos-santa-se-audiencias-janeiro-2027.html"
         },
         {
-          "title": "Cultura da Vida: amor matrimonial fecundo e que valoriza a vida",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-10/cultura-vida-amor-familia-gaudium-et-spes-casamento-filhos.html"
+          "title": "A coragem da Igreja no Haiti, que permanece apesar da violência",
+          "link": "https://www.vaticannews.va/pt/igreja/news/2026-10/haiti-igreja-violencia-el-salvador-migrantes.html"
         },
         {
-          "title": "Dom Quematcha e Imame de Mansoa apelam à reconciliação na Guiné-Bissau",
-          "link": "https://www.vaticannews.va/pt/africa/news/2026-10/lideres-religiosos-apelo-dialogo-reconciliacao-paz-esperanca.html"
+          "title": "Irmã García: a presença do Papa dará novo impulso à Igreja no Peru",
+          "link": "https://www.vaticannews.va/pt/igreja/news/2026-10/papa-leao-xiv-peru-franciscanas-imaculada-conceicao-preparacao.html"
         }
       ]
     },
@@ -25,19 +25,19 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-10-29T13:14:03.972275+00:00",
+      "updated_at": "2026-10-29T19:42:14.116368+00:00",
       "items": [
         {
-          "title": "Existir é mais do que estar no mundo",
-          "link": "https://www.cnbb.org.br/existir-e-mais-do-que-estar-no-mundo/"
+          "title": "Banner lançamento Liturgia Semana Santa 2027",
+          "link": "https://www.cnbb.org.br/banner-lancamento-liturgia-semana-santa-2027/"
         },
         {
-          "title": "Todos os Santos",
-          "link": "https://www.cnbb.org.br/todos-os-santos-4/"
+          "title": "Dicastério oferece documento com sugestões para renovar o compromisso com a transmissão da fé",
+          "link": "https://www.cnbb.org.br/dicasterio-oferece-documento-com-sugestoes-para-renovar-o-compromisso-com-a-transmissao-da-fe/"
         },
         {
-          "title": "Finados: quando a saudade se encontra com a esperança",
-          "link": "https://www.cnbb.org.br/finados-quando-a-saudade-se-encontra-com-a-esperanca/"
+          "title": "Comissão inicia processo de escuta para preparação do Ano Missionário Nacional 2028-2029",
+          "link": "https://www.cnbb.org.br/comissao-inicia-processo-de-escuta-para-preparacao-do-ano-missionario-nacional-2028-2029/"
         }
       ]
     },
