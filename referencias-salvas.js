@@ -45,6 +45,65 @@
     return true;
   }
   function remove(url) { const items = read(); write(items.filter(item => item.url !== url)); }
+  const BACKUP_FORMAT = 'recursos-servitas-referencias';
+  const MAX_BACKUP_BYTES = 3 * 1024 * 1024;
+  function buildBackup() {
+    return JSON.stringify({ format: BACKUP_FORMAT, version: 1, exportedAt: new Date().toISOString(), items: read() }, null, 2);
+  }
+  function importBackup(contents) {
+    if (typeof contents !== 'string' || contents.length > MAX_BACKUP_BYTES) throw Error('file');
+    let data, incoming;
+    try {
+      data = JSON.parse(contents);
+      if (data?.format !== BACKUP_FORMAT || data.version !== 1 || !Array.isArray(data.items) || data.items.length > LIMIT) throw Error('file');
+      incoming = data.items.map(value => {
+        const item = normalize(value);
+        if (typeof value.savedAt !== 'string' || !Number.isFinite(Date.parse(value.savedAt))) throw Error('file');
+        return { ...item, savedAt: value.savedAt };
+      });
+    } catch { throw Error('file'); }
+    const existing = read(), urls = new Set(existing.map(item => item.url)), merged = existing.slice();
+    let added = 0, duplicates = 0;
+    for (const item of incoming) {
+      if (urls.has(item.url)) { duplicates++; continue; }
+      urls.add(item.url); merged.push(item); added++;
+    }
+    if (merged.length > LIMIT) throw Error('limit');
+    if (added) write(merged);
+    return { added, duplicates };
+  }
+  function setupBackup(onImported) {
+    const exportButton = document.getElementById('exportReferences'), input = document.getElementById('importReferences'), status = document.getElementById('backupStatus');
+    if (!exportButton || !input || !status) return;
+    exportButton.addEventListener('click', () => {
+      let url;
+      try {
+        const contents = buildBackup();
+        if (!JSON.parse(contents).items.length) { status.textContent = 'Sua lista está vazia. Salve referências antes de exportar.'; return; }
+        url = URL.createObjectURL(new Blob([contents], { type: 'application/json' }));
+        const a = document.createElement('a'), date = new Date();
+        a.href = url; a.download = 'referencias-servitas-' + date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0') + '.json';
+        document.body.append(a); a.click(); a.remove();
+        status.textContent = 'Arquivo de cópia preparado. Guarde o arquivo JSON para importar neste ou em outro aparelho.';
+      } catch { status.textContent = 'Não foi possível exportar a lista. Tente novamente no navegador; suas referências foram preservadas.'; }
+      finally { if (url) setTimeout(() => URL.revokeObjectURL(url), 10000); }
+    });
+    input.addEventListener('change', async () => {
+      const file = input.files?.[0]; if (!file || input.disabled) return;
+      input.disabled = true; status.textContent = 'Lendo a cópia da lista…';
+      try {
+        if (file.size > MAX_BACKUP_BYTES) throw Error('size');
+        const contents = typeof file.text === 'function' ? await file.text() : await new Promise((resolve, reject) => {
+          const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = () => reject(Error('read')); reader.readAsText(file);
+        });
+        const result = importBackup(contents); onImported();
+        status.textContent = result.added + (result.added === 1 ? ' referência acrescentada.' : ' referências acrescentadas.') + (result.duplicates ? ' ' + result.duplicates + (result.duplicates === 1 ? ' já estava na lista e não foi duplicada.' : ' já estavam na lista e não foram duplicadas.') : '') + ' As referências anteriores foram preservadas.';
+      } catch (error) {
+        const messages = { file: 'Arquivo inválido ou incompatível. Escolha uma cópia JSON exportada por esta página.', size: 'O arquivo excede o limite de 3 MB.', limit: 'A união das listas ultrapassa o limite de 300 referências.' };
+        status.textContent = (messages[error.message] || 'Não foi possível importar. Verifique o arquivo e o armazenamento do navegador.') + ' Nenhuma referência foi alterada.';
+      } finally { input.disabled = false; input.value = ''; }
+    });
+  }
   function refreshButtons() {
     let items;
     try { items = read(); } catch { return; }
@@ -105,9 +164,10 @@
       }
     }
     window.addEventListener('storage', event => { if (event.key === KEY || event.key === null) render(); });
+    setupBackup(() => render());
     render();
   }
   window.addEventListener('servita-saved-change', refreshButtons);
   window.addEventListener('storage', event => { if (event.key === KEY || event.key === null) refreshButtons(); });
-  window.ServitaSaved = { addButton, mount, read, normalize, save, remove };
+  window.ServitaSaved = { addButton, mount, read, normalize, save, remove, buildBackup, importBackup };
 })();
