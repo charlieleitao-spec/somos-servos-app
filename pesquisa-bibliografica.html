@@ -6,12 +6,12 @@
 <header><a href="./recursos.html#biblioteca">‹ Biblioteca e formação</a><h1>Pesquisa bibliográfica</h1><p>Encontre livros e artigos para aprofundar a espiritualidade, a mariologia e a história servita.</p></header>
 <main><form id="searchForm"><label for="query">Tema, título ou autor</label><input id="query" type="search" required minlength="3" maxlength="120" placeholder="Ex.: mariologia" autocomplete="off"><div class="controls"><label for="source">Pesquisar em</label><select id="source"><option value="both">Livros e artigos · todas as fontes</option><option value="books">Livros · Open Library</option><option value="articles">Artigos · Crossref</option><option value="open">Artigos de acesso aberto · DOAJ</option></select><button type="submit">Pesquisar</button></div></form>
 <div class="topics" aria-label="Sugestões de pesquisa"><button type="button" data-topic="Mariologia">Mariologia</button><button type="button" data-topic="Ordem dos Servos de Maria">Servos de Maria</button><button type="button" data-topic="Gabriele Roschini">Roschini</button></div>
-<p class="note">Resultados de catálogos externos, em diferentes idiomas, para sua pesquisa. Não integram automaticamente a seleção da Biblioteca Servita. O DOAJ acrescenta artigos de revistas de acesso aberto. O texto integral e as condições de acesso devem ser conferidos na fonte.</p>
+<p class="note">Resultados de catálogos externos, em diferentes idiomas, para sua pesquisa. Não integram automaticamente a seleção da Biblioteca Servita. O DOAJ acrescenta artigos de revistas de acesso aberto. Nos resultados do Crossref, use “Procurar versão gratuita” para consultar o Unpaywall; a consulta ocorre somente ao tocar no botão. O texto integral e as condições de acesso devem ser conferidos na fonte.</p>
 <p id="summary" role="status" aria-live="polite">A pesquisa precisa de internet. Consultas recentes ficam salvas neste navegador, quando o armazenamento está disponível.</p>
 <section id="booksSection" aria-labelledby="booksHeading" hidden><h2 id="booksHeading">Livros · Open Library</h2><p id="booksStatus" class="status" role="status" aria-live="polite"></p><ol id="booksResults"></ol><a id="booksMore" target="_blank" rel="noopener noreferrer">Continuar pesquisa na Open Library</a></section>
 <section id="articlesSection" aria-labelledby="articlesHeading" hidden><h2 id="articlesHeading">Artigos · Crossref</h2><p id="articlesStatus" class="status" role="status" aria-live="polite"></p><ol id="articlesResults"></ol><a id="articlesMore" target="_blank" rel="noopener noreferrer">Continuar pesquisa no Crossref</a></section>
 <section id="openSection" aria-labelledby="openHeading" hidden><h2 id="openHeading">Artigos de acesso aberto · DOAJ</h2><p id="openStatus" class="status" role="status" aria-live="polite"></p><ol id="openResults"></ol><a id="openMore" target="_blank" rel="noopener noreferrer">Continuar pesquisa no DOAJ</a></section>
-</main><footer><a href="./recursos.html">Voltar aos Recursos Servitas</a> · <a href="./pesquisa-imagens.html">Pesquisar imagens</a> · <a href="https://charlieleitao-spec.github.io/hoje-familia-servita/biblioteca-servita.html">Documentos fundamentais da Ordem</a><p>Fontes: Open Library, Crossref e DOAJ. A pesquisa consulta referências bibliográficas; não baixa livros ou artigos.</p></footer>
+</main><footer><a href="./recursos.html">Voltar aos Recursos Servitas</a> · <a href="./pesquisa-imagens.html">Pesquisar imagens</a> · <a href="https://charlieleitao-spec.github.io/hoje-familia-servita/biblioteca-servita.html">Documentos fundamentais da Ordem</a><p>Fontes: Open Library, Crossref, DOAJ e Unpaywall. A pesquisa consulta referências bibliográficas; não baixa livros ou artigos.</p></footer>
 <script>
 const BIB_CACHE='servitas-pesquisa-bibliografica-v1';
 const clean=(x,max=300)=>typeof x==='string'?x.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim().slice(0,max):'';
@@ -35,7 +35,37 @@ function normalizeOpenArticles(data){
 function validItems(items){return Array.isArray(items)&&items.length<=8&&items.every(x=>x&&['title','authors','year','publication','url'].every(k=>typeof x[k]==='string'&&x[k].length<=1000)&&(/^https:\/\/openlibrary\.org\/works\/OL\d+W$/.test(x.url)||/^https:\/\/doi\.org\/10\./.test(x.url)||/^https:\/\/doaj\.org\/article\/[a-f0-9]{32}$/.test(x.url))&&(x.fulltext===undefined||typeof x.fulltext==='string'&&(!x.fulltext||safeFullText(x.fulltext)===x.fulltext)))}
 function readSaved(key){try{const x=JSON.parse(localStorage.getItem(BIB_CACHE)||'{}')[key];return x&&validItems(x.items)&&typeof x.saved==='string'&&!isNaN(Date.parse(x.saved))?x:null}catch{return null}}
 function saveResults(key,items){try{let all=JSON.parse(localStorage.getItem(BIB_CACHE)||'{}');if(!all||Array.isArray(all)||typeof all!=='object')all={};delete all[key];all[key]={items,saved:new Date().toISOString()};localStorage.setItem(BIB_CACHE,JSON.stringify(Object.fromEntries(Object.entries(all).slice(-12))))}catch{}}
-function renderResults(source,items){const root=document.getElementById(source+'Results');root.replaceChildren();for(const item of items){const li=document.createElement('li'),h=document.createElement('h3'),p=document.createElement('p'),a=document.createElement('a');h.textContent=item.title;p.className='meta';p.textContent=[item.authors,item.publication,item.year].filter(Boolean).join(' · ')||'Referência sem autoria ou data informada';a.href=item.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=source==='books'?'Ver registro do livro':source==='open'?'Ver registro no DOAJ':'Abrir referência pelo DOI';li.append(h,p,a);if(source==='open'&&safeFullText(item.fulltext)){const full=document.createElement('a');full.href=item.fulltext;full.target='_blank';full.rel='noopener noreferrer';full.textContent='Ler texto na fonte';full.style.marginLeft='16px';li.append(full)}root.append(li)}}
+function articleDOI(url){try{const u=new URL(url);if(u.origin!=='https://doi.org')return '';const doi=decodeURIComponent(u.pathname.slice(1));return /^10\.\d{4,9}\/\S{1,200}$/.test(doi)?doi:''}catch{return ''}}
+function normalizeUnpaywall(data,doi){
+ if(typeof data?.doi!=='string'||data.doi.toLowerCase()!==doi.toLowerCase()||typeof data.is_oa!=='boolean')throw Error('Resposta inválida');
+ if(!data.is_oa)return null;
+ const loc=data.best_oa_location;
+ const url=[loc?.url_for_landing_page,loc?.url,loc?.url_for_pdf].map(safeFullText).find(Boolean);
+ if(!url)return null;
+ return {url,license:clean(loc.license,100),version:clean(loc.version,60)};
+}
+async function findFreeVersion(doi,button,status,host){
+ if(button.disabled)return;
+ const id=searchId,controller=new AbortController();controllers.push(controller);
+ const timer=setTimeout(()=>controller.abort(),18000);button.disabled=true;status.textContent='Consultando Unpaywall…';
+ try{
+  if(!navigator.onLine)throw Error('Sem conexão');
+  const url=new URL('https://api.unpaywall.org/v2/'+encodeURIComponent(doi));url.searchParams.set('email','charlieleitao@gmail.com');
+  const response=await fetch(url,{signal:controller.signal,credentials:'omit',referrerPolicy:'no-referrer'});
+  if(id!==searchId||!host.isConnected)return;
+  if(response.status===404){status.textContent='DOI não encontrado no Unpaywall. Consulte também a referência original.';return}
+  if(!response.ok)throw Error('Serviço indisponível');
+  const result=normalizeUnpaywall(await response.json(),doi);
+  if(id!==searchId||!host.isConnected)return;
+  if(!result){status.textContent='Nenhuma versão gratuita localizada pelo Unpaywall nesta consulta. Consulte também a referência original.';return}
+  const link=document.createElement('a');link.href=result.url;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Abrir versão gratuita';
+  host.querySelector('.free-link')?.remove();link.className='free-link';host.append(link);
+  const versions={publishedVersion:'versão publicada',acceptedVersion:'manuscrito aceito',submittedVersion:'manuscrito submetido'};
+  status.textContent=['Versão localizada pelo Unpaywall',versions[result.version],result.license?'Licença informada: '+result.license:'Confira as condições de uso na fonte'].filter(Boolean).join(' · ')+'.';
+ }catch{if(id===searchId&&host.isConnected)status.textContent='Não foi possível consultar o Unpaywall. Verifique a conexão e tente novamente.'}
+ finally{clearTimeout(timer);button.disabled=false}
+}
+function renderResults(source,items){const root=document.getElementById(source+'Results');root.replaceChildren();for(const item of items){const li=document.createElement('li'),h=document.createElement('h3'),p=document.createElement('p'),a=document.createElement('a');h.textContent=item.title;p.className='meta';p.textContent=[item.authors,item.publication,item.year].filter(Boolean).join(' · ')||'Referência sem autoria ou data informada';a.href=item.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=source==='books'?'Ver registro do livro':source==='open'?'Ver registro no DOAJ':'Abrir referência pelo DOI';li.append(h,p,a);if(source==='articles'){const doi=articleDOI(item.url);if(doi){const button=document.createElement('button'),status=document.createElement('p');button.type='button';button.textContent='Procurar versão gratuita';button.style.display='block';button.style.marginTop='10px';status.className='status';status.setAttribute('role','status');button.addEventListener('click',()=>findFreeVersion(doi,button,status,li));li.append(button,status)}}if(source==='open'&&safeFullText(item.fulltext)){const full=document.createElement('a');full.href=item.fulltext;full.target='_blank';full.rel='noopener noreferrer';full.textContent='Ler texto na fonte';full.style.marginLeft='16px';li.append(full)}root.append(li)}}
 let searchId=0,controllers=[];
 async function searchSource(source,query,id){
  const section=document.getElementById(source+'Section'),status=document.getElementById(source+'Status'),more=document.getElementById(source+'More');section.hidden=false;
