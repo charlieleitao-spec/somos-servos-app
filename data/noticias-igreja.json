@@ -25,8 +25,12 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-10-29T19:42:14.116368+00:00",
+      "updated_at": "2026-10-29T23:58:44.771753+00:00",
       "items": [
+        {
+          "title": "Pontifícias Obras celebram missa em ação de graças pelo Mês Missionário e pelos 100 anos do Dia Mundial das Missões",
+          "link": "https://www.cnbb.org.br/mes-missa-pelos-100-anos-do-dia-mundial-das-missoes/"
+        },
         {
           "title": "Banner lançamento Liturgia Semana Santa 2027",
           "link": "https://www.cnbb.org.br/banner-lancamento-liturgia-semana-santa-2027/"
@@ -34,10 +38,6 @@
         {
           "title": "Dicastério oferece documento com sugestões para renovar o compromisso com a transmissão da fé",
           "link": "https://www.cnbb.org.br/dicasterio-oferece-documento-com-sugestoes-para-renovar-o-compromisso-com-a-transmissao-da-fe/"
-        },
-        {
-          "title": "Comissão inicia processo de escuta para preparação do Ano Missionário Nacional 2028-2029",
-          "link": "https://www.cnbb.org.br/comissao-inicia-processo-de-escuta-para-preparacao-do-ano-missionario-nacional-2028-2029/"
         }
       ]
     },
