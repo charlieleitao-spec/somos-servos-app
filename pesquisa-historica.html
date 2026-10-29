@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#173b67"><title>Pessoas e lugares · Recursos Servitas</title><link rel="icon" href="./icon-192.png"><script src="./recursos-offline.js" defer></script>
+<style>
+:root{font-family:Georgia,"Times New Roman",serif;background:#f7f4ed;color:#302b26;color-scheme:light}*{box-sizing:border-box}body{margin:0;line-height:1.65}header,main,footer{max-width:850px;margin:auto;padding:24px}header{border-bottom:1px solid #d8c799}h1,h2,a{color:#173b67}h1{font-size:clamp(1.65rem,5vw,2.3rem);line-height:1.2}h2{font-size:1.15rem;line-height:1.4}a,p{overflow-wrap:anywhere}a{text-underline-offset:3px}button,input{font:inherit;min-height:44px;border:1px solid #b5aa96;border-radius:7px;padding:9px 12px}button{cursor:pointer;background:#173b67;color:#fff}button:disabled{opacity:.7;cursor:default}input{width:100%;min-width:0;background:#fff}label{display:block;margin-bottom:6px}form,.result{background:#fff;padding:20px;border:1px solid #ddd5c6;border-radius:10px}form button{margin-top:12px}.topics{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.topics button{background:#fff;color:#173b67;font-size:.9rem}.note,.status{font-size:.92rem;color:#625b50}.result{margin:16px 0}.result h2{margin:0 0 8px}.result a,header a,footer a{display:inline-flex;align-items:center;min-height:44px}.actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #8b2635;outline-offset:3px}[hidden]{display:none!important}@media(max-width:420px){header,main,footer{padding:18px}.result,form{padding:15px}}
+</style></head><body>
+<header><a href="./recursos.html#historia">‹ História da Ordem</a><h1>Pessoas e lugares</h1><p>Encontre nomes, descrições e caminhos de leitura para pesquisar a história servita.</p></header>
+<main><form id="historyForm"><label for="historyQuery">Nome da pessoa ou do lugar</label><input id="historyQuery" type="search" required minlength="3" maxlength="120" placeholder="Ex.: Monte Senario"><button type="submit">Pesquisar no Wikidata</button></form>
+<div class="topics" aria-label="Sugestões"><button type="button" data-topic="Monte Senario">Monte Senario</button><button type="button" data-topic="Filippo Benizi">São Filipe Benizi</button><button type="button" data-topic="Pellegrino Laziosi">São Peregrino</button><button type="button" data-topic="Gabriele Roschini">Roschini</button></div>
+<p class="note">O Wikidata é uma base colaborativa. Os resultados podem incluir homônimos e informações incompletas; nomes e descrições podem aparecer em outros idiomas. Confira a identidade e as referências na ficha antes de usar os dados. Esta consulta não altera o santoral, o calendário ou os textos revisados dos Recursos Servitas.</p>
+<p id="historyStatus" role="status" aria-live="polite">A pesquisa precisa de internet. Os dados são consultados somente quando você pesquisa ou abre os nomes e artigos de uma ficha.</p><p><a id="historyMore" href="https://www.wikidata.org/wiki/Wikidata:Main_Page" target="_blank" rel="noopener noreferrer">Pesquisar diretamente no Wikidata</a></p><section id="historyResults" aria-label="Resultados da pesquisa"></section>
+</main><footer><a href="./recursos.html#historia">Voltar à História da Ordem</a> · <a href="./pesquisa-bibliografica.html">Pesquisar livros e artigos</a> · <a href="./pesquisa-imagens.html">Pesquisar imagens</a></footer>
+<script>
+const historyLanguages={pt:'Português',it:'Italiano',en:'Inglês'};
+const historyText=(value,max=400)=>typeof value==='string'?value.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim().slice(0,max):'';
+function normalizeHistory(data){
+ if(data?.error||!Array.isArray(data?.search))throw Error('Resposta inválida');
+ const seen=new Set();return data.search.slice(0,8).flatMap(item=>{if(!/^Q[1-9]\d*$/.test(item?.id)||!historyText(item.label)||seen.has(item.id))return [];seen.add(item.id);return [{id:item.id,label:historyText(item.label,200),description:historyText(item.description)}]});
+}
+function historyWikiURL(value,language){try{const u=new URL(value);return u.protocol==='https:'&&!u.username&&!u.password&&u.hostname===language+'.wikipedia.org'&&u.pathname.startsWith('/wiki/')?u.href:''}catch{return ''}}
+function normalizeHistoryDetails(data,id){
+ const entity=data?.entities?.[id];if(data?.error||!entity||Object.hasOwn(entity,'missing')||entity.id!==id)throw Error('Ficha inválida');
+ const names=[],articles=[];
+ for(const [lang,label] of Object.entries(historyLanguages)){
+  const aliases=Array.isArray(entity.aliases?.[lang])?entity.aliases[lang].slice(0,6).map(x=>historyText(x?.value,160)):[];
+  const values=[...new Set([historyText(entity.labels?.[lang]?.value,160),...aliases].filter(Boolean))];if(values.length)names.push(label+': '+values.join('; '));
+  const site=entity.sitelinks?.[lang+'wiki'],url=historyWikiURL(site?.url,lang);if(url)articles.push({label:label+' · '+(historyText(site.title,200)||'Wikipedia'),url});
+ }
+ return {names,articles};
+}
+let historyGeneration=0,historyControllers=new Set();
+async function historyFetch(params,signal){const url=new URL('https://www.wikidata.org/w/api.php');url.search=new URLSearchParams({...params,format:'json',origin:'*'});const response=await fetch(url,{signal,credentials:'omit',referrerPolicy:'no-referrer'});if(!response.ok)throw Error('Serviço indisponível');return response.json()}
+async function loadHistoryDetails(id,button,host){
+ if(button.disabled)return;const generation=historyGeneration,controller=new AbortController();historyControllers.add(controller);const timer=setTimeout(()=>controller.abort(),18000);
+ button.disabled=true;const status=host.querySelector('.status');status.textContent='Consultando nomes e artigos…';
+ try{
+  if(!navigator.onLine)throw Error('Sem conexão');
+  const details=normalizeHistoryDetails(await historyFetch({action:'wbgetentities',ids:id,props:'labels|aliases|sitelinks/urls',languages:'pt|it|en',sitefilter:'ptwiki|itwiki|enwiki'},controller.signal),id);
+  if(generation!==historyGeneration||!host.isConnected)return;
+  const content=host.querySelector('.details');content.replaceChildren();
+  for(const name of details.names){const p=document.createElement('p');p.textContent=name;content.append(p)}
+  if(details.articles.length){const p=document.createElement('p');p.textContent='Artigos relacionados na Wikipedia:';content.append(p);const ul=document.createElement('ul');for(const item of details.articles){const li=document.createElement('li'),a=document.createElement('a');a.href=item.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=item.label;li.append(a);ul.append(li)}content.append(ul)}
+  status.textContent=details.names.length||details.articles.length?'Dados do Wikidata carregados. Confira as referências na ficha.':'Não há nomes ou artigos disponíveis em português, italiano ou inglês nesta ficha.';button.textContent='Dados carregados';
+ }catch{if(generation===historyGeneration&&host.isConnected){status.textContent='Não foi possível carregar a ficha. Verifique a conexão ou abra o Wikidata.';button.disabled=false}}
+ finally{clearTimeout(timer);historyControllers.delete(controller)}
+}
+function renderHistory(items){const root=document.getElementById('historyResults');root.replaceChildren();for(const item of items){
+ const article=document.createElement('article');article.className='result';const h=document.createElement('h2'),p=document.createElement('p'),actions=document.createElement('div'),link=document.createElement('a'),button=document.createElement('button'),status=document.createElement('p'),details=document.createElement('div');h.textContent=item.label;p.textContent=item.description||'Sem descrição disponível.';actions.className='actions';link.href='https://www.wikidata.org/wiki/'+item.id;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Conferir ficha e referências';button.type='button';button.textContent='Ver nomes e artigos';status.className='status';status.setAttribute('role','status');details.className='details';button.addEventListener('click',()=>loadHistoryDetails(item.id,button,article));actions.append(link,button);article.append(h,p,actions,status,details);root.append(article);
+}}
+async function searchHistory(event){
+ event?.preventDefault();const query=document.getElementById('historyQuery').value.trim().slice(0,120),status=document.getElementById('historyStatus');if(query.length<3){status.textContent='Digite pelo menos três caracteres.';return}
+ const generation=++historyGeneration;historyControllers.forEach(c=>c.abort());historyControllers.clear();const controller=new AbortController();historyControllers.add(controller);const timer=setTimeout(()=>controller.abort(),18000);
+ const more=new URL('https://www.wikidata.org/w/index.php');more.search=new URLSearchParams({title:'Special:Search',search:query});document.getElementById('historyMore').href=more.href;renderHistory([]);status.textContent='Pesquisando '+query+'…';
+ try{
+  if(!navigator.onLine)throw Error('Sem conexão');
+  const items=normalizeHistory(await historyFetch({action:'wbsearchentities',search:query,language:'pt',uselang:'pt',type:'item',limit:8},controller.signal));if(generation!==historyGeneration)return;
+  renderHistory(items);status.textContent=items.length?items.length+' fichas encontradas para '+query+'.':'Nenhuma ficha encontrada. Tente outra grafia, inclusive o nome em italiano, ou pesquise diretamente no Wikidata.';
+ }catch{if(generation===historyGeneration)status.textContent='Não foi possível consultar o Wikidata. Verifique a conexão ou utilize o link de pesquisa direta.'}
+ finally{clearTimeout(timer);historyControllers.delete(controller)}
+}
+document.getElementById('historyForm').addEventListener('submit',searchHistory);document.querySelectorAll('[data-topic]').forEach(b=>b.addEventListener('click',()=>{document.getElementById('historyQuery').value=b.dataset.topic;searchHistory()}));
+</script></body></html>

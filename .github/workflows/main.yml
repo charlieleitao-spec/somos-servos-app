@@ -28,6 +28,7 @@ jobs:
           npm install --prefix "$RUNNER_TEMP/bibliografia-dom" --no-package-lock --no-audit --no-fund jsdom@26.1.0
           NODE_PATH="$RUNNER_TEMP/bibliografia-dom/node_modules" node tests/test_bibliografia.cjs
           NODE_PATH="$RUNNER_TEMP/bibliografia-dom/node_modules" node tests/test_imagens.cjs
+          NODE_PATH="$RUNNER_TEMP/bibliografia-dom/node_modules" node tests/test_historia.cjs
 
       - name: Configurar JDK 21
         uses: actions/setup-java@v5
@@ -41,7 +42,7 @@ jobs:
       - name: Preparar arquivos web
         run: |
           mkdir -p www
-          cp index.html recursos.html pesquisa-bibliografica.html pesquisa-imagens.html percurso-servita.html aprofundamento-servita.html comunidades-servitas.html percurso-servita.pdf recursos-offline.js app.js styles.css manifest.webmanifest service-worker.js  icon-192.png icon-512.png icon.svg www/
+          cp index.html recursos.html pesquisa-bibliografica.html pesquisa-imagens.html pesquisa-historica.html percurso-servita.html aprofundamento-servita.html comunidades-servitas.html percurso-servita.pdf recursos-offline.js app.js styles.css manifest.webmanifest service-worker.js  icon-192.png icon-512.png icon.svg www/
           cp -R cartoes assets data www/
 
       - name: Adicionar Android
