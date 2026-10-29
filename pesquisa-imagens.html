@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#173b67"><title>Pesquisa de imagens · Recursos Servitas</title><link rel="icon" href="./icon-192.png"><script src="./recursos-offline.js" defer></script>
+<style>
+:root{font-family:Georgia,"Times New Roman",serif;background:#f7f4ed;color:#302b26;color-scheme:light}*{box-sizing:border-box}body{margin:0;line-height:1.65}header,main,footer{max-width:900px;margin:auto;padding:24px}header{border-bottom:1px solid #d8c799}h1,h2,a{color:#173b67}h1{font-size:clamp(1.65rem,5vw,2.3rem);line-height:1.2}h2{font-size:1.05rem;line-height:1.4;overflow-wrap:anywhere}a{overflow-wrap:anywhere;text-underline-offset:3px}button,input{font:inherit;min-height:44px;border:1px solid #b5aa96;border-radius:7px;padding:9px 12px}button{cursor:pointer;background:#173b67;color:#fff}input{width:100%;min-width:0;background:#fff}label{display:block;margin-bottom:6px}form{background:#fff;padding:20px;border:1px solid #ddd5c6;border-radius:10px}form button{margin-top:12px}.topics{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.topics button{background:#fff;color:#173b67;font-size:.9rem}.note{font-size:.92rem;color:#625b50}.results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.result{min-width:0;padding:16px;background:#fff;border:1px solid #ddd5c6;border-radius:10px}.result img{display:block;width:100%;height:240px;object-fit:contain;background:#f4f1eb}.result p{margin:8px 0;overflow-wrap:anywhere;font-size:.92rem}.result a,header a,footer a{display:inline-flex;align-items:center;min-height:44px}a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #8b2635;outline-offset:3px}[hidden]{display:none!important}@media(max-width:600px){.results{grid-template-columns:1fr}header,main,footer{padding:18px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style></head><body>
+<header><a href="./recursos.html#biblioteca">‹ Biblioteca e formação</a><h1>Pesquisa de imagens</h1><p>Explore imagens de santos, arte sacra e lugares da história servita no Wikimedia Commons.</p></header>
+<main><form id="imageForm"><label for="imageQuery">Pessoa, lugar ou tema</label><input id="imageQuery" type="search" required minlength="3" maxlength="120" placeholder="Ex.: Monte Senario"><button type="submit">Pesquisar imagens</button></form>
+<div class="topics" aria-label="Sugestões"><button data-topic="Monte Senario">Monte Senario</button><button data-topic="Filippo Benizi">São Filipe Benizi</button><button data-topic="Pellegrino Laziosi">São Peregrino</button><button data-topic="Our Lady of Sorrows">Nossa Senhora das Dores</button></div>
+<p class="note">Os resultados não são uma seleção editorial. Antes de usar uma imagem, confirme sua identificação e as condições na página do arquivo. Autoria e licença abaixo reproduzem os metadados fornecidos pelo Commons.</p>
+<p id="imageStatus" role="status" aria-live="polite">A pesquisa e as imagens precisam de internet.</p><p><a id="commonsMore" href="https://commons.wikimedia.org/wiki/Main_Page" target="_blank" rel="noopener noreferrer">Pesquisar diretamente no Wikimedia Commons</a></p><div id="imageResults" class="results" aria-label="Imagens encontradas"></div>
+</main><footer><a href="./recursos.html">Voltar aos Recursos Servitas</a> · <a href="./pesquisa-bibliografica.html">Pesquisar livros e artigos</a></footer>
+<script>
+function imageText(value,max=700){if(typeof value!=='string')return '';return new DOMParser().parseFromString(value.slice(0,12000),'text/html').body.textContent.replace(/\s+/g,' ').trim().slice(0,max)}
+function trustedImageURL(value,kind){try{const u=new URL(value);if(u.protocol!=='https:'||u.username||u.password)return '';const allowed=kind==='image'?['upload.wikimedia.org']:kind==='license'?['creativecommons.org','www.creativecommons.org','commons.wikimedia.org','www.gnu.org','gnu.org']:['commons.wikimedia.org'];return allowed.includes(u.hostname)?u.href:''}catch{return ''}}
+function normalizeImages(data){
+ if(!data||data.error||(!data.query&&!data.batchcomplete)){
+  // Empty searches may return only batchcomplete with an empty string.
+  if(!data||data.error||!Object.hasOwn(data,'batchcomplete'))throw Error('Resposta inválida');
+ }
+ const pages=data.query?.pages||{};if(typeof pages!=='object'||Array.isArray(pages))throw Error('Imagens inválidas');
+ return Object.values(pages).sort((a,b)=>(a.index||0)-(b.index||0)).slice(0,8).flatMap(page=>{
+  const info=page.imageinfo?.[0],meta=info?.extmetadata||{};if(!info||!/^image\/(jpeg|png|webp|gif)$/.test(info.mime||''))return [];
+  const source=trustedImageURL(info.descriptionurl,'source'),thumb=trustedImageURL(info.thumburl,'image');if(!source||!thumb)return [];
+  return [{title:imageText(page.title?.replace(/^File:/,''),240),source,thumb,artist:imageText(meta.Artist?.value),credit:imageText(meta.Credit?.value),license:imageText(meta.LicenseShortName?.value,100)||imageText(meta.UsageTerms?.value,100),licenseURL:trustedImageURL(meta.LicenseUrl?.value,'license')}];
+ });
+}
+function renderImages(items){const root=document.getElementById('imageResults');root.replaceChildren();for(const item of items){
+ const article=document.createElement('article');article.className='result';const img=document.createElement('img');img.src=item.thumb;img.alt=item.title;img.loading='lazy';img.referrerPolicy='no-referrer';img.addEventListener('error',()=>{img.hidden=true},{once:true});
+ const h=document.createElement('h2');h.textContent=item.title;article.append(img,h);
+ for(const text of ['Autoria: '+(item.artist||'não informada nos metadados'),item.credit?'Crédito/origem: '+item.credit:'','Licença informada: '+(item.license||'consulte a página do arquivo')]){if(text){const p=document.createElement('p');p.textContent=text;article.append(p)}}
+ if(item.licenseURL){const a=document.createElement('a');a.href=item.licenseURL;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Consultar licença';article.append(a)}
+ const p=document.createElement('p'),a=document.createElement('a');a.href=item.source;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Ver arquivo e condições de uso';p.append(a);article.append(p);root.append(article);
+}}
+let imageRequest=0,imageController=null;
+async function searchImages(event){
+ event?.preventDefault();const query=document.getElementById('imageQuery').value.trim().slice(0,120),status=document.getElementById('imageStatus');if(query.length<3){status.textContent='Digite pelo menos três caracteres.';return}
+ const id=++imageRequest;imageController?.abort();imageController=new AbortController();const controller=imageController,timer=setTimeout(()=>controller.abort(),18000);
+ const more=new URL('https://commons.wikimedia.org/w/index.php');more.search=new URLSearchParams({title:'Special:MediaSearch',type:'image',search:query});document.getElementById('commonsMore').href=more.href;
+ renderImages([]);status.textContent='Pesquisando imagens de '+query+'…';
+ try{
+  if(!navigator.onLine)throw Error('Sem conexão');
+  const url=new URL('https://commons.wikimedia.org/w/api.php');url.search=new URLSearchParams({action:'query',generator:'search',gsrsearch:query,gsrnamespace:6,gsrlimit:8,prop:'imageinfo',iiprop:'url|mime|extmetadata',iiurlwidth:480,iiextmetadatafilter:'Artist|Credit|LicenseShortName|LicenseUrl|UsageTerms',format:'json',origin:'*'});
+  const res=await fetch(url,{signal:controller.signal});if(!res.ok)throw Error('Serviço indisponível');const items=normalizeImages(await res.json());if(id!==imageRequest)return;renderImages(items);status.textContent=items.length?items.length+' imagens encontradas para '+query+'.':'Nenhuma prévia disponível. Experimente outro termo ou pesquise diretamente no Commons.';
+ }catch{if(id!==imageRequest)return;status.textContent='Não foi possível carregar a pesquisa. Verifique a conexão ou utilize o link do Wikimedia Commons.'}finally{clearTimeout(timer)}
+}
+document.getElementById('imageForm').addEventListener('submit',searchImages);document.querySelectorAll('[data-topic]').forEach(b=>b.addEventListener('click',()=>{document.getElementById('imageQuery').value=b.dataset.topic;searchImages()}));
+</script></body></html>

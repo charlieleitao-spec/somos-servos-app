@@ -90,7 +90,7 @@ jobs:
       - name: Preparar arquivos web
         run: |
           mkdir -p www
-          cp index.html recursos.html pesquisa-bibliografica.html percurso-servita.html aprofundamento-servita.html comunidades-servitas.html percurso-servita.pdf recursos-offline.js app.js styles.css manifest.webmanifest service-worker.js icon-192.png icon-512.png icon.svg www/
+          cp index.html recursos.html pesquisa-bibliografica.html pesquisa-imagens.html percurso-servita.html aprofundamento-servita.html comunidades-servitas.html percurso-servita.pdf recursos-offline.js app.js styles.css manifest.webmanifest service-worker.js icon-192.png icon-512.png icon.svg www/
           cp -R cartoes assets data www/
 
       - name: Adicionar Android
