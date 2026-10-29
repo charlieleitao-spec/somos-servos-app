@@ -7,7 +7,7 @@
 <main><form id="imageForm"><label for="imageQuery">Pessoa, lugar ou tema</label><input id="imageQuery" type="search" required minlength="3" maxlength="120" placeholder="Ex.: Monte Senario"><button type="submit">Pesquisar imagens</button></form>
 <div class="topics" aria-label="Sugestões"><button data-topic="Monte Senario">Monte Senario</button><button data-topic="Filippo Benizi">São Filipe Benizi</button><button data-topic="Pellegrino Laziosi">São Peregrino</button><button data-topic="Our Lady of Sorrows">Nossa Senhora das Dores</button></div>
 <p class="note">Os resultados não são uma seleção editorial. Antes de usar uma imagem, confirme sua identificação e as condições na página do arquivo. Autoria e licença abaixo reproduzem os metadados fornecidos pelo Commons.</p>
-<p id="imageStatus" role="status" aria-live="polite">A pesquisa e as imagens precisam de internet.</p><p><a id="commonsMore" href="https://commons.wikimedia.org/wiki/Main_Page" target="_blank" rel="noopener noreferrer">Pesquisar diretamente no Wikimedia Commons</a></p><div id="imageResults" class="results" aria-label="Imagens encontradas"></div>
+<p id="imageStatus" role="status" aria-live="polite">A pesquisa e as imagens precisam de internet.</p><p><a id="commonsMore" href="https://commons.wikimedia.org/wiki/Main_Page" target="_blank" rel="noopener noreferrer">Pesquisar diretamente no Wikimedia Commons</a></p><p><a id="europeanaMore" href="https://www.europeana.eu/pt/search" target="_blank" rel="noopener noreferrer">Explorar também o acervo da Europeana</a></p><p class="note">A Europeana reúne acervos de museus, bibliotecas e arquivos. O link abre a pesquisa no portal oficial, em nova aba. Confira a autoria e as condições de uso de cada item.</p><div id="imageResults" class="results" aria-label="Imagens encontradas"></div>
 </main><footer><a href="./recursos.html">Voltar aos Recursos Servitas</a> · <a href="./pesquisa-bibliografica.html">Pesquisar livros e artigos</a> · <a href="./pesquisa-historica.html">Pesquisar pessoas e lugares</a></footer>
 <script>
 function imageText(value,max=700){if(typeof value!=='string')return '';return new DOMParser().parseFromString(value.slice(0,12000),'text/html').body.textContent.replace(/\s+/g,' ').trim().slice(0,max)}
@@ -36,6 +36,7 @@ async function searchImages(event){
  event?.preventDefault();const query=document.getElementById('imageQuery').value.trim().slice(0,120),status=document.getElementById('imageStatus');if(query.length<3){status.textContent='Digite pelo menos três caracteres.';return}
  const id=++imageRequest;imageController?.abort();imageController=new AbortController();const controller=imageController,timer=setTimeout(()=>controller.abort(),18000);
  const more=new URL('https://commons.wikimedia.org/w/index.php');more.search=new URLSearchParams({title:'Special:MediaSearch',type:'image',search:query});document.getElementById('commonsMore').href=more.href;
+ const europeana=new URL('https://www.europeana.eu/pt/search');europeana.searchParams.set('query',query);const europeanaLink=document.getElementById('europeanaMore');europeanaLink.href=europeana.href;europeanaLink.textContent='Pesquisar “'+query+'” na Europeana';
  renderImages([]);status.textContent='Pesquisando imagens de '+query+'…';
  try{
   if(!navigator.onLine)throw Error('Sem conexão');
