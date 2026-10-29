@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'somos-servos-shell-';
-const CACHE = CACHE_PREFIX + 'v55';
+const CACHE = CACHE_PREFIX + 'v56';
 const APP_SHELL = [
   './',
   './index.html',
@@ -7,6 +7,8 @@ const APP_SHELL = [
   './pesquisa-bibliografica.html',
   './pesquisa-imagens.html',
   './pesquisa-historica.html',
+  './referencias-salvas.html',
+  './referencias-salvas.js',
   './recursos-offline.js',
   './data/biblioteca-servita-catalogo.json',
   './cartoes/index.html',

@@ -29,6 +29,7 @@ jobs:
           NODE_PATH="$RUNNER_TEMP/bibliografia-dom/node_modules" node tests/test_bibliografia.cjs
           NODE_PATH="$RUNNER_TEMP/bibliografia-dom/node_modules" node tests/test_imagens.cjs
           NODE_PATH="$RUNNER_TEMP/bibliografia-dom/node_modules" node tests/test_historia.cjs
+          NODE_PATH="$RUNNER_TEMP/bibliografia-dom/node_modules" node tests/test_referencias_salvas.cjs
           node tests/test_service_worker.cjs
 
       - name: Configurar JDK 21
@@ -43,7 +44,7 @@ jobs:
       - name: Preparar arquivos web
         run: |
           mkdir -p www
-          cp index.html recursos.html pesquisa-bibliografica.html pesquisa-imagens.html pesquisa-historica.html percurso-servita.html aprofundamento-servita.html comunidades-servitas.html percurso-servita.pdf recursos-offline.js app.js styles.css manifest.webmanifest service-worker.js  icon-192.png icon-512.png icon.svg www/
+          cp index.html recursos.html pesquisa-bibliografica.html pesquisa-imagens.html pesquisa-historica.html referencias-salvas.html referencias-salvas.js percurso-servita.html aprofundamento-servita.html comunidades-servitas.html percurso-servita.pdf recursos-offline.js app.js styles.css manifest.webmanifest service-worker.js  icon-192.png icon-512.png icon.svg www/
           cp -R cartoes assets data www/
 
       - name: Adicionar Android
