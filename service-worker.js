@@ -1,4 +1,5 @@
-const CACHE = 'somos-servos-shell-v53';
+const CACHE_PREFIX = 'somos-servos-shell-';
+const CACHE = CACHE_PREFIX + 'v54';
 const APP_SHELL = [
   './',
   './index.html',
@@ -21,25 +22,51 @@ const APP_SHELL = [
 ];
 
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(APP_SHELL)));
+  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(APP_SHELL.map(path => new Request(path, { cache: 'reload' })))));
   self.skipWaiting();
 });
 
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key))))
+    caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith(CACHE_PREFIX) && key !== CACHE).map(key => caches.delete(key))))
   );
   self.clients.claim();
 });
 
+async function saveResponse(cache, request, response) {
+  if (response.ok) {
+    try { await cache.put(request, response.clone()); } catch { /* A leitura continua se o armazenamento estiver cheio. */ }
+  }
+  return response;
+}
+
+async function loadPage(request) {
+  const cache = await caches.open(CACHE);
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 5000);
+  try {
+    const response = await fetch(request, { signal: controller.signal, cache: 'no-cache' });
+    if (response.status >= 500) {
+      const cached = await cache.match(request);
+      if (cached) return cached;
+    }
+    return await saveResponse(cache, request, response);
+  } catch (error) {
+    const cached = await cache.match(request);
+    if (cached) return cached;
+    throw error;
+  } finally { clearTimeout(timer); }
+}
+
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin || event.request.method !== 'GET') return;
-  event.respondWith(
-    caches.match(event.request).then(cached => cached || fetch(event.request).then(response => {
-      const copy = response.clone();
-      caches.open(CACHE).then(cache => cache.put(event.request, copy));
-      return response;
-    }))
-  );
+  if (event.request.mode === 'navigate') {
+    event.respondWith(loadPage(event.request));
+    return;
+  }
+  event.respondWith(caches.open(CACHE).then(async cache => {
+    const cached = await cache.match(event.request);
+    return cached || saveResponse(cache, event.request, await fetch(event.request));
+  }));
 });

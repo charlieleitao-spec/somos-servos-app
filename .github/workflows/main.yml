@@ -29,6 +29,7 @@ jobs:
           NODE_PATH="$RUNNER_TEMP/bibliografia-dom/node_modules" node tests/test_bibliografia.cjs
           NODE_PATH="$RUNNER_TEMP/bibliografia-dom/node_modules" node tests/test_imagens.cjs
           NODE_PATH="$RUNNER_TEMP/bibliografia-dom/node_modules" node tests/test_historia.cjs
+          node tests/test_service_worker.cjs
 
       - name: Configurar JDK 21
         uses: actions/setup-java@v5
