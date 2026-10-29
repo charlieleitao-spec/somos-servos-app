@@ -11,7 +11,7 @@
 </main><footer><a href="./recursos.html">Voltar aos Recursos Servitas</a> · <a href="./pesquisa-bibliografica.html">Pesquisar livros e artigos</a></footer>
 <script>
 function imageText(value,max=700){if(typeof value!=='string')return '';return new DOMParser().parseFromString(value.slice(0,12000),'text/html').body.textContent.replace(/\s+/g,' ').trim().slice(0,max)}
-function trustedImageURL(value,kind){try{const u=new URL(value);if(u.protocol!=='https:'||u.username||u.password)return '';const allowed=kind==='image'?['upload.wikimedia.org']:kind==='license'?['creativecommons.org','www.creativecommons.org','commons.wikimedia.org','www.gnu.org','gnu.org']:['commons.wikimedia.org'];return allowed.includes(u.hostname)?u.href:''}catch{return ''}}
+function trustedImageURL(value,kind){try{const u=new URL(value);if(u.protocol!=='https:'||u.username||u.password)return '';const allowed=kind==='image'?['upload.wikimedia.org','thumb.wikimedia.org']:kind==='license'?['creativecommons.org','www.creativecommons.org','commons.wikimedia.org','www.gnu.org','gnu.org']:['commons.wikimedia.org'];return allowed.includes(u.hostname)?u.href:''}catch{return ''}}
 function normalizeImages(data){
  if(!data||data.error||(!data.query&&!data.batchcomplete)){
   // Empty searches may return only batchcomplete with an empty string.
