@@ -45,8 +45,12 @@
       "name": "CRB Nacional",
       "page": "https://crbnacional.org.br/noticias/",
       "feed": "https://crbnacional.org.br/feed/",
-      "updated_at": "2026-10-28T16:36:44.624433+00:00",
+      "updated_at": "2026-10-30T23:52:48.133801+00:00",
       "items": [
+        {
+          "title": "VI Congresso das Novas Gerações tem início em Sorocaba e reúne religiosas e religiosos de todo o Brasil",
+          "link": "https://crbnacional.org.br/vi-congresso-das-novas-geracoes-tem-inicio-em-sorocaba-e-reune-religiosas-e-religiosos-de-todo-o-brasil/"
+        },
         {
           "title": "CRB Espírito Santo celebra 35 anos com Assembleia Formativa e reflexão sobre os caminhos da Vida Religiosa Consagrada",
           "link": "https://crbnacional.org.br/crb-espirito-santo-celebra-35-anos-com-assembleia-formativa-e-reflexao-sobre-os-caminhos-da-vida-religiosa-consagrada/"
@@ -54,10 +58,6 @@
         {
           "title": "CRB Nacional participa de Congresso sobre pastoral escolar e universitária no Vaticano",
           "link": "https://crbnacional.org.br/crb-nacional-participa-de-congresso-sobre-pastoral-escolar-e-universitaria-no-vaticano/"
-        },
-        {
-          "title": "CRB Nacional publica carta sobre democracia e discernimento no segundo turno das eleições",
-          "link": "https://crbnacional.org.br/crb-nacional-publica-carta-sobre-democracia-e-discernimento-no-segundo-turno-das-eleicoes/"
         }
       ]
     }
