@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-10-30T13:05:56.926718+00:00",
+      "updated_at": "2026-10-30T19:27:27.821935+00:00",
       "items": [
         {
-          "title": "Leão XIV: a IA jamais deve decidir sobre a vida humana",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-10/papa-leao-xiv-audiencia-academia-vida-inteligencia-artificial.html"
+          "title": "Novo guia sobre saúde mental e acompanhamento pastoral é apresentado em Roma",
+          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-10/novo-guia-sobre-saude-mental-acompanhamento-pastoral.html"
         },
         {
-          "title": "Mediterrâneo: em Malta, a Igreja impulsiona a ação das mulheres",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-10/malta-mulheres-mediterraneo-oriente-medio-paz-igreja-umofc.html"
+          "title": "Do Vaticano, o pedido de regras e responsabilidade humana no uso da IA",
+          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-10/ia-vaticano-dialogo-cientistas-seguranca-responsabilidade-humana.html"
         },
         {
-          "title": "Novas garantias para os trabalhadores da Santa Sé",
-          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-10/rescriptum-papa-leao-garantias-trabalho-santa-se.html"
+          "title": "De Lisboa a Seul: conferência debate o papel da JMJ na construção da paz",
+          "link": "https://www.vaticannews.va/pt/igreja/news/2026-10/embaixada-lisboa-seul.html"
         }
       ]
     },
@@ -25,19 +25,19 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-10-30T13:05:56.778788+00:00",
+      "updated_at": "2026-10-30T19:27:27.650014+00:00",
       "items": [
         {
-          "title": "Solenidade de todos os santos",
-          "link": "https://www.cnbb.org.br/solenidade-de-todos-os-santos-9/"
+          "title": "III Seminário Nacional das Missões Populares reúne missionários e lideranças em Brasília até domingo",
+          "link": "https://www.cnbb.org.br/iii-seminario-nacional-missoes-populares/"
         },
         {
-          "title": "Jesus Cristo Reina!",
-          "link": "https://www.cnbb.org.br/jesus-cristo-reina/"
+          "title": "Solenidade de Todos os Santos: conheça cinco atitudes para viver a santidade no dia a dia",
+          "link": "https://www.cnbb.org.br/solenidade-de-todos-os-santos-conheca-cinco-atitudes-para-viver-a-santidade-no-dia-a-dia/"
         },
         {
-          "title": "Primazia do povo",
-          "link": "https://www.cnbb.org.br/primazia-do-povo/"
+          "title": "Dia de Finados recorda os entes queridos, renova a fé na vida eterna e reflete sobre o sentido da existência",
+          "link": "https://www.cnbb.org.br/dia-de-finados-recorda-os-entes-queridos-renova-a-fe-na-vida-eterna-e-reflete-sobre-o-sentido-da-existencia/"
         }
       ]
     },
