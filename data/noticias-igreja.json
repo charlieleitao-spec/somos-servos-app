@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-10-29T19:42:14.893300+00:00",
+      "updated_at": "2026-10-30T13:05:56.926718+00:00",
       "items": [
         {
-          "title": "Reaberto o Processo de apelação vaticano, próximas audiências em janeiro de 2027",
-          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-10/processo-apelacao-fundos-santa-se-audiencias-janeiro-2027.html"
+          "title": "Leão XIV: a IA jamais deve decidir sobre a vida humana",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-10/papa-leao-xiv-audiencia-academia-vida-inteligencia-artificial.html"
         },
         {
-          "title": "A coragem da Igreja no Haiti, que permanece apesar da violência",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-10/haiti-igreja-violencia-el-salvador-migrantes.html"
+          "title": "Mediterrâneo: em Malta, a Igreja impulsiona a ação das mulheres",
+          "link": "https://www.vaticannews.va/pt/igreja/news/2026-10/malta-mulheres-mediterraneo-oriente-medio-paz-igreja-umofc.html"
         },
         {
-          "title": "Irmã García: a presença do Papa dará novo impulso à Igreja no Peru",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-10/papa-leao-xiv-peru-franciscanas-imaculada-conceicao-preparacao.html"
+          "title": "Novas garantias para os trabalhadores da Santa Sé",
+          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-10/rescriptum-papa-leao-garantias-trabalho-santa-se.html"
         }
       ]
     },
@@ -25,19 +25,19 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-10-29T23:58:44.771753+00:00",
+      "updated_at": "2026-10-30T13:05:56.778788+00:00",
       "items": [
         {
-          "title": "Pontifícias Obras celebram missa em ação de graças pelo Mês Missionário e pelos 100 anos do Dia Mundial das Missões",
-          "link": "https://www.cnbb.org.br/mes-missa-pelos-100-anos-do-dia-mundial-das-missoes/"
+          "title": "Solenidade de todos os santos",
+          "link": "https://www.cnbb.org.br/solenidade-de-todos-os-santos-9/"
         },
         {
-          "title": "Banner lançamento Liturgia Semana Santa 2027",
-          "link": "https://www.cnbb.org.br/banner-lancamento-liturgia-semana-santa-2027/"
+          "title": "Jesus Cristo Reina!",
+          "link": "https://www.cnbb.org.br/jesus-cristo-reina/"
         },
         {
-          "title": "Dicastério oferece documento com sugestões para renovar o compromisso com a transmissão da fé",
-          "link": "https://www.cnbb.org.br/dicasterio-oferece-documento-com-sugestoes-para-renovar-o-compromisso-com-a-transmissao-da-fe/"
+          "title": "Primazia do povo",
+          "link": "https://www.cnbb.org.br/primazia-do-povo/"
         }
       ]
     },
