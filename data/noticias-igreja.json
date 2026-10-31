@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-10-31T12:43:26.978712+00:00",
+      "updated_at": "2026-10-31T18:37:51.359016+00:00",
       "items": [
         {
-          "title": "Papa pede transparência e reconstrução urgente na Itália, após 10 anos do terremoto",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-10/papa-leao-xiv-atingidos-eventos-sismicos-italia-31-outubro-26.html"
+          "title": "Ucrânia: concluída a evacuação da cidade de Oleshky",
+          "link": "https://www.vaticannews.va/pt/mundo/news/2026-10/ucrania-evacuacao-oleshky-concluida-2-mil-habitantes-outubro-26.html"
         },
         {
-          "title": "Esmoleiro do Papa termina visita ao povo ferido da Ucrânia",
-          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-10/esmoleiro-papa-leao-xiv-missao-ucrania-doacoes-visita-concluida.html"
+          "title": "“O amor de Cristo envia-nos”, tema do Dia Mundial das Missões 2027",
+          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-10/tema-dia-mundial-missoes-2027-amor-cristo-envia-nos-papa-leao.html"
         },
         {
-          "title": "Peru: arcebispo de Cusco, dom Richard Urrutia, morre aos 74 anos",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-10/arcebispo-cusco-peru-richard-urrutia-outubro-2026.html"
+          "title": "A partida da inclusão: estrelas da NBA em Roma com atletas do \"Special Olympics\"",
+          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-10/jogo-basquete-universitario-eua-inclusao-stars-nba-roma-2026.html"
         }
       ]
     },
@@ -45,19 +45,19 @@
       "name": "CRB Nacional",
       "page": "https://crbnacional.org.br/noticias/",
       "feed": "https://crbnacional.org.br/feed/",
-      "updated_at": "2026-10-30T23:52:48.133801+00:00",
+      "updated_at": "2026-10-31T18:37:51.587127+00:00",
       "items": [
+        {
+          "title": "Novas Gerações são chamadas a permanecer como sentinelas da esperança em tempos de travessia",
+          "link": "https://crbnacional.org.br/novas-geracoes-sao-chamadas-a-permanecer-como-sentinelas-da-esperanca-em-tempos-de-travessia/"
+        },
+        {
+          "title": "Segundo dia do VI Congresso Nacional das Novas Gerações inicia com oração e memória dos mártires",
+          "link": "https://crbnacional.org.br/segundo-dia-do-vi-congresso-nacional-das-novas-geracoes-inicia-com-oracao-e-memoria-dos-martires/"
+        },
         {
           "title": "VI Congresso das Novas Gerações tem início em Sorocaba e reúne religiosas e religiosos de todo o Brasil",
           "link": "https://crbnacional.org.br/vi-congresso-das-novas-geracoes-tem-inicio-em-sorocaba-e-reune-religiosas-e-religiosos-de-todo-o-brasil/"
-        },
-        {
-          "title": "CRB Espírito Santo celebra 35 anos com Assembleia Formativa e reflexão sobre os caminhos da Vida Religiosa Consagrada",
-          "link": "https://crbnacional.org.br/crb-espirito-santo-celebra-35-anos-com-assembleia-formativa-e-reflexao-sobre-os-caminhos-da-vida-religiosa-consagrada/"
-        },
-        {
-          "title": "CRB Nacional participa de Congresso sobre pastoral escolar e universitária no Vaticano",
-          "link": "https://crbnacional.org.br/crb-nacional-participa-de-congresso-sobre-pastoral-escolar-e-universitaria-no-vaticano/"
         }
       ]
     }
