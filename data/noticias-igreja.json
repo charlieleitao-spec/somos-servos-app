@@ -45,8 +45,12 @@
       "name": "CRB Nacional",
       "page": "https://crbnacional.org.br/noticias/",
       "feed": "https://crbnacional.org.br/feed/",
-      "updated_at": "2026-10-31T18:37:51.587127+00:00",
+      "updated_at": "2026-10-31T23:26:33.244877+00:00",
       "items": [
+        {
+          "title": "Caminhada mariana reúne religiosos em oração no encerramento do segundo dia do VI Congresso Nacional das Novas Gerações",
+          "link": "https://crbnacional.org.br/caminhada-mariana-reune-religiosos-em-oracao-no-encerramento-do-segundo-dia-do-vi-congresso-nacional-das-novas-geracoes/"
+        },
         {
           "title": "Novas Gerações são chamadas a permanecer como sentinelas da esperança em tempos de travessia",
           "link": "https://crbnacional.org.br/novas-geracoes-sao-chamadas-a-permanecer-como-sentinelas-da-esperanca-em-tempos-de-travessia/"
@@ -54,10 +58,6 @@
         {
           "title": "Segundo dia do VI Congresso Nacional das Novas Gerações inicia com oração e memória dos mártires",
           "link": "https://crbnacional.org.br/segundo-dia-do-vi-congresso-nacional-das-novas-geracoes-inicia-com-oracao-e-memoria-dos-martires/"
-        },
-        {
-          "title": "VI Congresso das Novas Gerações tem início em Sorocaba e reúne religiosas e religiosos de todo o Brasil",
-          "link": "https://crbnacional.org.br/vi-congresso-das-novas-geracoes-tem-inicio-em-sorocaba-e-reune-religiosas-e-religiosos-de-todo-o-brasil/"
         }
       ]
     }
