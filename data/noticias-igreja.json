@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-10-31T18:37:51.359016+00:00",
+      "updated_at": "2026-11-01T15:15:55.394346+00:00",
       "items": [
         {
-          "title": "Ucrânia: concluída a evacuação da cidade de Oleshky",
-          "link": "https://www.vaticannews.va/pt/mundo/news/2026-10/ucrania-evacuacao-oleshky-concluida-2-mil-habitantes-outubro-26.html"
+          "title": "Barricadas em Paris, incêndios em Tirana e milhares nas ruas na Alemanha e Portugal",
+          "link": "https://www.vaticannews.va/pt/mundo/news/2026-11/manifestacao-franca-albania-alemana-portugal-outubro-2026.html"
         },
         {
-          "title": "“O amor de Cristo envia-nos”, tema do Dia Mundial das Missões 2027",
-          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-10/tema-dia-mundial-missoes-2027-amor-cristo-envia-nos-papa-leao.html"
+          "title": "Leão aos atletas dos Jogos Olímpicos de Dakar: do esporte, sinais de esperança",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-atletas-jogos-olimpicos-dakar-africa-finados-2026.html"
         },
         {
-          "title": "A partida da inclusão: estrelas da NBA em Roma com atletas do \"Special Olympics\"",
-          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-10/jogo-basquete-universitario-eua-inclusao-stars-nba-roma-2026.html"
+          "title": "Leão XIV: do gesto de humanidade de Oleshky a iniciativas concretas de paz",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-angelus-tregua-oleshky-ucrania-paz-russia-2026.html"
         }
       ]
     },
@@ -45,8 +45,12 @@
       "name": "CRB Nacional",
       "page": "https://crbnacional.org.br/noticias/",
       "feed": "https://crbnacional.org.br/feed/",
-      "updated_at": "2026-10-31T23:26:33.244877+00:00",
+      "updated_at": "2026-11-01T15:15:55.142095+00:00",
       "items": [
+        {
+          "title": "VI Congresso das Novas Gerações encerra programação com foco na formação e nos desafios da missão",
+          "link": "https://crbnacional.org.br/vi-congresso-das-novas-geracoes-encerra-programacao-com-foco-na-formacao-e-nos-desafios-da-missao/"
+        },
         {
           "title": "Caminhada mariana reúne religiosos em oração no encerramento do segundo dia do VI Congresso Nacional das Novas Gerações",
           "link": "https://crbnacional.org.br/caminhada-mariana-reune-religiosos-em-oracao-no-encerramento-do-segundo-dia-do-vi-congresso-nacional-das-novas-geracoes/"
@@ -54,10 +58,6 @@
         {
           "title": "Novas Gerações são chamadas a permanecer como sentinelas da esperança em tempos de travessia",
           "link": "https://crbnacional.org.br/novas-geracoes-sao-chamadas-a-permanecer-como-sentinelas-da-esperanca-em-tempos-de-travessia/"
-        },
-        {
-          "title": "Segundo dia do VI Congresso Nacional das Novas Gerações inicia com oração e memória dos mártires",
-          "link": "https://crbnacional.org.br/segundo-dia-do-vi-congresso-nacional-das-novas-geracoes-inicia-com-oracao-e-memoria-dos-martires/"
         }
       ]
     }
