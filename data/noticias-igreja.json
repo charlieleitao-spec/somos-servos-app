@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-03T12:00:04.915481+00:00",
+      "updated_at": "2026-11-03T19:34:17.428308+00:00",
       "items": [
         {
-          "title": "Leão e os jovens: recordar Espanha e França abre o coração para a América Latina",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/papa-leao-franca-jovens-mudancas-climaticas-america-latina.html"
+          "title": "Migrantes: nova tragédia no Atlântico",
+          "link": "https://www.vaticannews.va/pt/mundo/news/2026-11/migrantes-atlantico-ilhas-canarias-tragedia-mortos-europa-africa.html"
         },
         {
-          "title": "Papa em mensagem aos jovens da JMJ: a coragem nasce da presença de Cristo",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-mensagem-jmj-jornada-mundial-juventude-coragem-27.html"
+          "title": "Jordânia, Twal: cidadania compartilhada é antídoto contra o terrorismo e as divisões",
+          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/jordania-bispo-twal-cidadania-religiao-terrorismo-ataque.html"
         },
         {
-          "title": "Dom Inácio Saúre exorta seminaristas à humildade e ao serviço dos outros",
-          "link": "https://www.vaticannews.va/pt/africa/news/2026-11/mocambique-igreja-seminario-humildade-vocacoes-anuncio.html"
+          "title": "Igreja no Uruguai: o desafio pastoral no país mais laico da America Latina",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/uruguai-igreja-catolica-dados-estatisticos.html"
         }
       ]
     },
@@ -25,19 +25,19 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-10-30T19:27:27.650014+00:00",
+      "updated_at": "2026-11-03T19:34:18.251511+00:00",
       "items": [
         {
-          "title": "III Seminário Nacional das Missões Populares reúne missionários e lideranças em Brasília até domingo",
-          "link": "https://www.cnbb.org.br/iii-seminario-nacional-missoes-populares/"
+          "title": "Seminário no Regional Oeste 2 aponta caminhos para transformar a reflexão sobre a infância em compromisso concreto",
+          "link": "https://www.cnbb.org.br/seminario-no-regional-oeste-2-aponta-caminhos-para-transformar-a-reflexao-sobre-a-infancia-em-compromisso-concreto/"
         },
         {
-          "title": "Solenidade de Todos os Santos: conheça cinco atitudes para viver a santidade no dia a dia",
-          "link": "https://www.cnbb.org.br/solenidade-de-todos-os-santos-conheca-cinco-atitudes-para-viver-a-santidade-no-dia-a-dia/"
+          "title": "Edições CNBB lança texto-base da Campanha da Fraternidade 2027 nesta quarta-feira, às 16h",
+          "link": "https://www.cnbb.org.br/lancamento-texto-base-campanha-fraternidade-2027/"
         },
         {
-          "title": "Dia de Finados recorda os entes queridos, renova a fé na vida eterna e reflete sobre o sentido da existência",
-          "link": "https://www.cnbb.org.br/dia-de-finados-recorda-os-entes-queridos-renova-a-fe-na-vida-eterna-e-reflete-sobre-o-sentido-da-existencia/"
+          "title": "Ecologia integral e culto espiritual",
+          "link": "https://www.cnbb.org.br/ecologia-integral-e-culto-espiritual/"
         }
       ]
     },
