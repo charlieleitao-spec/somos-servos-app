@@ -5,8 +5,12 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-02T20:24:19.174760+00:00",
+      "updated_at": "2026-11-03T03:29:35.303248+00:00",
       "items": [
+        {
+          "title": "Uruguai: a expectativa pela chegada do Papa Leão XIV",
+          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-11/uruguai-expectativa-chegada-papa-leao-xiv.html"
+        },
         {
           "title": "Cardeal Barreto: continuidade entre Francisco e Leão XIV é um dom do Espírito Santo",
           "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/cardeal-barreto-continuidade-papa-francisco-leao-xiv-peru-amazon.html"
@@ -14,10 +18,6 @@
         {
           "title": "Cada vez mais jovens candidatos às honras dos altares",
           "link": "https://www.vaticannews.va/pt/vaticano/news/2026-11/santos-beatos-jovens-candodatos-honra-altares.html"
-        },
-        {
-          "title": "Manuel de los Ríos, o escravo que encontrou a liberdade a serviço de Maria",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/manuel-de-los-rios-escravo-liberdade-negro-manuel-cabo-verde-26.html"
         }
       ]
     },
