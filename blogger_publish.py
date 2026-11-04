@@ -77,6 +77,11 @@ def existing_title(blog_id, token, title):
 
 
 def main():
+    if os.environ.get('POST_TITLE') == '__SERIE_MARIA_VRC_20261104__':
+        if os.environ.get('POST_CONTENT') != 'PUBLICAR_OITO_ORIGINAIS_APROVADOS':
+            raise RuntimeError('Confirmação do manifesto ausente.')
+        from blogger_publish_series import main as publish_series
+        return publish_series()
     title = required("POST_TITLE").strip()
     content = required("POST_CONTENT")
     labels = [x.strip() for x in os.environ.get("POST_LABELS", "").split(",") if x.strip()]
@@ -116,3 +121,4 @@ if __name__ == "__main__":
     except Exception as exc:
         print(f"Falha: {exc}", file=sys.stderr)
         sys.exit(1)
+
