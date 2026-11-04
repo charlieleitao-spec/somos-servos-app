@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Publica uma postagem no Blogger sem duplicar título e confirma a leitura de volta."""
 import json
+from pathlib import Path
 import os
 import sys
 import urllib.error
@@ -61,11 +62,11 @@ def find_blog(token):
 def existing_title(blog_id, token, title):
     next_token = None
     while True:
-        query = {"maxResults": "500", "fetchBodies": "false"}
+        query = {"maxResults": "500", "fetchBodies": "false", "status": ["live", "draft", "scheduled"]}
         if next_token:
             query["pageToken"] = next_token
         url = (f"https://www.googleapis.com/blogger/v3/blogs/{blog_id}/posts/?"
-               f"{urllib.parse.urlencode(query)}")
+               f"{urllib.parse.urlencode(query, doseq=True)}")
         page = request_json(url, token=token, operation="Consulta de postagens")
         found = next((p for p in page.get("items", [])
                       if (p.get("title") or "").strip().casefold() == title.strip().casefold()), None)
@@ -84,6 +85,8 @@ def main():
         return publish_series()
     title = required("POST_TITLE").strip()
     content = required("POST_CONTENT")
+    if title == "Com Maria, no caminho da Vida Religiosa Consagrada" and content == "__APRESENTACAO_APROVADA_20261104__":
+        content = Path("editorial/serie-maria-apresentacao-20261104.html").read_text()
     labels = [x.strip() for x in os.environ.get("POST_LABELS", "").split(",") if x.strip()]
     token = get_access_token()
     blog = find_blog(token)
@@ -108,7 +111,7 @@ def main():
     verified = request_json(
         f"https://www.googleapis.com/blogger/v3/blogs/{blog['id']}/posts/{post_id}?fetchBodies=true",
         token=token, operation="Verificação da postagem")
-    if verified.get("id") != post_id or verified.get("title") != title or not verified.get("url"):
+    if verified.get("id") != post_id or verified.get("title") != title or verified.get("content") != content or not verified.get("url"):
         raise RuntimeError("A leitura de volta da API não confirmou ID, título e URL.")
     print(f"Publicado e confirmado pela API: {verified.get('title')}")
     print(f"URL: {verified.get('url')}")
