@@ -60,13 +60,13 @@ def main():
     # Toda a pré-validação ocorre antes da primeira mutação.
     for item in manifest:
         url = prefix + item['id']
-        current = request_json(url + '?fetchBodies=true', token=token)
+        current = request_json(url + '?fetchBodies=true&view=ADMIN', token=token)
         pending.append((item, current, prepare(current, item), url))
     result = []
     for item, current, updated, url in pending:
         if updated is not None:
             # Releitura imediatamente anterior à escrita e precondição ETag.
-            fresh = request_json(url + '?fetchBodies=true', token=token)
+            fresh = request_json(url + '?fetchBodies=true&view=ADMIN', token=token)
             updated = prepare(fresh, item)
             current = fresh
             if updated is not None:
@@ -84,7 +84,7 @@ def main():
                 except urllib.error.HTTPError as exc:
                     raise RuntimeError(f'Correção respondeu HTTP {exc.code}; sem repetição automática.') from None
         expected = updated if updated is not None else current['content']
-        checked = request_json(url + '?fetchBodies=true', token=token)
+        checked = request_json(url + '?fetchBodies=true&view=ADMIN', token=token)
         verify(current, checked, expected)
         record = {'id': item['id'], 'title': item['title'], 'url': checked['url'],
                   'sha256': digest(expected), 'result': 'corrigido' if updated is not None else 'já conferido'}
