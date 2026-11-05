@@ -46,7 +46,7 @@ def verify(current, checked, expected):
 
 
 def main():
-    if os.environ.get('POST_CONTENT') != 'CORRIGIR_CINCO_TRECHOS_EXISTENTES':
+    if os.environ.get('POST_CONTENT') not in ('CORRIGIR_CINCO_TRECHOS_EXISTENTES', 'LER_CINCO_ORIGINAIS'):
         raise RuntimeError('Confirmação do manifesto ausente.')
     manifest = json.loads(MANIFEST.read_text())
     if len(manifest) != 5 or len({x['id'] for x in manifest}) != 5:
@@ -56,6 +56,13 @@ def main():
     if urlparse(blog['url']).hostname != 'somosservos.blogspot.com':
         raise RuntimeError('Host do blog divergente.')
     prefix = f"https://www.googleapis.com/blogger/v3/blogs/{blog['id']}/posts/"
+    if os.environ.get('POST_CONTENT') == 'LER_CINCO_ORIGINAIS':
+        for item in manifest:
+            current = request_json(prefix + item['id'] + '?fetchBodies=true&view=ADMIN', token=token)
+            public = {key: current.get(key) for key in ('id', 'title', 'url', 'content', 'status', 'published', 'labels')}
+            print('PUBLIC_ORIGINAL_JSON:' + json.dumps(public, ensure_ascii=False))
+        print('Leitura pública concluída; nenhuma escrita.')
+        return
     pending = []
     # Toda a pré-validação ocorre antes da primeira mutação.
     for item in manifest:
