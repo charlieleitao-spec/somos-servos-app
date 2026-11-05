@@ -6,8 +6,8 @@
     "url": "https://somosservos.blogspot.com/2026/10/mae-do-salvador-rogai-por-nos.html",
     "before": "Escutem Ele.",
     "after": "Escutai-o.",
-    "before_sha256": "af7c7b20c1b955d975934072478115ca6b86afff09ee2f835ce8d9232334a83f",
-    "after_sha256": "d95fefed1873453d4fa6cde65b31cdf4fec0d130cc003316b246ac334d1e7a5e"
+    "before_sha256": "262d1da47775ce80d4b07b64cbcbe9ee01e2f9069ac3cea60c47ed7e3fdcf382",
+    "after_sha256": "7223fb0801c40ad95ae1d154c8d5cb68e653fe363d52bfa5e24f66ab5771f648"
   },
   {
     "order": 23,
@@ -16,8 +16,8 @@
     "url": "https://somosservos.blogspot.com/2026/10/virgem-fiel-rogai-por-nos.html",
     "before": "Não retira facilmente sua promessa.",
     "after": "Não retira sua promessa.",
-    "before_sha256": "0ba54254cabe1c6f8edc2bc0487591fd7f7b4eb08c81672adc412cc266b92bf7",
-    "after_sha256": "4d1f201319f9a213af9c17a5b0ff5bc74c2e9d511c6c71332bf3df3d1e529158"
+    "before_sha256": "8bee6e59c370c282f36a4921e909ba8c3cbe5488cc510f7225cc1348ab846190",
+    "after_sha256": "14d65c3d444e6635fc56eb6d899d16f6c287730419363aaf2c45397d2e51d767"
   },
   {
     "order": 42,
@@ -26,7 +26,7 @@
     "url": "https://somosservos.blogspot.com/2026/10/rainha-dos-anjos-rogai-por-nos.html",
     "before": "O anjo anuncia que Isabel precisa de ajuda.",
     "after": "O anjo anuncia a gravidez de Isabel.",
-    "before_sha256": "84099e2b97c1772bb99638a7df80f78924b3e14b3f1c705e852d82792846e906",
-    "after_sha256": "2ef58581dcad8a5dc3f5b3fa1a0e87115e7daf212bb6e50b65a33147be84fe96"
+    "before_sha256": "d2cd2c50363e8bea503ccb19e7ce616c27468bfb29b81c37c39d2d5c09e49826",
+    "after_sha256": "4fdbaa945eedfa36334d03ea719fc43900144c1968bb94066947a3d24c98cbce"
   }
 ]
