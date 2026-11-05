@@ -1,33 +1,13 @@
 [
   {
-    "order": 1,
-    "id": "7765280046180460464",
-    "title": "Santa Maria, rogai por nós",
-    "url": "https://somosservos.blogspot.com/2026/10/santa-maria-rogai-por-nos.html",
-    "before": "São apenas quatro palavras.",
-    "after": "São apenas cinco palavras.",
-    "before_sha256": "906a6239d263769f239965dc9a0266d111025a130ec4190267f2d012c5af588b",
-    "after_sha256": "c129d165966d76ebf184858ed9a6f256b9c1b08dae5e9708b40bb66a01046c65"
-  },
-  {
-    "order": 8,
-    "id": "1422426317263886560",
-    "title": "Mãe da Esperança, rogai por nós",
-    "url": "https://somosservos.blogspot.com/2026/10/mae-da-esperanca-rogai-por-nos.html",
-    "before": "<h4>Oração</h4>",
-    "after": "<h4>Oração breve</h4>",
-    "before_sha256": "091fc06eb023132dfe7617f591abaa3f50373a30912761adc615b31f91b73f99",
-    "after_sha256": "18d989ae6cbb8ea12a366cf26819d971730c7c51a2625e862aab36b4da84c833"
-  },
-  {
     "order": 17,
     "id": "2532365953416469036",
     "title": "Mãe do Salvador, rogai por nós",
     "url": "https://somosservos.blogspot.com/2026/10/mae-do-salvador-rogai-por-nos.html",
     "before": "Escutem Ele.",
     "after": "Escutai-o.",
-    "before_sha256": "a26d0de9c84cb7fbd5bbd0fae9b6fbe4fed5e461a76faad1e0d2e67de78cb1e2",
-    "after_sha256": "0730a2c1417e4ae06092742a8808571225ef97306692fb400646a4cec75a03b6"
+    "before_sha256": "af7c7b20c1b955d975934072478115ca6b86afff09ee2f835ce8d9232334a83f",
+    "after_sha256": "d95fefed1873453d4fa6cde65b31cdf4fec0d130cc003316b246ac334d1e7a5e"
   },
   {
     "order": 23,
@@ -36,8 +16,8 @@
     "url": "https://somosservos.blogspot.com/2026/10/virgem-fiel-rogai-por-nos.html",
     "before": "Não retira facilmente sua promessa.",
     "after": "Não retira sua promessa.",
-    "before_sha256": "182af1d28dd34d8777aee8114b18ac926d25c77a691c50fe6f5826dd1f9f3592",
-    "after_sha256": "e63ad2857290738e8a73826bb4ac7f9ea969e871e4b3dc34fe3a3f122cb030b7"
+    "before_sha256": "0ba54254cabe1c6f8edc2bc0487591fd7f7b4eb08c81672adc412cc266b92bf7",
+    "after_sha256": "4d1f201319f9a213af9c17a5b0ff5bc74c2e9d511c6c71332bf3df3d1e529158"
   },
   {
     "order": 42,
@@ -46,7 +26,7 @@
     "url": "https://somosservos.blogspot.com/2026/10/rainha-dos-anjos-rogai-por-nos.html",
     "before": "O anjo anuncia que Isabel precisa de ajuda.",
     "after": "O anjo anuncia a gravidez de Isabel.",
-    "before_sha256": "86c4c07fb57deaa45af377fd419bac688114d5836a513f648374683fa3b18368",
-    "after_sha256": "f0daf8d6ea0e8eee444de4f8670ebb2ec8466b9beac5f7d0a38cb13847050d74"
+    "before_sha256": "84099e2b97c1772bb99638a7df80f78924b3e14b3f1c705e852d82792846e906",
+    "after_sha256": "2ef58581dcad8a5dc3f5b3fa1a0e87115e7daf212bb6e50b65a33147be84fe96"
   }
 ]
