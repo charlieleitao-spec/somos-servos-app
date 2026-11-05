@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Aplica somente cinco correções pontuais a posts LIVE existentes, sem criar posts."""
+"""Aplica somente três correções pontuais a posts LIVE existentes, sem criar posts."""
 import hashlib
 import json
 import os
@@ -46,11 +46,11 @@ def verify(current, checked, expected):
 
 
 def main():
-    if os.environ.get('POST_CONTENT') not in ('CORRIGIR_CINCO_TRECHOS_EXISTENTES', 'LER_CINCO_ORIGINAIS'):
+    if os.environ.get('POST_CONTENT') not in ('CORRIGIR_TRES_TRECHOS_EXISTENTES', 'LER_CINCO_ORIGINAIS'):
         raise RuntimeError('Confirmação do manifesto ausente.')
     manifest = json.loads(MANIFEST.read_text())
-    if len(manifest) != 5 or len({x['id'] for x in manifest}) != 5:
-        raise RuntimeError('Manifesto deve conter cinco IDs distintos.')
+    if len(manifest) != 3 or len({x['id'] for x in manifest}) != 3:
+        raise RuntimeError('Manifesto deve conter três IDs distintos.')
     token = get_access_token()
     blog = find_blog(token)
     if urlparse(blog['url']).hostname != 'somosservos.blogspot.com':
@@ -97,7 +97,7 @@ def main():
                   'sha256': digest(expected), 'result': 'corrigido' if updated is not None else 'já conferido'}
         result.append(record)
         print(json.dumps(record, ensure_ascii=False))
-    print('Confirmado: cinco posts existentes; nenhum post criado; metadados preservados.')
+    print('Confirmado: três posts existentes; nenhum post criado; metadados preservados.')
     Path('ladainhas-correcoes-result.json').write_text(json.dumps(result, ensure_ascii=False, indent=2))
 
 
