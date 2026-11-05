@@ -78,6 +78,13 @@ def existing_title(blog_id, token, title):
 
 
 def main():
+    if os.environ.get('POST_TITLE') != '__REVISAO_LADAINHAS_20261104__':
+        raise RuntimeError('Esta branch permite somente corrigir cinco posts existentes.')
+    from blogger_review_litanies import main as review_litanies
+    return review_litanies()
+
+
+def legacy_main_not_dispatched():
     if os.environ.get('POST_TITLE') == '__SERIE_MARIA_VRC_20261104__':
         if os.environ.get('POST_CONTENT') != 'PUBLICAR_OITO_ORIGINAIS_APROVADOS':
             raise RuntimeError('Confirmação do manifesto ausente.')
