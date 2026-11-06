@@ -5,8 +5,12 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-05T23:41:22.575393+00:00",
+      "updated_at": "2026-11-06T06:56:56.002811+00:00",
       "items": [
+        {
+          "title": "Leão XIV parte para a América Latina: viagem de escuta, proximidade e unidade",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-viagem-apostolica-america-latina-partida-fiumicino.html"
+        },
         {
           "title": "A chegada do Santo Padre: dom Tróccoli, momento de esperança e fé",
           "link": "https://www.vaticannews.va/pt/papa/news/2026-11/chegada-santo-padre-dom-troccoli-momento-esperanca-fe.html"
@@ -14,10 +18,6 @@
         {
           "title": "Dom Alfonso Bauer: esperamos que o Papa traga renovação para nossa fé",
           "link": "https://www.vaticannews.va/pt/papa/news/2026-11/dom-alfonso-bauer-esperamos-papa-traga-renovacao.html"
-        },
-        {
-          "title": "Doutorado em Direito Canônico através de Goiânia",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/doutorado-em-direito-canonico-atraves-de-goiania.html"
         }
       ]
     },
