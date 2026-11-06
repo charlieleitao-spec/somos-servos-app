@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-06T06:56:56.002811+00:00",
+      "updated_at": "2026-11-06T15:58:57.429049+00:00",
       "items": [
         {
-          "title": "Leão XIV parte para a América Latina: viagem de escuta, proximidade e unidade",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-viagem-apostolica-america-latina-partida-fiumicino.html"
+          "title": "Moçambique. Seminário alerta para o uso inadequado da IA na formação sacerdotal",
+          "link": "https://www.vaticannews.va/pt/africa/news/2026-11/igreja-seminarios-jovens-vocacoes-ia-magnifica-humanitas-papa.html"
         },
         {
-          "title": "A chegada do Santo Padre: dom Tróccoli, momento de esperança e fé",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/chegada-santo-padre-dom-troccoli-momento-esperanca-fe.html"
+          "title": "A visita histórica do Papa Leão XIV a Casavalle",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/visita-historica-papa-leao-xiv-casavalle.html"
         },
         {
-          "title": "Dom Alfonso Bauer: esperamos que o Papa traga renovação para nossa fé",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/dom-alfonso-bauer-esperamos-papa-traga-renovacao.html"
+          "title": "A segurança do Papa na sua viagem ao Uruguai",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/seguranca-papa-viagem-uruguai.html"
         }
       ]
     },
@@ -25,19 +25,19 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-11-05T23:41:23.070626+00:00",
+      "updated_at": "2026-11-06T15:58:56.939756+00:00",
       "items": [
         {
-          "title": "A visita do Papa Leão XIV ao Uruguai, Argentina e Peru de 6 a 17 de novembro: uma viagem de escuta e unidade",
-          "link": "https://www.cnbb.org.br/a-visita-do-papa-leao-xiv-a-america-latina/"
+          "title": "CNBB promove live para partilha de experiências de recepção das Diretrizes da Ação Evangelizadora e do Sínodo sobre Sinodalidade",
+          "link": "https://www.cnbb.org.br/live-partilha-experiencias-recepcao-diretrizes-sinodo/"
         },
         {
-          "title": "Ficai vigiando",
-          "link": "https://www.cnbb.org.br/ficai-vigiando-2/"
+          "title": "Comissão Sociotransformadora da CNBB disponibiliza material de apoio para a Jornada Mundial dos Pobres",
+          "link": "https://www.cnbb.org.br/jmj-2026-tem-o-lema-a-igreja-catolica-no-brasil-celebra-de-08-a-15-de-novembro-a-x-jornada-mundial-dos-pobres-10a-jmp-que-traz-o-lema-biblico-o-senhor-e-o-refugio-do-pobre-cf/"
         },
         {
-          "title": "O amor como experiência de plenitude",
-          "link": "https://www.cnbb.org.br/o-amor-como-experiencia-de-plenitude/"
+          "title": "Texto-base disponível: CF 2027 quer gerar grande mutirão para cuidar, proteger e amar nossas crianças",
+          "link": "https://www.cnbb.org.br/cf-2027-mutirao-cuidar-proteger-criancas/"
         }
       ]
     },
