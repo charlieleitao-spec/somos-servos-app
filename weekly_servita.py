@@ -157,12 +157,12 @@ def find_duplicate(posts, marker):
                  if marker in (post.get("content") or "")), None)
 
 
-def create_post(title, content, marker, token, blog_id):
+def create_post(title, content, marker, token, blog_id, draft=True):
     payload = json.dumps({"kind": "blogger#post", "title": title, "content": content,
                           "labels": LABELS}, ensure_ascii=False).encode("utf-8")
-    # Os resumos semanais permanecem como rascunhos para conferência.
-    url = f"https://www.googleapis.com/blogger/v3/blogs/{blog_id}/posts/?isDraft=true"
-    created = json_request(url, "POST", payload, token, "application/json; charset=UTF-8", "Criação do rascunho semanal")
+    state = "DRAFT" if draft else "LIVE"
+    url = f"https://www.googleapis.com/blogger/v3/blogs/{blog_id}/posts/?isDraft={str(draft).lower()}"
+    created = json_request(url, "POST", payload, token, "application/json; charset=UTF-8", "Criação do resumo semanal")
     post_id = created.get("id")
     if not post_id:
         raise RuntimeError("A API não devolveu o identificador da publicação.")
@@ -173,9 +173,9 @@ def create_post(title, content, marker, token, blog_id):
         raise RuntimeError("A leitura de volta não confirmou título e identificador.")
     if marker not in (verified.get("content") or ""):
         raise RuntimeError("A leitura de volta não confirmou o marcador de origem.")
-    if str(verified.get("status", "")).upper() != "DRAFT":
-        raise RuntimeError("A leitura de volta não confirmou o estado de rascunho.")
-    print(f"Rascunho confirmado pela API: {verified.get('title')} (ID {post_id})")
+    if str(verified.get("status", "")).upper() != state:
+        raise RuntimeError(f"A leitura de volta não confirmou o estado {state}.")
+    print(f"Resumo {state} confirmado pela API: {verified.get('title')} (ID {post_id})")
 
 
 def main(argv=None):
@@ -189,7 +189,8 @@ def main(argv=None):
     santoral = load_santoral(args.santoral)
     title = title_for(start)
     content = make_content(santoral, start, args.cards_dir)
-    dry_run = os.environ.get("WEEKLY_DRY_RUN", "false").strip().lower() == "true"
+    dry_run = os.environ.get("WEEKLY_DRY_RUN", "true").strip().lower() == "true"
+    draft = os.environ.get("WEEKLY_DRAFT", "true").strip().lower() == "true"
     if dry_run:
         print(f"Prévia semanal: {title}")
         print(f"Marcador: {LABELS[0]}")
@@ -203,7 +204,7 @@ def main(argv=None):
     if duplicate:
         print(f"Já existe postagem correspondente (ID {duplicate.get('id')}); nenhuma duplicata criada.")
         return
-    create_post(title, content, source_marker(start), token, blog["id"])
+    create_post(title, content, source_marker(start), token, blog["id"], draft=draft)
 
 
 if __name__ == "__main__":
@@ -212,3 +213,4 @@ if __name__ == "__main__":
     except Exception as exc:
         print(f"Falha: {exc}", file=sys.stderr)
         sys.exit(1)
+
