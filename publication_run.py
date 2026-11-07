@@ -81,8 +81,10 @@ def run(kind):
     result = dict(data=dt.datetime.now(ZoneInfo('America/Sao_Paulo')).isoformat(timespec='seconds'),
                   tipo=kind, titulo='', id='', url='', status='erro', erro='')
     module = importlib.import_module('blogger_daily_publish' if kind == 'diário' else 'weekly_servita')
-    dry = os.getenv('DRY_RUN' if kind == 'diário' else 'WEEKLY_DRY_RUN', 'false').lower() == 'true'
-    draft = kind == 'semanal' or os.getenv('DRAFT', 'false').lower() == 'true'
+    dry = os.getenv('DRY_RUN' if kind == 'diário' else 'WEEKLY_DRY_RUN',
+                    'false' if kind == 'diário' else 'true').lower() == 'true'
+    draft = os.getenv('DRAFT' if kind == 'diário' else 'WEEKLY_DRAFT',
+                      'false' if kind == 'diário' else 'true').lower() == 'true'
     created = False
     duplicate = False
     original_find = module.find_duplicate
@@ -151,3 +153,4 @@ if __name__ == '__main__':
     if len(sys.argv) != 2 or sys.argv[1] not in ('diário', 'semanal'):
         sys.exit('Uso: publication_run.py diário|semanal')
     sys.exit(run(sys.argv[1]))
+

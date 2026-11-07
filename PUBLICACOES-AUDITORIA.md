@@ -1,5 +1,17 @@
 # Auditoria do publicador Blogger
 
+## Fluxo semanal corrigido — 6 de novembro de 2026
+
+- Domingo às 11:00 UTC (08:00 de Curitiba): `WEEKLY_DRY_RUN=false` e `WEEKLY_DRAFT=false`; cria LIVE, confirma estado pela API e exige HTTP 200 na URL pública antes de registrar sucesso.
+- Execução manual padrão: somente prévia; `create_weekly_draft=true` continua sendo opção explícita de rascunho, sem publicação direta.
+- Execução local sem parâmetros de modo: prévia por padrão.
+- Preserva busca paginada por marcador em posts LIVE, DRAFT e SCHEDULED. Um rascunho existente bloqueia nova criação; não é promovido automaticamente.
+- O workflow executa 16 testes com serviços externos simulados antes dos publicadores. Sucesso nesses testes não comprova uma publicação real no Blogger.
+- Conteúdo semanal preservado: santoral, cartões existentes, Sábado Mariano e Hoje na Família Servita. Cartões continuam sujeitos à disponibilidade pública das imagens.
+
+Os registros abaixo são históricos; a política anterior de somente rascunhos foi substituída pelo fluxo descrito acima.
+
+
 Mudança limitada à execução e à auditoria. Os dois publicadores originais, seu HTML,
 o calendário, os graus, as datas e as 32 páginas não foram alterados.
 `publication_run.py` envolve os publicadores existentes e mantém suas funções de
@@ -98,3 +110,4 @@ renovação do token, publicação real com HTTP 200 e criação real de rascunh
 O semanal foi testado localmente com mocks; não foi disparado nesta execução real.
 Não houve merge nem alteração de Secrets. O próximo passo do titular é conferir
 Público-alvo no projeto OAuth; em seguida, renovar o token seguindo as etapas acima.
+
