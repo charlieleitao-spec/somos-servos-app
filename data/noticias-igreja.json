@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-06T21:35:16.398294+00:00",
+      "updated_at": "2026-11-07T01:59:28.992016+00:00",
       "items": [
+        {
+          "title": "Leão XIV pede oração e jejum pelo aumento das vocações sacerdotais e religiosas",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-uruguai-encontro-clero-catedral-imaculada-felipe-tiago.html"
+        },
+        {
+          "title": "Papa: \"Vim ao Uruguai para me aproximar, com carinho, de todo o povo\"",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-discurso-autoridades-uruguai-viagem-apostolica.html"
+        },
         {
           "title": "Papa: nunca tive dúvidas sobre a viagem à América do Sul, estou feliz por realizá-la",
           "link": "https://www.vaticannews.va/pt/papa/news/2026-11/palavras-do-papa-no-aviao-roma-montevideu.html"
-        },
-        {
-          "title": "Em viagem à América do Sul, Papa envia telegrama a 6 países, inclusive ao Brasil",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-telegramas-viagem-apostolica-roma-montevideu-26.html"
-        },
-        {
-          "title": "Papa Leão XIV chega ao Uruguai e inicia sua 6ª Viagem Apostólica",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-chega-ao-uruguai-e-inicia-6-viagem-apostolica.html"
         }
       ]
     },
