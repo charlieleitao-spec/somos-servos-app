@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-07T21:57:14.684882+00:00",
+      "updated_at": "2026-11-08T01:28:51.851619+00:00",
       "items": [
+        {
+          "title": "Papa: um mundo sem Deus corre o risco de deixar o homem sem lugar",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-vigilia-de-oracao-uruguai-um-mundo-sem-deus.html"
+        },
+        {
+          "title": "Papa se reúne com universitários: colocar a pessoa antes do algoritmo",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-encontro-mundo-educacao-uruguai-viagem.html"
+        },
         {
           "title": "Leão XIV no Uruguai: a indiferença não é cristã!",
           "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-realidade-social-casavalle-uruguai-viagem.html"
-        },
-        {
-          "title": "Disparos em Cracóvia. Igreja: “O ódio não terá a última palavra”",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/polonia-cracovia-disparos-mortos-feridos-igreja-tragedia.html"
-        },
-        {
-          "title": "Guatemala: frei Monasterio é Beato. Cardeal Robles Ortega: que seu exemplo inspire a viver na solidariedade",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/guatemala-beatificacao-frei-monasterio-homilia-robles-ortega.html"
         }
       ]
     },
