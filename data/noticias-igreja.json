@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-08T01:28:51.851619+00:00",
+      "updated_at": "2026-11-08T16:42:52.221764+00:00",
       "items": [
         {
-          "title": "Papa: um mundo sem Deus corre o risco de deixar o homem sem lugar",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-vigilia-de-oracao-uruguai-um-mundo-sem-deus.html"
+          "title": "O pesar de Leão XIV pelas vítimas do atentado em Cracóvia",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/pesar-de-leao-xiv-pelas-vitimas-do-atentado-em-cracovia.html"
         },
         {
-          "title": "Papa se reúne com universitários: colocar a pessoa antes do algoritmo",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-encontro-mundo-educacao-uruguai-viagem.html"
+          "title": "Papa aos cristãos uruguaios: não se cansem de transmitir a fé",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-homilia-missa-santuario-virgem-trinta-tres-uruguai-maria.html"
         },
         {
-          "title": "Leão XIV no Uruguai: a indiferença não é cristã!",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-realidade-social-casavalle-uruguai-viagem.html"
+          "title": "Em vídeo, o segundo dia do Papa no Uruguai",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/em-video-o-segundo-dia-do-papa-no-uruguai.html"
         }
       ]
     },
