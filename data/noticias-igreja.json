@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-09T09:54:18.832532+00:00",
+      "updated_at": "2026-11-09T20:49:52.925845+00:00",
       "items": [
         {
-          "title": "COP31 começa na Turquia: transformar compromissos climáticos em ações concretas",
-          "link": "https://www.vaticannews.va/pt/mundo/news/2026-11/cop31-turquia-desafio-transformar-compromissos-acoes-concretas.html"
+          "title": "Buenos Aires, a alegria de dois milhões e meio de fiéis na Missa pelas famílias de Leão XIV",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-missa-buenos-aires-familia-argentina-dois-milhoes-meio.html"
         },
         {
-          "title": "Evangelho de 9 de novembro",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/evangelho-09-novembro-2026-dom-mario-spaki.html"
+          "title": "Em Buenos Aires, Leão XIV se reúne com vítimas de abuso",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/encontro-papa-vitimas-abuso-viagem-apostolica-argentina.html"
         },
         {
-          "title": "Papa na Argentina: conheça os 5 santos do país e o beato que ajudou a criar a JMJ",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/argentina-5-santos-beato-que-ajudou-criar-jmj.html"
+          "title": "Bambino Gesù fortalece colaboração com hospital da Albânia",
+          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-11/hospital-pediatrico-bambino-gesu-fundacao-albania.html"
         }
       ]
     },
@@ -25,19 +25,19 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-11-06T21:35:16.005211+00:00",
+      "updated_at": "2026-11-09T20:49:53.105112+00:00",
       "items": [
         {
-          "title": "Dom Ricardo participa do Summit CBCP 2026, maior evento nacional do esporte paralímpico e paradesportivo de clubes",
-          "link": "https://www.cnbb.org.br/dom-ricardo-participa-do-summit-cbcp-2026-maior-evento-nacional-do-esporte-paralimpico-e-paradesportivo-de-clubes/"
+          "title": "O tema “50 anos de fé pelas estradas do Brasil” está animando o aniversário de 50 anos da Pastoral Rodoviária",
+          "link": "https://www.cnbb.org.br/pastoral-rodoviaria-completa-50-anos-em-2026/"
         },
         {
-          "title": "Live de experiências de recepção das Diretrizes da Ação Evangelizadora e do Sínodo sobre Sinodalidade",
-          "link": "https://www.cnbb.org.br/live-partilha-experiencias-recepcao-diretrizes-sinodo/"
+          "title": "Encontro nacional do MEB, em Brasília, reafirma compromisso com a educação popular",
+          "link": "https://www.cnbb.org.br/encontro-nacional-do-meb-em-brasilia-reafirma-compromisso-com-a-educacao-popular/"
         },
         {
-          "title": "Comissão Sociotransformadora da CNBB disponibiliza material de apoio para a Jornada Mundial dos Pobres",
-          "link": "https://www.cnbb.org.br/jmj-2026-tem-o-lema-a-igreja-catolica-no-brasil-celebra-de-08-a-15-de-novembro-a-x-jornada-mundial-dos-pobres-10a-jmp-que-traz-o-lema-biblico-o-senhor-e-o-refugio-do-pobre-cf/"
+          "title": "Em vista da 63ª Assembleia Geral, bispos do Paraná avaliam textos de novos documentos da CNBB",
+          "link": "https://www.cnbb.org.br/bispos-parana-avaliam-textos-de-novos-documentos-da-cnbb/"
         }
       ]
     },
@@ -45,8 +45,12 @@
       "name": "CRB Nacional",
       "page": "https://crbnacional.org.br/noticias/",
       "feed": "https://crbnacional.org.br/feed/",
-      "updated_at": "2026-11-01T15:15:55.142095+00:00",
+      "updated_at": "2026-11-09T20:49:52.841394+00:00",
       "items": [
+        {
+          "title": "Regionais Piauí e Maranhão promovem encontro sobre Inteligência Artificial na Vida Religiosa Consagrada",
+          "link": "https://crbnacional.org.br/regionais-piaui-e-maranhao-promovem-encontro-sobre-inteligencia-artificial-na-vida-religiosa-consagrada/"
+        },
         {
           "title": "VI Congresso das Novas Gerações encerra programação com foco na formação e nos desafios da missão",
           "link": "https://crbnacional.org.br/vi-congresso-das-novas-geracoes-encerra-programacao-com-foco-na-formacao-e-nos-desafios-da-missao/"
@@ -54,10 +58,6 @@
         {
           "title": "Caminhada mariana reúne religiosos em oração no encerramento do segundo dia do VI Congresso Nacional das Novas Gerações",
           "link": "https://crbnacional.org.br/caminhada-mariana-reune-religiosos-em-oracao-no-encerramento-do-segundo-dia-do-vi-congresso-nacional-das-novas-geracoes/"
-        },
-        {
-          "title": "Novas Gerações são chamadas a permanecer como sentinelas da esperança em tempos de travessia",
-          "link": "https://crbnacional.org.br/novas-geracoes-sao-chamadas-a-permanecer-como-sentinelas-da-esperanca-em-tempos-de-travessia/"
         }
       ]
     }
