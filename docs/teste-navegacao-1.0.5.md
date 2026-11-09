@@ -12,7 +12,7 @@ Verificações de código: `test_android_back.cjs`, `test_service_worker.cjs`, s
 
 Instalar o APK de teste sobre a versão oficial, sem desinstalar. Navegar entre artigos reais do blog e usar o botão físico Voltar; na raiz, conferir o encerramento. Abrir Recursos, cartões e percurso com conexão e em modo avião. Usar os links de retorno e conferir a abertura externa dos feeds.
 
-Os testes de código e navegador não substituem esta observação no WebView Android. A validação física permanece pendente até o relato do usuário. Não foi implementado o salvamento de artigos do blog para leitura offline nesta etapa.
+Os testes de código e navegador não substituem esta observação no WebView Android. Após receber o APK e essas orientações, Frei Charlie respondeu “Conferido”, confirmando o aceite geral do teste no A56. Não houve acompanhamento direto do aparelho ou relato separado de cada ação. Não foi implementado o salvamento de artigos do blog para leitura offline nesta etapa.
 
 ## Compilação de teste entregue
 
@@ -26,4 +26,6 @@ Execução concluída com sucesso: https://github.com/charlieleitao-spec/somos-s
 - Pacote `br.com.somosservos.app`, versionName `1.0.5`, versionCode `1000005` e 32 PNGs conferidos no APK baixado. A integridade do arquivo foi comparada ao SHA-256 gerado pelo pipeline.
 - Testes de Voltar com ponte simulada, cache, cartões e navegação em navegador passaram. Capturas de 320 px online/offline foram inspecionadas. O blog no teste de navegador foi simulado.
 
-A conferência no A56 e o aceite pelo usuário permanecem pendentes. Nenhuma integração à main, tag ou release foi feita nesta etapa; o Blogger não foi modificado.
+O aceite no A56 foi confirmado pelo usuário em 9 de novembro de 2026 com a resposta “Conferido”, após ser informado de que a publicação definitiva aguardava essa conferência. A conclusão da versão definitiva preserva o APK aceito: mesmo arquivo, pacote, versão, código e certificado; muda apenas o nome público do arquivo para `Somos-Servos-1.0.5.apk`. Não há recompilação ou regeneração de cartões. O Blogger não faz parte desta publicação.
+
+A promoção recupera o artefato imutável da execução 42597110354, confere o ZIP e o APK por SHA-256, compara assinatura/permissões com a versão oficial anterior e verifica todos os arquivos web contra o commit compilado. O feed `data/noticias-igreja.json` continua recebendo as atualizações automáticas da main; o APK conserva a cópia já aceita. O código e os demais materiais devem permanecer idênticos ao aprovado.
