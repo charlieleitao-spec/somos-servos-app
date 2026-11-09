@@ -173,12 +173,6 @@ jobs:
           "$build_tools/aapt" dump badging "$apk" | grep -F "package: name='br.com.somosservos.app' versionCode='$VERSION_CODE' versionName='$VERSION_NAME'"
           "$build_tools/aapt" dump badging "$apk" > identidade.txt
           "$build_tools/aapt" dump permissions "$apk" > permissoes.txt
-          python3 - <<'PYPERM'
-          import re
-          from pathlib import Path
-          permissions=set(re.findall(r"uses-permission: name='([^']+)'",Path('permissoes.txt').read_text()))
-          assert permissions=={'android.permission.INTERNET'}, permissions
-          PYPERM
           "$build_tools/apksigner" verify --verbose --print-certs "$apk" > assinatura.txt
           cat assinatura.txt
           if [ "$BUILD_EVENT" != pull_request ]; then
@@ -186,6 +180,17 @@ jobs:
           "$build_tools/apksigner" verify --print-certs baseline/Somos-Servos-1.0.4.apk > assinatura-anterior.txt
           test "$(sed -n 's/.*certificate SHA-256 digest: //p' assinatura.txt | head -1)" = "$(sed -n 's/.*certificate SHA-256 digest: //p' assinatura-anterior.txt | head -1)"
           fi
+          "$build_tools/aapt" dump permissions baseline/Somos-Servos-1.0.4.apk > permissoes-anteriores.txt
+          python3 - <<'PYPERM'
+          import re
+          from pathlib import Path
+          def permissions(path):
+              return set(re.findall(r"uses-permission: name='([^']+)'",Path(path).read_text()))
+          current=permissions('permissoes.txt'); previous=permissions('permissoes-anteriores.txt')
+          assert current==previous, {'added':current-previous,'removed':previous-current}
+          assert {p for p in current if p.startswith('android.permission.')}=={'android.permission.INTERNET'}, current
+          print('Permissões idênticas à versão oficial; INTERNET é a única permissão da plataforma Android.')
+          PYPERM
           test "$VERSION_CODE" -gt 1000004
           python3 - <<'PY'
           from pathlib import Path
@@ -210,6 +215,7 @@ jobs:
             assinatura-anterior.txt
             identidade.txt
             permissoes.txt
+            permissoes-anteriores.txt
           if-no-files-found: error
 
       - name: Apagar chave temporária
