@@ -5,8 +5,12 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-08T22:13:44.379596+00:00",
+      "updated_at": "2026-11-09T01:46:37.734381+00:00",
       "items": [
+        {
+          "title": "\"Deus abençoe a Argentina\": Leão XIV discursa em Buenos Aires e lembra o Papa Francisco",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-discurso-autoridades-argentina.html"
+        },
         {
           "title": "Leão XIV presta homenagem ao herói da independência argentina",
           "link": "https://www.vaticannews.va/pt/papa/news/2026-11/leao-xiv-presta-homenagem-ao-heroi-da-independencia-argentina.html"
@@ -14,10 +18,6 @@
         {
           "title": "Papa Leão chega à Argentina para segunda etapa de sua Viagem Apostólica",
           "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-chega-a-argentina-2-etapa-da-viagem-apostolica.html"
-        },
-        {
-          "title": "Pequenas Missionárias Maria Imaculada celebram 90 anos fundação",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/pequenas-missionarias-maria-imaculada-90-anos-de-fundacao.html"
         }
       ]
     },
