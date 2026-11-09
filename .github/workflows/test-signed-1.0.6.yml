@@ -1,0 +1,99 @@
+name: Compilar Somos Servos 1.0.6 assinado (teste)
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  signed-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Validar fontes
+        run: |
+          node tests/test_android_back.cjs
+          node tests/test_service_worker.cjs
+      - name: Preparar projeto Android
+        run: |
+          npm install
+          mkdir -p www
+          cp index.html recursos.html pesquisa-bibliografica.html pesquisa-imagens.html pesquisa-historica.html referencias-salvas.html referencias-salvas.js percurso-servita.html aprofundamento-servita.html comunidades-servitas.html percurso-servita.pdf recursos-offline.js app.js styles.css service-worker.js sw-version.js icon-192.png icon-512.png icon.svg www/
+          cp manifest-android.webmanifest www/manifest.webmanifest
+          cp -R cartoes assets data www/
+          python3 - <<'PY'
+          import re,json
+          from pathlib import Path
+          m=json.loads(Path('www/manifest.webmanifest').read_text())
+          assert m['start_url']=='./' and m['scope']=='./'
+          s=Path('service-worker.js').read_text().split('const APP_SHELL = [',1)[1].split('];',1)[0]
+          paths=re.findall(r"'(\./[^']+)'",s)
+          missing=[p for p in paths if not (Path('www')/p.split('?',1)[0]).exists()]
+          assert not missing,missing
+          print('APP_SHELL validado:',len(paths),'arquivos')
+          PY
+          npx cap add android
+          cp android-src/MainActivity.java android/app/src/main/java/br/com/somosservos/app/MainActivity.java
+          npx cap sync android
+      - name: Preservar ícone oficial
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y imagemagick
+          rm -f android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
+          for item in mdpi:48 hdpi:72 xhdpi:96 xxhdpi:144 xxxhdpi:192; do
+            density="${item%%:*}"; size="${item##*:}"; output="android/app/src/main/res/mipmap-${density}"
+            mkdir -p "$output"
+            convert icon-512.png -resize "${size}x${size}" "$output/ic_launcher.png"
+            cp "$output/ic_launcher.png" "$output/ic_launcher_round.png"
+          done
+      - name: Assinar com chave permanente
+        env:
+          SOMOS_SERVOS_KEYSTORE_BASE64: ${{ secrets.SOMOS_SERVOS_KEYSTORE_BASE64 }}
+          SOMOS_SERVOS_STORE_PASSWORD: ${{ secrets.SOMOS_SERVOS_STORE_PASSWORD }}
+          SOMOS_SERVOS_KEY_ALIAS: ${{ secrets.SOMOS_SERVOS_KEY_ALIAS }}
+          SOMOS_SERVOS_KEY_PASSWORD: ${{ secrets.SOMOS_SERVOS_KEY_PASSWORD }}
+          SOMOS_SERVOS_VERSION_NAME: 1.0.6
+          SOMOS_SERVOS_VERSION_CODE: '1000006'
+        run: |
+          test -n "$SOMOS_SERVOS_KEYSTORE_BASE64"
+          test -n "$SOMOS_SERVOS_STORE_PASSWORD"
+          test -n "$SOMOS_SERVOS_KEY_ALIAS"
+          test -n "$SOMOS_SERVOS_KEY_PASSWORD"
+          export SOMOS_SERVOS_KEYSTORE_PATH="$RUNNER_TEMP/somos-servos.jks"
+          printf '%s' "$SOMOS_SERVOS_KEYSTORE_BASE64" | base64 -d > "$SOMOS_SERVOS_KEYSTORE_PATH"
+          python3 scripts/configure-android-release.py
+          chmod +x android/gradlew
+          (cd android && ./gradlew assembleRelease)
+          rm -f "$SOMOS_SERVOS_KEYSTORE_PATH"
+          cp android/app/build/outputs/apk/release/app-release.apk Somos-Servos-1_0_6.apk
+          build_tools="$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n 1)"
+          "$build_tools/apksigner" verify --print-certs Somos-Servos-1_0_6.apk > assinatura.txt
+          grep -qi 'b2cda5dccd59922dfef15d45ac8f61a34c99a44c5787902243b164b28f0f4553' assinatura.txt
+          "$build_tools/aapt" dump badging Somos-Servos-1_0_6.apk > identidade.txt
+          grep -F "package: name='br.com.somosservos.app' versionCode='1000006' versionName='1.0.6'" identidade.txt
+          "$build_tools/aapt" dump permissions Somos-Servos-1_0_6.apk > permissoes.txt
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          p=set(re.findall(r"uses-permission: name='([^']+)'",Path('permissoes.txt').read_text()))
+          assert {x for x in p if x.startswith('android.permission.')}=={'android.permission.INTERNET'},p
+          PY
+          sha256sum Somos-Servos-1_0_6.apk > SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Somos-Servos-1_0_6-assinado-para-validacao
+          path: |
+            Somos-Servos-1_0_6.apk
+            SHA256SUMS.txt
+            assinatura.txt
+            identidade.txt
+            permissoes.txt
+          if-no-files-found: error
+          retention-days: 14

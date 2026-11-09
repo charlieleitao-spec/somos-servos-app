@@ -1,5 +1,6 @@
+importScripts('./sw-version.js');
 const CACHE_PREFIX = 'somos-servos-shell-';
-const CACHE = CACHE_PREFIX + 'v60-voltar-recursos';
+const CACHE = CACHE_PREFIX + SOMOS_SERVOS_CACHE_VERSION;
 const APP_SHELL = [
   './',
   './index.html',
@@ -10,6 +11,7 @@ const APP_SHELL = [
   './referencias-salvas.html',
   './referencias-salvas.js',
   './recursos-offline.js',
+  './sw-version.js',
   './data/biblioteca-servita-catalogo.json',
   './cartoes/index.html',
   './percurso-servita.html',

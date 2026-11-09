@@ -1,6 +1,6 @@
 {
   "name": "somos-servos-app",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "private": true,
   "description": "Aplicativo instalável do blog Somos Servos",
   "scripts": {

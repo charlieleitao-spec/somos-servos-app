@@ -1,12 +1,7 @@
-name: Publicar Somos Servos 1.0.5 aprovado no A56
+name: Arquivo da publicação Somos Servos 1.0.5
 
 on:
-  push:
-    branches: [main]
-    paths: ['package.json', '.github/workflows/release-apk.yml']
-  pull_request:
-    branches: [main]
-    paths: ['package.json', '.github/workflows/release-apk.yml', 'scripts/verify-approved-1.0.5.py', 'docs/releases/1.0.5.md']
+  workflow_dispatch:
 
 permissions:
   contents: write

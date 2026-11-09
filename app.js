@@ -93,7 +93,8 @@ if (isNative) {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', async () => {
       try {
-        const registration = await navigator.serviceWorker.register('./service-worker.js?v=26', { updateViaCache: 'none' });
+        await import('./sw-version.js');
+        const registration = await navigator.serviceWorker.register('./service-worker.js?v=' + globalThis.SOMOS_SERVOS_SW_VERSION, { updateViaCache: 'none' });
         await registration.update();
       } catch (error) {
         console.warn('Não foi possível atualizar o cache do aplicativo:', error);

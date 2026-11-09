@@ -44,8 +44,24 @@ jobs:
       - name: Preparar arquivos web
         run: |
           mkdir -p www
-          cp index.html recursos.html pesquisa-bibliografica.html pesquisa-imagens.html pesquisa-historica.html referencias-salvas.html referencias-salvas.js percurso-servita.html aprofundamento-servita.html comunidades-servitas.html percurso-servita.pdf recursos-offline.js app.js styles.css manifest.webmanifest service-worker.js  icon-192.png icon-512.png icon.svg www/
+          cp index.html recursos.html pesquisa-bibliografica.html pesquisa-imagens.html pesquisa-historica.html referencias-salvas.html referencias-salvas.js percurso-servita.html aprofundamento-servita.html comunidades-servitas.html percurso-servita.pdf recursos-offline.js app.js styles.css manifest.webmanifest service-worker.js sw-version.js manifest-android.webmanifest icon-192.png icon-512.png icon.svg www/
           cp -R cartoes assets data www/
+          cp manifest-android.webmanifest www/manifest.webmanifest
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          m=json.loads(Path('www/manifest.webmanifest').read_text())
+          assert m['start_url']=='./' and m['scope']=='./'
+          PY
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          shell=Path('service-worker.js').read_text()
+          items=re.findall(r"'((?:\./)[^']+)'",shell.split('const APP_SHELL = [',1)[1].split('];',1)[0])
+          missing=[item for item in items if not (Path('www') / item.split('?',1)[0]).exists()]
+          if missing: raise SystemExit('APP_SHELL ausente: '+', '.join(missing))
+          print('APP_SHELL: todos os arquivos existem')
+          PY
 
       - name: Adicionar Android
         run: npx cap add android
