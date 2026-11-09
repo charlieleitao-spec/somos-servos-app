@@ -3,7 +3,7 @@ name: APK de teste — Voltar e Recursos 1.0.5
 on:
   push:
     branches: ['fix/android-voltar-1.0.5']
-    paths: ['app.js', 'index.html', 'styles.css', 'recursos.html', 'cartoes/index.html', 'scripts/**', 'tests/**', 'package*.json', 'service-worker.js', '.github/workflows/test-navigation-1.0.5.yml']
+    paths: ['app.js', 'index.html', 'styles.css', 'recursos.html', 'cartoes/index.html', 'scripts/**', 'tests/**', 'package*.json', 'service-worker.js', 'recursos-offline.js', '.github/workflows/test-navigation-1.0.5.yml']
 
 permissions:
   contents: read

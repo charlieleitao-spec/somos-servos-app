@@ -20,10 +20,10 @@ try{
   await page.screenshot({path:output+'/'+width+'-online.png',animations:'disabled'});
   await c.setOffline(true);await page.reload();await page.waitForFunction(()=>!document.getElementById('fallback').hidden);
   await page.screenshot({path:output+'/'+width+'-offline.png',animations:'disabled'});
-  await page.getByRole('link',{name:'Abrir recursos da família servita'}).tap();await page.getByRole('heading',{name:'Recursos da Família Servita',exact:true,level:1}).waitFor();
+  await page.getByRole('link',{name:'Abrir recursos da família servita'}).tap();await page.getByRole('heading',{name:'Recursos da Família Servita',exact:true,level:1}).waitFor();await page.locator('a[href="#biblioteca"]').tap();
   await page.getByRole('link',{name:'Abrir os 32 cartões do Santoral',exact:true}).tap();assert.equal(await page.locator('article').count(),32);
   await page.getByRole('link',{name:'Voltar ao Somos Servos',exact:true}).tap();await page.waitForFunction(()=>!document.getElementById('fallback').hidden);
-  await page.getByRole('link',{name:'Abrir recursos da família servita'}).tap();await page.getByRole('link',{name:'Começar o percurso formativo',exact:true}).tap();await page.waitForURL('**/percurso-servita.html');
+  await page.getByRole('link',{name:'Abrir recursos da família servita'}).tap();await page.locator('a[href="#biblioteca"]').tap();await page.getByRole('link',{name:'Começar o percurso formativo',exact:true}).tap();await page.waitForURL('**/percurso-servita.html');
   results.push({width,...geometry,offlineResources:true,offlineGallery:true,offlineReturn:true,offlinePercurso:true});await c.close();
  }
  await fs.writeFile(output+'/results.json',JSON.stringify({browser:browser.version(),results},null,2));console.log('PASS: Recursos online/offline, galeria com 32 entradas, retornos e percurso HTML em três larguras; blog simulado.');
