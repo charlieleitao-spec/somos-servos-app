@@ -3,9 +3,10 @@ const base='https://example.test/somos-servos-app/',handlers={},stores=new Map()
 let network=async()=>new Response('nova página'),networkCalls=0,added=[],timeoutNow=false;
 const key=request=>typeof request==='string'?new URL(request,base).href:request.url;
 function cacheFor(name){if(!stores.has(name))stores.set(name,new Map());const store=stores.get(name);return {async match(request){return store.get(key(request))?.clone()},async put(request,response){store.set(key(request),response.clone())},async addAll(requests){added=requests}}}
-const context={importScripts:(path)=>{if(path!=='./sw-version.js')throw Error('import inesperado');vm.runInNewContext(fs.readFileSync('sw-version.js','utf8'),context)},URL,Response,AbortController,Request:class extends Request{constructor(path,options){super(new URL(path,base),options)}},caches:{async open(name){return cacheFor(name)},async keys(){return [...stores.keys()]},async delete(name){deleted.push(name);return stores.delete(name)}},self:{location:{origin:new URL(base).origin},clients:{claim(){}},skipWaiting(){},addEventListener(name,handler){handlers[name]=handler}},setTimeout(fn,ms){return timeoutNow?setTimeout(fn,0):setTimeout(fn,ms)},clearTimeout,fetch:async(...args)=>{networkCalls++;return network(...args)}};
-vm.runInNewContext(fs.readFileSync('service-worker.js','utf8'),context);
-const cacheName=vm.runInNewContext('CACHE',context),request={url:base+'pesquisa-bibliografica.html',method:'GET',mode:'navigate'};
+const context={importScripts:(path)=>{if(path!=='./sw-version.js')throw Error('import inesperado');vm.runInContext(fs.readFileSync('sw-version.js','utf8'),sandbox)},URL,Response,AbortController,Request:class extends Request{constructor(path,options){super(new URL(path,base),options)}},caches:{async open(name){return cacheFor(name)},async keys(){return [...stores.keys()]},async delete(name){deleted.push(name);return stores.delete(name)}},self:{location:{origin:new URL(base).origin},clients:{claim(){}},skipWaiting(){},addEventListener(name,handler){handlers[name]=handler}},setTimeout(fn,ms){return timeoutNow?setTimeout(fn,0):setTimeout(fn,ms)},clearTimeout,fetch:async(...args)=>{networkCalls++;return network(...args)}};
+const sandbox=vm.createContext(context);
+vm.runInContext(fs.readFileSync('service-worker.js','utf8'),sandbox);
+const cacheName=vm.runInContext('CACHE',sandbox),request={url:base+'pesquisa-bibliografica.html',method:'GET',mode:'navigate'};
 async function dispatch(req){let response;handlers.fetch({request:req,respondWith(p){response=p}});return response}
 (async()=>{
  let installing;handlers.install({waitUntil(p){installing=p}});await installing;assert.ok(added.some(r=>r.url.endsWith('/pesquisa-historica.html')));assert.ok(added.every(r=>r.cache==='reload'));
