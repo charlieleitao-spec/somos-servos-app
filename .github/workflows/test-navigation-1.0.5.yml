@@ -1,0 +1,223 @@
+name: APK de teste — Voltar e Recursos 1.0.5
+
+on:
+  push:
+    branches: ['fix/android-voltar-1.0.5']
+    paths: ['app.js', 'index.html', 'styles.css', 'recursos.html', 'cartoes/index.html', 'scripts/**', 'tests/**', 'package*.json', 'service-worker.js', 'recursos-offline.js', '.github/workflows/test-navigation-1.0.5.yml']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: somos-servos-navigation-test-1.0.5
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.ref == 'refs/heads/fix/android-voltar-1.0.5'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Validar versão e calcular versionCode
+        id: version
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION_NAME: 1.0.5
+          CHECK_RELEASE_TAG: 'false'
+        run: |
+          python3 - <<'PY'
+          import os, re
+          from pathlib import Path
+
+          version = os.environ["VERSION_NAME"]
+          if not re.fullmatch(r"\d+\.\d+\.\d+", version):
+              raise SystemExit("Use MAJOR.MINOR.PATCH, por exemplo 1.0.5.")
+          major, minor, patch = map(int, version.split("."))
+          if minor >= 1000 or patch >= 1000:
+              raise SystemExit("Os componentes minor e patch devem ser menores que 1000.")
+          code = major * 1_000_000 + minor * 1_000 + patch
+          if not 1 <= code <= 2_100_000_000:
+              raise SystemExit("versionCode calculado fora do intervalo Android permitido.")
+          Path(os.environ["GITHUB_OUTPUT"]).write_text(
+              f"version_name={version}\nversion_code={code}\n", encoding="utf-8"
+          )
+          print(f"Release {version}; versionCode {code}")
+
+          if os.environ["CHECK_RELEASE_TAG"] == "true":
+              tag = f"v{version}"
+              import subprocess
+              result = subprocess.run(
+                  ["gh", "release", "view", tag],
+                  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+              )
+              if result.returncode == 0:
+                  raise SystemExit(f"A release {tag} já existe.")
+          PY
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Configurar JDK 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Instalar dependências
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Testar botão Voltar e cache
+        run: |
+          node tests/test_android_back.cjs
+          node tests/test_service_worker.cjs
+
+      - name: Conferir cartões preservados
+        run: |
+          python3 -m pip install Pillow
+          python3 -m unittest discover -s tests -p 'test_gerar_cartao.py'
+          python3 -m py_compile blogger_daily_publish.py
+
+      - name: Conferir interface e Recursos offline
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: |
+          npm install --prefix "$RUNNER_TEMP/navigation-browser" --no-package-lock --no-audit --no-fund playwright@1.56.1
+          PLAYWRIGHT_PATH="$RUNNER_TEMP/navigation-browser/node_modules/playwright/index.mjs" node tests/verify-navigation.mjs
+      - name: Guardar conferência visual
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: navegacao-somos-servos
+          path: validation-navigation/
+          if-no-files-found: warn
+
+      - name: Preparar arquivos web
+        run: |
+          mkdir -p www
+          cp index.html recursos.html pesquisa-bibliografica.html pesquisa-imagens.html pesquisa-historica.html referencias-salvas.html referencias-salvas.js percurso-servita.html aprofundamento-servita.html comunidades-servitas.html percurso-servita.pdf recursos-offline.js app.js styles.css manifest.webmanifest service-worker.js icon-192.png icon-512.png icon.svg www/
+          cp -R cartoes assets data www/
+
+      - name: Adicionar Android
+        run: npx cap add android
+
+      - name: Gerar ícone oficial Android
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+          rm -f android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+          rm -f android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
+          for item in mdpi:48 hdpi:72 xhdpi:96 xxhdpi:144 xxxhdpi:192; do
+            density="${item%%:*}"
+            size="${item##*:}"
+            output="android/app/src/main/res/mipmap-${density}"
+            mkdir -p "${output}"
+            convert icon-512.png -resize "${size}x${size}" "${output}/ic_launcher.png"
+            cp "${output}/ic_launcher.png" "${output}/ic_launcher_round.png"
+          done
+
+      - name: Instalar tratamento de links dos feeds
+        run: cp android-src/MainActivity.java android/app/src/main/java/br/com/somosservos/app/MainActivity.java
+
+      - name: Sincronizar aplicativo
+        run: npx cap sync android
+
+      - name: Preparar chave temporária
+        if: github.event_name != 'pull_request'
+        env:
+          KEYSTORE_BASE64: ${{ secrets.SOMOS_SERVOS_KEYSTORE_BASE64 }}
+          STORE_PASSWORD: ${{ secrets.SOMOS_SERVOS_STORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.SOMOS_SERVOS_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.SOMOS_SERVOS_KEY_PASSWORD }}
+        run: |
+          test -n "$KEYSTORE_BASE64" || { echo "Falta o segredo SOMOS_SERVOS_KEYSTORE_BASE64."; exit 1; }
+          test -n "$STORE_PASSWORD" || { echo "Falta o segredo SOMOS_SERVOS_STORE_PASSWORD."; exit 1; }
+          test -n "$KEY_ALIAS" || { echo "Falta o segredo SOMOS_SERVOS_KEY_ALIAS."; exit 1; }
+          test -n "$KEY_PASSWORD" || { echo "Falta o segredo SOMOS_SERVOS_KEY_PASSWORD."; exit 1; }
+          umask 077
+          key_path="$RUNNER_TEMP/somos-servos-release.jks"
+          printf '%s' "$KEYSTORE_BASE64" | base64 --decode > "$key_path"
+          test -s "$key_path"
+          keytool -list -keystore "$key_path" -storepass "$STORE_PASSWORD" -alias "$KEY_ALIAS" >/dev/null
+          echo "SOMOS_SERVOS_KEYSTORE_PATH=$key_path" >> "$GITHUB_ENV"
+          echo "SOMOS_SERVOS_STORE_PASSWORD=$STORE_PASSWORD" >> "$GITHUB_ENV"
+          echo "SOMOS_SERVOS_KEY_ALIAS=$KEY_ALIAS" >> "$GITHUB_ENV"
+          echo "SOMOS_SERVOS_KEY_PASSWORD=$KEY_PASSWORD" >> "$GITHUB_ENV"
+
+      - name: Configurar versão e assinatura
+        env:
+          SOMOS_SERVOS_VERSION_NAME: ${{ steps.version.outputs.version_name }}
+          SOMOS_SERVOS_VERSION_CODE: ${{ steps.version.outputs.version_code }}
+        run: python3 scripts/configure-android-release.py
+
+      - name: Compilar APK assinado
+        run: |
+          chmod +x android/gradlew
+          cd android
+          ./gradlew assembleRelease
+
+      - name: Verificar pacote, versão e assinatura
+        env:
+          VERSION_NAME: ${{ steps.version.outputs.version_name }}
+          VERSION_CODE: ${{ steps.version.outputs.version_code }}
+          GH_TOKEN: ${{ github.token }}
+          BUILD_EVENT: ${{ github.event_name }}
+        run: |
+          apk="android/app/build/outputs/apk/release/app-release.apk"
+          test -s "$apk"
+          build_tools="$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n 1)"
+          "$build_tools/aapt" dump badging "$apk" | grep -F "package: name='br.com.somosservos.app' versionCode='$VERSION_CODE' versionName='$VERSION_NAME'"
+          "$build_tools/aapt" dump badging "$apk" > identidade.txt
+          "$build_tools/aapt" dump permissions "$apk" > permissoes.txt
+          "$build_tools/apksigner" verify --verbose --print-certs "$apk" > assinatura.txt
+          cat assinatura.txt
+          if [ "$BUILD_EVENT" != pull_request ]; then
+            gh release download v1.0.4 --repo "$GITHUB_REPOSITORY" --pattern Somos-Servos-1.0.4.apk --dir baseline
+          "$build_tools/apksigner" verify --print-certs baseline/Somos-Servos-1.0.4.apk > assinatura-anterior.txt
+          test "$(sed -n 's/.*certificate SHA-256 digest: //p' assinatura.txt | head -1)" = "$(sed -n 's/.*certificate SHA-256 digest: //p' assinatura-anterior.txt | head -1)"
+          fi
+          "$build_tools/aapt" dump permissions baseline/Somos-Servos-1.0.4.apk > permissoes-anteriores.txt
+          python3 - <<'PYPERM'
+          import re
+          from pathlib import Path
+          def permissions(path):
+              return set(re.findall(r"uses-permission: name='([^']+)'",Path(path).read_text()))
+          current=permissions('permissoes.txt'); previous=permissions('permissoes-anteriores.txt')
+          assert current==previous, {'added':current-previous,'removed':previous-current}
+          assert {p for p in current if p.startswith('android.permission.')}=={'android.permission.INTERNET'}, current
+          print('Permissões idênticas à versão oficial; INTERNET é a única permissão da plataforma Android.')
+          PYPERM
+          test "$VERSION_CODE" -gt 1000004
+          python3 - <<'PY'
+          from pathlib import Path
+          import zipfile
+          with zipfile.ZipFile('android/app/build/outputs/apk/release/app-release.apk') as apk:
+              for p in Path('www').rglob('*'):
+                  if p.is_file(): assert apk.read('assets/public/'+p.relative_to('www').as_posix())==p.read_bytes(),p
+          print('Todos os arquivos web e cartões preservados no APK.')
+          PY
+
+      - name: Guardar APK de teste e identificação
+        run: |
+          cp android/app/build/outputs/apk/release/app-release.apk Somos-Servos-1.0.5-teste.apk
+          sha256sum Somos-Servos-1.0.5-teste.apk > SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Somos-Servos-1.0.5-teste-assinado
+          path: |
+            Somos-Servos-1.0.5-teste.apk
+            SHA256SUMS.txt
+            assinatura.txt
+            assinatura-anterior.txt
+            identidade.txt
+            permissoes.txt
+            permissoes-anteriores.txt
+          if-no-files-found: error
+
+      - name: Apagar chave temporária
+        if: always()
+        run: rm -f "$RUNNER_TEMP/somos-servos-release.jks" "$RUNNER_TEMP/somos-servos-test.jks"

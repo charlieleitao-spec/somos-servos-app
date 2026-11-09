@@ -54,10 +54,15 @@ retryButton.addEventListener('click', checkConnection);
 if (isNative) {
   window.addEventListener('DOMContentLoaded', async () => {
     try {
-      const { App } = await import('@capacitor/app');
-      await App.addListener('backButton', ({ canGoBack }) => {
-        if (canGoBack || window.history.length > 1) {
-          window.history.back();
+      const App = window.Capacitor?.Plugins?.App;
+      if (!App?.addListener) throw new Error('Plugin App indisponível.');
+      await App.addListener('backButton', async ({ canGoBack }) => {
+        try {
+          // O WebView informa o histórico conjunto, incluindo o iframe do blog.
+          if (canGoBack) window.history.back();
+          else await App.exitApp();
+        } catch (error) {
+          console.warn('Não foi possível concluir o comando Voltar:', error);
         }
       });
     } catch (error) {
@@ -88,7 +93,7 @@ if (isNative) {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', async () => {
       try {
-        const registration = await navigator.serviceWorker.register('./service-worker.js?v=25', { updateViaCache: 'none' });
+        const registration = await navigator.serviceWorker.register('./service-worker.js?v=26', { updateViaCache: 'none' });
         await registration.update();
       } catch (error) {
         console.warn('Não foi possível atualizar o cache do aplicativo:', error);

@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'somos-servos-shell-';
-const CACHE = CACHE_PREFIX + 'v59-fontes-s21';
+const CACHE = CACHE_PREFIX + 'v60-voltar-recursos';
 const APP_SHELL = [
   './',
   './index.html',
@@ -16,8 +16,8 @@ const APP_SHELL = [
   './aprofundamento-servita.html',
   './comunidades-servitas.html',
   './percurso-servita.pdf',
-  './styles.css?v=5',
-  './app.js?v=23',
+  './styles.css?v=6',
+  './app.js?v=24',
   './manifest.webmanifest',
   './icon-192.png',
   './icon-512.png'
