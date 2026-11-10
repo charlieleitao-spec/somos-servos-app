@@ -1,0 +1,142 @@
+name: Publicar APK assinado (aprovacao manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Versao aprovada (ex.: 1.0.7)'
+        required: true
+        type: string
+      signed_run_id:
+        description: 'ID da execucao bem-sucedida que produziu o APK assinado'
+        required: true
+        type: string
+      approved_commit:
+        description: 'SHA completo do commit de origem aprovado'
+        required: true
+        type: string
+      approval:
+        description: 'Digite PUBLICAR para confirmar expressamente a publicacao'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: release-assinada-somos-servos
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    if: ${{ inputs.approval == 'PUBLICAR' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Conferir parametros e origem aprovada
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+          RUN_ID: ${{ inputs.signed_run_id }}
+          APPROVED_SHA: ${{ inputs.approved_commit }}
+        run: |
+          set -euo pipefail
+          [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          [[ "$RUN_ID" =~ ^[0-9]+$ ]]
+          [[ "$APPROVED_SHA" =~ ^[a-f0-9]{40}$ ]]
+          gh api "repos/${{ github.repository }}/actions/runs/$RUN_ID" > run.json
+          python3 - <<'PY'
+          import json,os
+          r=json.load(open('run.json'))
+          assert r['status']=='completed' and r['conclusion']=='success'
+          assert r['head_repository']['full_name']==os.environ['GITHUB_REPOSITORY']
+          assert r['head_branch']=='main'
+          assert r['head_sha']==os.environ['APPROVED_SHA']
+          assert r['event']=='workflow_dispatch'
+          assert r['name']=='Compilar Somos Servos assinado (validacao)'
+          PY
+          if gh release view "v$VERSION" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            echo "Release ja existe; publicacao recusada."
+            exit 1
+          fi
+          if gh api "repos/${{ github.repository }}/git/ref/tags/v$VERSION" >/dev/null 2>&1; then
+            echo "Tag ja existe; publicacao recusada."
+            exit 1
+          fi
+          gh run download "$RUN_ID" --repo "${{ github.repository }}" \
+            --name "Somos-Servos-${VERSION}-assinado-para-validacao" --dir pacote
+          test -s "pacote/Somos-Servos-${VERSION//./_}.apk"
+          (cd pacote && sha256sum --check SHA256SUMS.txt)
+      - name: Verificar assinatura, identidade e permissoes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          APK="pacote/Somos-Servos-${VERSION//./_}.apk"
+          tools_dir="$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n 1)"
+          "$tools_dir/apksigner" verify --print-certs "$APK" > assinatura-atual.txt
+          grep -qi 'b2cda5dccd59922dfef15d45ac8f61a34c99a44c5787902243b164b28f0f4553' assinatura-atual.txt
+          "$tools_dir/aapt" dump badging "$APK" > identidade-atual.txt
+          "$tools_dir/aapt" dump permissions "$APK" > permissoes-atuais.txt
+          python3 - <<'PY'
+          import os,re
+          from pathlib import Path
+          v=os.environ['VERSION']
+          s=Path('identidade-atual.txt').read_text()
+          m=re.search(r"package: name='([^']+)' versionCode='([^']+)' versionName='([^']+)'",s)
+          assert m and m.group(1)=='br.com.somosservos.app' and m.group(3)==v
+          parts=v.split('.')
+          assert int(m.group(2))==int(parts[0])*1000000+int(parts[1])*1000+int(parts[2])
+          p=set(re.findall(r"uses-permission: name='([^']+)'",Path('permissoes-atuais.txt').read_text()))
+          assert p=={'android.permission.INTERNET'},p
+          PY
+          PREVIOUS_TAG="$(gh release view --repo "${{ github.repository }}" --json tagName --jq .tagName)"
+          gh release download "$PREVIOUS_TAG" --repo "${{ github.repository }}" --pattern '*.apk' --dir anterior
+          python3 - <<'PY'
+          from pathlib import Path
+          files=list(Path('anterior').glob('*.apk'))
+          assert len(files)==1,files
+          Path('anterior-apk.txt').write_text(str(files[0]))
+          PY
+          "$tools_dir/apksigner" verify --print-certs "$(cat anterior-apk.txt)" > assinatura-anterior.txt
+          "$tools_dir/aapt" dump badging "$(cat anterior-apk.txt)" > identidade-anterior.txt
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          def cert(p):
+            m=re.search(r'certificate SHA-256 digest: ([a-f0-9]+)',Path(p).read_text())
+            assert m
+            return m[1]
+          assert cert('assinatura-atual.txt')==cert('assinatura-anterior.txt')
+          def code(p):
+            m=re.search(r"versionCode='([0-9]+)'",Path(p).read_text())
+            assert m
+            return int(m[1])
+          assert code('identidade-atual.txt')>code('identidade-anterior.txt'), 'versionCode deve aumentar'
+          PY
+      - name: Publicar release estavel
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+          APPROVED_SHA: ${{ inputs.approved_commit }}
+        run: |
+          set -euo pipefail
+          gh release create "v$VERSION" \
+            "pacote/Somos-Servos-${VERSION//./_}.apk" \
+            pacote/SHA256SUMS.txt pacote/assinatura.txt pacote/identidade.txt pacote/permissoes.txt \
+            --repo "${{ github.repository }}" --target "$APPROVED_SHA" \
+            --title "Somos Servos $VERSION" \
+            --notes "Versao estavel assinada, aprovada manualmente. Integridade, identidade, assinatura e permissoes verificadas." \
+            --latest
+      - name: Confirmar publicacao
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          gh release view "v$VERSION" --repo "${{ github.repository }}" \
+            --json isDraft,isPrerelease,assets \
+            --jq 'select(.isDraft == false and .isPrerelease == false) | .assets[].name' \
+            | grep -Fx "Somos-Servos-${VERSION//./_}.apk"
