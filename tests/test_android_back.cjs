@@ -18,7 +18,7 @@ function env({canRegister=true,rejectRegister=false,rejectExit=false,native=true
  assert.ok(!source.includes("import('@capacitor/app')"));
  const html=fs.readFileSync('index.html','utf8'),resources=fs.readFileSync('recursos.html','utf8'),gallery=fs.readFileSync('cartoes/index.html','utf8'),generator=fs.readFileSync('scripts/atualizar-cartoes.py','utf8');
  assert.match(html,/id="resourcesButton" href="\.\/recursos.html"/);assert.match(resources,/<a\b[^\n]*href="\.\/index.html"[^\n]*>Voltar ao Somos Servos<\/a>/);
- assert.match(gallery,/href="\.\.\/index.html">Voltar ao Somos Servos/);assert.match(generator,/href="\.\.\/index.html">Voltar ao Somos Servos/);
+ assert.match(gallery,/<a\b[^\n]*href="\.\.\/index.html"[^\n]*>Voltar ao Somos Servos<\/a>/);assert.match(generator,/href="\.\.\/index.html">Voltar ao Somos Servos/);
  for(const repo of ['liturgia-osm','hoje-familia-servita','somos-servos-app'])assert.ok(resources.includes('/'+repo+'/releases/latest'));
  console.log('PASS: registro pela ponte nativa; histórico do WebView; saída na raiz; falhas tratadas; acesso a Recursos; retornos locais e links de versões atuais.');
 })().catch(e=>{console.error(e);process.exitCode=1;});
