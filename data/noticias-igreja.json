@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-10T12:44:34.845269+00:00",
+      "updated_at": "2026-11-10T20:53:22.486385+00:00",
       "items": [
         {
-          "title": "Leão XIV exorta a Igreja a cuidar das crianças deslocadas",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-videomensagem-comissao-catolica-migracoes.html"
+          "title": "Papa à Vida Consagrada: perseverar já é uma forma concreta de entrega a Deus",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-viagem-apostolica-encontro-vida-consagrada-cordoba.html"
         },
         {
-          "title": "Evangelho de 10 de novembro",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/evangelho-10-novembro-2026-dom-mario-spaki.html"
+          "title": "Leão na América Latina: Cristo torna o mundo mais verdadeiro e livre",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-viagem-apostolica-editorial-massimiliano-menichett.html"
         },
         {
-          "title": "ONU alerta para aumento de mortes de civis na Ucrânia",
-          "link": "https://www.vaticannews.va/pt/mundo/news/2026-11/ucrania-guerra-russia-aumento-morte-civis-2026-0nu8.html"
+          "title": "“Unidos podemos alcançar tudo”, a saudação do Papa à multidão de Córdoba",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/unidos-podemos-alcancar-tudo-a-saudacao-do-papa-a-multidao.html"
         }
       ]
     },
@@ -25,19 +25,19 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-11-09T20:49:53.105112+00:00",
+      "updated_at": "2026-11-10T20:53:22.429968+00:00",
       "items": [
+        {
+          "title": "Papa Leão XIV envia telegrama aos participantes do “Com Deus, tem Jeito”, da Fazenda da Esperança de Guaratinguetá (SP)",
+          "link": "https://www.cnbb.org.br/papa-leao-xiv-envia-telegrama-aos-participantes-do-com-deus-tem-jeito-da-fazenda-da-esperanca-de-guaratingueta-sp/"
+        },
+        {
+          "title": "Papa Leão motiva os bispos a trabalharem com base no Documento de Aparecida: “facho luminoso” para este tempo",
+          "link": "https://www.cnbb.org.br/papa-leao-documento-de-aparecida-facho-luminoso-para-este-tempo/"
+        },
         {
           "title": "O tema “50 anos de fé pelas estradas do Brasil” está animando o aniversário de 50 anos da Pastoral Rodoviária",
           "link": "https://www.cnbb.org.br/pastoral-rodoviaria-completa-50-anos-em-2026/"
-        },
-        {
-          "title": "Encontro nacional do MEB, em Brasília, reafirma compromisso com a educação popular",
-          "link": "https://www.cnbb.org.br/encontro-nacional-do-meb-em-brasilia-reafirma-compromisso-com-a-educacao-popular/"
-        },
-        {
-          "title": "Em vista da 63ª Assembleia Geral, bispos do Paraná avaliam textos de novos documentos da CNBB",
-          "link": "https://www.cnbb.org.br/bispos-parana-avaliam-textos-de-novos-documentos-da-cnbb/"
         }
       ]
     },
@@ -45,8 +45,12 @@
       "name": "CRB Nacional",
       "page": "https://crbnacional.org.br/noticias/",
       "feed": "https://crbnacional.org.br/feed/",
-      "updated_at": "2026-11-09T20:49:52.841394+00:00",
+      "updated_at": "2026-11-10T20:53:22.592094+00:00",
       "items": [
+        {
+          "title": "CRB Nacional inicia Encontro Nacional dos Religiosos Presbíteros em Brasília",
+          "link": "https://crbnacional.org.br/crb-nacional-inicia-encontro-nacional-dos-religiosos-presbiteros-em-brasilia/"
+        },
         {
           "title": "Regionais Piauí e Maranhão promovem encontro sobre Inteligência Artificial na Vida Religiosa Consagrada",
           "link": "https://crbnacional.org.br/regionais-piaui-e-maranhao-promovem-encontro-sobre-inteligencia-artificial-na-vida-religiosa-consagrada/"
@@ -54,10 +58,6 @@
         {
           "title": "VI Congresso das Novas Gerações encerra programação com foco na formação e nos desafios da missão",
           "link": "https://crbnacional.org.br/vi-congresso-das-novas-geracoes-encerra-programacao-com-foco-na-formacao-e-nos-desafios-da-missao/"
-        },
-        {
-          "title": "Caminhada mariana reúne religiosos em oração no encerramento do segundo dia do VI Congresso Nacional das Novas Gerações",
-          "link": "https://crbnacional.org.br/caminhada-mariana-reune-religiosos-em-oracao-no-encerramento-do-segundo-dia-do-vi-congresso-nacional-das-novas-geracoes/"
         }
       ]
     }
