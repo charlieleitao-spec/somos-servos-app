@@ -1,0 +1,80 @@
+name: Publicar Somos Servos 1.0.6 assinado
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publicar-1.0.6-assinado.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: publicar-somos-servos-v1.0.6
+  cancel-in-progress: false
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Recuperar APK assinado e confirmar origem
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/${{ github.repository }}/actions/runs/42855910665 > run.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open('run.json'))
+          assert r['status']=='completed' and r['conclusion']=='success', 'Execucao nao aprovada'
+          assert r['head_branch']=='main', 'Origem inesperada'
+          assert r['head_sha']=='a3a8b21ec5abcb9596a957ae564b5e2f8882ef9a', 'Commit diferente do validado'
+          PY
+          gh run download 42855910665 --repo "${{ github.repository }}" --name Somos-Servos-1_0_6-assinado-para-validacao --dir pacote
+          test -s pacote/Somos-Servos-1_0_6.apk
+          (cd pacote && sha256sum --check SHA256SUMS.txt)
+      - name: Conferir identidade, assinatura e permissoes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          build_tools="$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n 1)"
+          "$build_tools/apksigner" verify --print-certs pacote/Somos-Servos-1_0_6.apk > assinatura-atual.txt
+          grep -qi 'b2cda5dccd59922dfef15d45ac8f61a34c99a44c5787902243b164b28f0f4553' assinatura-atual.txt
+          "$build_tools/aapt" dump badging pacote/Somos-Servos-1_0_6.apk > identidade-atual.txt
+          grep -F "package: name='br.com.somosservos.app' versionCode='1000006' versionName='1.0.6'" identidade-atual.txt
+          "$build_tools/aapt" dump permissions pacote/Somos-Servos-1_0_6.apk > permissoes-atuais.txt
+          gh release download v1.0.5 --repo "${{ github.repository }}" --pattern 'Somos-Servos-1.0.5.apk' --dir anterior
+          "$build_tools/apksigner" verify --print-certs anterior/Somos-Servos-1.0.5.apk > assinatura-anterior.txt
+          "$build_tools/aapt" dump permissions anterior/Somos-Servos-1.0.5.apk > permissoes-anteriores.txt
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          cert=lambda p:re.search(r'certificate SHA-256 digest: ([a-f0-9]+)',Path(p).read_text())[1]
+          assert cert('assinatura-atual.txt')==cert('assinatura-anterior.txt')
+          permissions=lambda p:set(re.findall(r"uses-permission: name='([^']+)'",Path(p).read_text()))
+          p=permissions('permissoes-atuais.txt')
+          assert p==permissions('permissoes-anteriores.txt')
+          assert {x for x in p if x.startswith('android.permission.')}=={'android.permission.INTERNET'}
+          PY
+      - name: Publicar versao estavel
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if gh release view v1.0.6 --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            echo 'Versao v1.0.6 ja existe; nenhuma substituicao sera feita.'
+            exit 0
+          fi
+          if git ls-remote --exit-code --tags https://github.com/${{ github.repository }}.git refs/tags/v1.0.6 >/dev/null 2>&1; then
+            echo 'Tag v1.0.6 existente; interrompendo.'
+            exit 1
+          fi
+          gh release create v1.0.6 pacote/Somos-Servos-1_0_6.apk pacote/SHA256SUMS.txt pacote/assinatura.txt pacote/identidade.txt pacote/permissoes.txt \
+            --repo "${{ github.repository }}" --target a3a8b21ec5abcb9596a957ae564b5e2f8882ef9a \
+            --title 'Somos Servos 1.0.6' --notes 'Versao estavel assinada com a chave permanente. Pacote br.com.somosservos.app, versionCode 1000006. Correcoes de navegacao e validacao dos links Voltar. Assinatura, identidade, permissoes e integridade conferidas.' --latest
+      - name: Conferir publicacao
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release view v1.0.6 --repo "${{ github.repository }}" --json isDraft,isPrerelease,assets --jq 'select(.isDraft == false and .isPrerelease == false) | .assets[].name' | grep -Fx 'Somos-Servos-1_0_6.apk'
