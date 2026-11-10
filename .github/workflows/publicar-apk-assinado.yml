@@ -101,6 +101,7 @@ jobs:
           Path('anterior-apk.txt').write_text(str(files[0]))
           PY
           "$tools_dir/apksigner" verify --print-certs "$(cat anterior-apk.txt)" > assinatura-anterior.txt
+          "$tools_dir/aapt" dump badging "$(cat anterior-apk.txt)" > identidade-anterior.txt
           python3 - <<'PY'
           import re
           from pathlib import Path
@@ -109,6 +110,11 @@ jobs:
             assert m
             return m[1]
           assert cert('assinatura-atual.txt')==cert('assinatura-anterior.txt')
+          def code(p):
+            m=re.search(r"versionCode='([0-9]+)'",Path(p).read_text())
+            assert m
+            return int(m[1])
+          assert code('identidade-atual.txt')>code('identidade-anterior.txt'), 'versionCode deve aumentar'
           PY
       - name: Publicar release estavel
         env:
