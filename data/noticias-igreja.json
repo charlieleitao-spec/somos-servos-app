@@ -5,8 +5,12 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-11T01:58:07.095728+00:00",
+      "updated_at": "2026-11-11T09:32:19.760004+00:00",
       "items": [
+        {
+          "title": "Evangelho de 11 de novembro",
+          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/evangelho-11-novembro-2026-dom-mario-spaki.html"
+        },
         {
           "title": "O tango da esperança: um milhão de jovens em Buenos Aires para fazer “lío” com Leão",
           "link": "https://www.vaticannews.va/pt/papa/news/2026-11/argentima-jovens-vigilia-papa-leao-xiv-cantos-oracao-musica.html"
@@ -14,10 +18,6 @@
         {
           "title": "Leão XIV aos jovens: não vos ajoelheis diante do que não vos dá vida",
           "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-homilia-vigilia-oracao-jovens-buenos-aires-cristo.html"
-        },
-        {
-          "title": "Leão XIV aos jovens: não percam a esperança, sigam Jesus",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/testemunhos-jovens-respostas-papa-leao-cristo-esperanca-fe-paz.html"
         }
       ]
     },
