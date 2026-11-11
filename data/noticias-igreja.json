@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-11T09:32:19.760004+00:00",
+      "updated_at": "2026-11-11T17:55:47.034115+00:00",
       "items": [
         {
-          "title": "Evangelho de 11 de novembro",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/evangelho-11-novembro-2026-dom-mario-spaki.html"
+          "title": "“Terra ensantada”: Peru tem padroeira da América e outros santos",
+          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/peru-igreja-catolica-santos-beatos.html"
         },
         {
-          "title": "O tango da esperança: um milhão de jovens em Buenos Aires para fazer “lío” com Leão",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/argentima-jovens-vigilia-papa-leao-xiv-cantos-oracao-musica.html"
+          "title": "Leão XIV se despede da Argentina e segue para o Peru, última etapa de sua Viagem Apostólica",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/leao-xiv-se-despede-da-argentina-e-segue-para-o-peru.html"
         },
         {
-          "title": "Leão XIV aos jovens: não vos ajoelheis diante do que não vos dá vida",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-homilia-vigilia-oracao-jovens-buenos-aires-cristo.html"
+          "title": "Papa na Argentina: significado especial não só para a Igreja, mas para toda a sociedade",
+          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-11/papa-leao-visita-significado-argentina-testemunhos-missionarios.html"
         }
       ]
     },
@@ -25,19 +25,19 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-11-10T20:53:22.429968+00:00",
+      "updated_at": "2026-11-11T17:55:47.094748+00:00",
       "items": [
+        {
+          "title": "Juventude e coragem",
+          "link": "https://www.cnbb.org.br/juventude-e-coragem/"
+        },
+        {
+          "title": "O fim de todas as coisas",
+          "link": "https://www.cnbb.org.br/o-fim-de-todas-as-coisas/"
+        },
         {
           "title": "Papa Leão XIV envia telegrama aos participantes do “Com Deus, tem Jeito”, da Fazenda da Esperança de Guaratinguetá (SP)",
           "link": "https://www.cnbb.org.br/papa-leao-xiv-envia-telegrama-aos-participantes-do-com-deus-tem-jeito-da-fazenda-da-esperanca-de-guaratingueta-sp/"
-        },
-        {
-          "title": "Papa Leão motiva os bispos a trabalharem com base no Documento de Aparecida: “facho luminoso” para este tempo",
-          "link": "https://www.cnbb.org.br/papa-leao-documento-de-aparecida-facho-luminoso-para-este-tempo/"
-        },
-        {
-          "title": "O tema “50 anos de fé pelas estradas do Brasil” está animando o aniversário de 50 anos da Pastoral Rodoviária",
-          "link": "https://www.cnbb.org.br/pastoral-rodoviaria-completa-50-anos-em-2026/"
         }
       ]
     },
