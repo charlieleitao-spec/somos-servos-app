@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-12T09:55:13.747367+00:00",
+      "updated_at": "2026-11-12T18:23:17.615665+00:00",
       "items": [
         {
-          "title": "Mais de mil jovens preparam-se para a Jornada Arquidiocesana da Juventude em Angoche",
-          "link": "https://www.vaticannews.va/pt/africa/news/2026-11/igreja-mocambique-jornada-juventude-dialogo-esperanca-pastoral.html"
+          "title": "Leão XIV exorta Igreja a enfrentar os abusos com verdade e responsabilidade",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-viagem-apostolica-peru-igreja-abusos.html"
         },
         {
-          "title": "Portugal. CEP sobre abusos: “nenhuma compensação pode reparar o sofrimento”",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/portugal-igreja-bispos-cep-plenaria-abusos-familias-pastoral.html"
+          "title": "O Papa: o bem comum é a conquista conjunta de um bem maior",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-peru-encontro-desafios-esperancas-futuro-povo-peruano.html"
         },
         {
-          "title": "Evangelho de 12 de novembro",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/evangelho-12-novembro-2026-dom-mario-spaki.html"
+          "title": "Cabo Verde: Diocese de Santiago nomeia novos membros para o TEDS",
+          "link": "https://www.vaticannews.va/pt/africa/news/2026-11/cabo-verde-diocese-de-santiago-nomeia-novos-membros-para-o-teds.html"
         }
       ]
     },
@@ -25,19 +25,19 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-11-12T00:49:18.289937+00:00",
+      "updated_at": "2026-11-12T18:23:17.655193+00:00",
       "items": [
         {
-          "title": "3º Encontro de Padres em Missão Digital avança na comunhão e no desenho de iniciativas comuns entre missionários e CNBB",
-          "link": "https://www.cnbb.org.br/3o-encontro-de-padres-em-missao-digital/"
+          "title": "Presidente da CNBB concede entrevista exclusiva à Rádio Vaticano sobre a viagem do Papa Leão à América Latina",
+          "link": "https://www.cnbb.org.br/presidente-da-cnbb-concede-entrevista-exclusiva-a-radio-vaticano-sobre-a-viagem-do-papa-leao-a-america-latina/"
         },
         {
-          "title": "Juventude e coragem",
-          "link": "https://www.cnbb.org.br/juventude-e-coragem/"
+          "title": "Faleceu dom Augusto Alves da Rocha, bispo emérito da diocese de Floriano, no Piauí",
+          "link": "https://www.cnbb.org.br/faleceu-dom-augusto-alves-da-rocha-bispo-emerito-da-diocese-de-floriano-no-piaui/"
         },
         {
-          "title": "O fim de todas as coisas",
-          "link": "https://www.cnbb.org.br/o-fim-de-todas-as-coisas/"
+          "title": "Deus confia em nós!",
+          "link": "https://www.cnbb.org.br/deus-confia-em-nos-2/"
         }
       ]
     },
@@ -45,8 +45,12 @@
       "name": "CRB Nacional",
       "page": "https://crbnacional.org.br/noticias/",
       "feed": "https://crbnacional.org.br/feed/",
-      "updated_at": "2026-11-10T20:53:22.592094+00:00",
+      "updated_at": "2026-11-12T18:23:17.503919+00:00",
       "items": [
+        {
+          "title": "CRB Nacional em encontro com a Vida Monástica e Contemplativa das Irmãs Clarissas",
+          "link": "https://crbnacional.org.br/crb-nacional-em-encontro-com-a-vida-monastica-e-contemplativa-das-irmas-clarissas/"
+        },
         {
           "title": "CRB Nacional inicia Encontro Nacional dos Religiosos Presbíteros em Brasília",
           "link": "https://crbnacional.org.br/crb-nacional-inicia-encontro-nacional-dos-religiosos-presbiteros-em-brasilia/"
@@ -54,10 +58,6 @@
         {
           "title": "Regionais Piauí e Maranhão promovem encontro sobre Inteligência Artificial na Vida Religiosa Consagrada",
           "link": "https://crbnacional.org.br/regionais-piaui-e-maranhao-promovem-encontro-sobre-inteligencia-artificial-na-vida-religiosa-consagrada/"
-        },
-        {
-          "title": "VI Congresso das Novas Gerações encerra programação com foco na formação e nos desafios da missão",
-          "link": "https://crbnacional.org.br/vi-congresso-das-novas-geracoes-encerra-programacao-com-foco-na-formacao-e-nos-desafios-da-missao/"
         }
       ]
     }
