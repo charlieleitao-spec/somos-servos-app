@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-13T09:39:45.961367+00:00",
+      "updated_at": "2026-11-13T17:49:45.521075+00:00",
       "items": [
         {
-          "title": "Dom Inácio Saúre manifesta preocupação com investigação do assassinato de Dom Osório Afonso",
-          "link": "https://www.vaticannews.va/pt/africa/news/2026-11/mocambique-igreja-bispos-violencia-criminalidade-justica-cem.html"
+          "title": "Papa: \"Que alegria voltar a Chiclayo!\". A tarefa do anúncio é crucial",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-viagem-apostolica-peru-chiclayo-missa-1311-2026.html"
         },
         {
-          "title": "Evangelho de 13 de novembro",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/evangelho-13-novembro-2026-dom-mario-spaki.html"
+          "title": "JMJ Seul 2027 será um \"festival global de esperança\" e apresentará patrimônio espiritual coreano",
+          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/jmj-papa.html"
         },
         {
-          "title": "\"Papa peruano, aqui está o seu Vaticano!”: a explosão de alegria dos jovens em Lima",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/peru-lima-vigilia-jovens-estadio-nacional-viagem-papa-leao-xiv.html"
+          "title": "Leão XIV: vou a Chiclayo para viver a mesma alegria que vivemos aqui em Lima",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-peru-lima-nunciatura-apostolica-saudacao-bencao.html"
         }
       ]
     },
@@ -25,19 +25,19 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-11-13T01:10:28.278046+00:00",
+      "updated_at": "2026-11-13T17:49:44.844631+00:00",
       "items": [
         {
-          "title": "Dom Ricardo: “Paternidade de Deus, no pontificado do Papa Francisco, é fonte de uma forma cristã de existir",
-          "link": "https://www.cnbb.org.br/dom-ricardo-paternidade-de-deus-no-pontificado-do-papa-francisco-e-fonte-de-uma-forma-crista-de-existir/"
+          "title": "Jornada dos Pobres",
+          "link": "https://www.cnbb.org.br/jornada-dos-pobres/"
         },
         {
-          "title": "Presidente da CNBB concede entrevista exclusiva à Rádio Vaticano sobre a viagem do Papa Leão à América Latina",
-          "link": "https://www.cnbb.org.br/presidente-da-cnbb-concede-entrevista-exclusiva-a-radio-vaticano-sobre-a-viagem-do-papa-leao-a-america-latina/"
+          "title": "Seminário da Campanha da Fraternidade 2027 no Regional Sul 3 reúne 80 pessoas",
+          "link": "https://www.cnbb.org.br/seminario-da-campanha-da-fraternidade-2027-no-regional-sul-3-reune-80-pessoas/"
         },
         {
-          "title": "Faleceu dom Augusto Alves da Rocha, bispo emérito da diocese de Floriano, no Piauí",
-          "link": "https://www.cnbb.org.br/faleceu-dom-augusto-alves-da-rocha-bispo-emerito-da-diocese-de-floriano-no-piaui/"
+          "title": "Viagem Apostólica: aos bispos do Peru, Papa Leão XIV recorda que a Igreja não nos pertence, é de Cristo",
+          "link": "https://www.cnbb.org.br/viagem-apostolica-aos-bispos-do-peru-papa-leao-xiv-recorda-que-a-igreja-nao-nos-pertence-e-de-cristo/"
         }
       ]
     },
