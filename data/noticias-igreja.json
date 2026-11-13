@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-12T18:23:17.615665+00:00",
+      "updated_at": "2026-11-13T01:10:28.499124+00:00",
       "items": [
         {
-          "title": "Leão XIV exorta Igreja a enfrentar os abusos com verdade e responsabilidade",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-viagem-apostolica-peru-igreja-abusos.html"
+          "title": "Em Lima, Papa se reúne com vítimas de abusos",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-encontra-vitimas-abuso-peru-viagem-apostolica.html"
         },
         {
-          "title": "O Papa: o bem comum é a conquista conjunta de um bem maior",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-peru-encontro-desafios-esperancas-futuro-povo-peruano.html"
+          "title": "Alerta da ONU na Somália: enchentes favorecem a propagação de epidemias",
+          "link": "https://www.vaticannews.va/pt/mundo/news/2026-11/somaria-alarme-onu-inundacoes-favorecem-epidemias-novembro-2026.html"
         },
         {
-          "title": "Cabo Verde: Diocese de Santiago nomeia novos membros para o TEDS",
-          "link": "https://www.vaticannews.va/pt/africa/news/2026-11/cabo-verde-diocese-de-santiago-nomeia-novos-membros-para-o-teds.html"
+          "title": "Brasil é o terceiro país com mais italianos no mundo com base nos últimos 20 anos",
+          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/migrantes-aumento-numero-italianos-residentes-exterior-aire-26.html"
         }
       ]
     },
@@ -25,8 +25,12 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-11-12T18:23:17.655193+00:00",
+      "updated_at": "2026-11-13T01:10:28.278046+00:00",
       "items": [
+        {
+          "title": "Dom Ricardo: “Paternidade de Deus, no pontificado do Papa Francisco, é fonte de uma forma cristã de existir",
+          "link": "https://www.cnbb.org.br/dom-ricardo-paternidade-de-deus-no-pontificado-do-papa-francisco-e-fonte-de-uma-forma-crista-de-existir/"
+        },
         {
           "title": "Presidente da CNBB concede entrevista exclusiva à Rádio Vaticano sobre a viagem do Papa Leão à América Latina",
           "link": "https://www.cnbb.org.br/presidente-da-cnbb-concede-entrevista-exclusiva-a-radio-vaticano-sobre-a-viagem-do-papa-leao-a-america-latina/"
@@ -34,10 +38,6 @@
         {
           "title": "Faleceu dom Augusto Alves da Rocha, bispo emérito da diocese de Floriano, no Piauí",
           "link": "https://www.cnbb.org.br/faleceu-dom-augusto-alves-da-rocha-bispo-emerito-da-diocese-de-floriano-no-piaui/"
-        },
-        {
-          "title": "Deus confia em nós!",
-          "link": "https://www.cnbb.org.br/deus-confia-em-nos-2/"
         }
       ]
     },
@@ -45,8 +45,12 @@
       "name": "CRB Nacional",
       "page": "https://crbnacional.org.br/noticias/",
       "feed": "https://crbnacional.org.br/feed/",
-      "updated_at": "2026-11-12T18:23:17.503919+00:00",
+      "updated_at": "2026-11-13T01:10:28.224589+00:00",
       "items": [
+        {
+          "title": "Dom Amilton participa do encerramento do Encontro Nacional dos Religiosos Presbíteros",
+          "link": "https://crbnacional.org.br/dom-amilton-participa-do-encerramento-do-encontro-nacional-dos-religiosos-presbiteros/"
+        },
         {
           "title": "CRB Nacional em encontro com a Vida Monástica e Contemplativa das Irmãs Clarissas",
           "link": "https://crbnacional.org.br/crb-nacional-em-encontro-com-a-vida-monastica-e-contemplativa-das-irmas-clarissas/"
@@ -54,10 +58,6 @@
         {
           "title": "CRB Nacional inicia Encontro Nacional dos Religiosos Presbíteros em Brasília",
           "link": "https://crbnacional.org.br/crb-nacional-inicia-encontro-nacional-dos-religiosos-presbiteros-em-brasilia/"
-        },
-        {
-          "title": "Regionais Piauí e Maranhão promovem encontro sobre Inteligência Artificial na Vida Religiosa Consagrada",
-          "link": "https://crbnacional.org.br/regionais-piaui-e-maranhao-promovem-encontro-sobre-inteligencia-artificial-na-vida-religiosa-consagrada/"
         }
       ]
     }
