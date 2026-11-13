@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-13T17:49:45.521075+00:00",
+      "updated_at": "2026-11-13T23:39:17.890708+00:00",
       "items": [
         {
-          "title": "Papa: \"Que alegria voltar a Chiclayo!\". A tarefa do anúncio é crucial",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-viagem-apostolica-peru-chiclayo-missa-1311-2026.html"
+          "title": "Papa à Igreja de Chiclayo: não há missão sem comunhão",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-a-igreja-de-chiclayo-nao-ha-missao-sem-comunhao.html"
         },
         {
-          "title": "JMJ Seul 2027 será um \"festival global de esperança\" e apresentará patrimônio espiritual coreano",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/jmj-papa.html"
+          "title": "O carinho de Leão XIV aos fiéis da Capela São Óscar Romero",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-visita-capela-dom-romero-chiclayo-peru.html"
         },
         {
-          "title": "Leão XIV: vou a Chiclayo para viver a mesma alegria que vivemos aqui em Lima",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-peru-lima-nunciatura-apostolica-saudacao-bencao.html"
+          "title": "É festa em Chiclayo, Leão voltou: “Bem-vindo, padre!”",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/festa-chiclayo-leao-voltou-bem-vindo-padre.html"
         }
       ]
     },
@@ -25,8 +25,12 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-11-13T17:49:44.844631+00:00",
+      "updated_at": "2026-11-13T23:39:17.424652+00:00",
       "items": [
+        {
+          "title": "Encontro de formação da Pastoral Familiar aprofunda missão de anunciar a vocação e acompanhar as famílias",
+          "link": "https://www.cnbb.org.br/encontro-formacao-pastoral-familiar-missao-anunciar-vocacao-e-acompanhar-as-familias/"
+        },
         {
           "title": "Jornada dos Pobres",
           "link": "https://www.cnbb.org.br/jornada-dos-pobres/"
@@ -34,10 +38,6 @@
         {
           "title": "Seminário da Campanha da Fraternidade 2027 no Regional Sul 3 reúne 80 pessoas",
           "link": "https://www.cnbb.org.br/seminario-da-campanha-da-fraternidade-2027-no-regional-sul-3-reune-80-pessoas/"
-        },
-        {
-          "title": "Viagem Apostólica: aos bispos do Peru, Papa Leão XIV recorda que a Igreja não nos pertence, é de Cristo",
-          "link": "https://www.cnbb.org.br/viagem-apostolica-aos-bispos-do-peru-papa-leao-xiv-recorda-que-a-igreja-nao-nos-pertence-e-de-cristo/"
         }
       ]
     },
@@ -45,8 +45,12 @@
       "name": "CRB Nacional",
       "page": "https://crbnacional.org.br/noticias/",
       "feed": "https://crbnacional.org.br/feed/",
-      "updated_at": "2026-11-13T01:10:28.224589+00:00",
+      "updated_at": "2026-11-13T23:39:17.273696+00:00",
       "items": [
+        {
+          "title": "Conferência dos Religiosos do Brasil participa do 6º Congresso da CLAR, em Lima, no Peru",
+          "link": "https://crbnacional.org.br/conferencia-dos-religiosos-do-brasil-participa-do-6o-congresso-da-clar-em-lima-no-peru/"
+        },
         {
           "title": "Dom Amilton participa do encerramento do Encontro Nacional dos Religiosos Presbíteros",
           "link": "https://crbnacional.org.br/dom-amilton-participa-do-encerramento-do-encontro-nacional-dos-religiosos-presbiteros/"
@@ -54,10 +58,6 @@
         {
           "title": "CRB Nacional em encontro com a Vida Monástica e Contemplativa das Irmãs Clarissas",
           "link": "https://crbnacional.org.br/crb-nacional-em-encontro-com-a-vida-monastica-e-contemplativa-das-irmas-clarissas/"
-        },
-        {
-          "title": "CRB Nacional inicia Encontro Nacional dos Religiosos Presbíteros em Brasília",
-          "link": "https://crbnacional.org.br/crb-nacional-inicia-encontro-nacional-dos-religiosos-presbiteros-em-brasilia/"
         }
       ]
     }
