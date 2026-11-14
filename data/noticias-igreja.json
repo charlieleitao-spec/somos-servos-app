@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-13T23:39:17.890708+00:00",
+      "updated_at": "2026-11-14T06:38:02.896843+00:00",
       "items": [
+        {
+          "title": "O Papa aos universitários: a ciência sem consciência arruína a vida de todos",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-universidade-catolica-sao-turibio-mogrovejo-chiclayo.html"
+        },
         {
           "title": "Papa à Igreja de Chiclayo: não há missão sem comunhão",
           "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-a-igreja-de-chiclayo-nao-ha-missao-sem-comunhao.html"
         },
         {
-          "title": "O carinho de Leão XIV aos fiéis da Capela São Óscar Romero",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-visita-capela-dom-romero-chiclayo-peru.html"
-        },
-        {
-          "title": "É festa em Chiclayo, Leão voltou: “Bem-vindo, padre!”",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/festa-chiclayo-leao-voltou-bem-vindo-padre.html"
+          "title": "María, mãe de Agustín: a fé, força para enfrentar a doença. O Papa é uma graça",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/maria-agustin-fe-forca-para-enfrentar-doenca-papa.html"
         }
       ]
     },
