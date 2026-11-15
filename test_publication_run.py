@@ -50,6 +50,46 @@ class AuditTests(unittest.TestCase):
         self.assertIn('123', summary)
         self.assertIn('404', summary)
 
+    def test_rate_limit_preserves_new_and_existing_publication_evidence(self):
+        for duplicate, expected in (
+            (False, 'publicado_link_pendente'),
+            (True, 'duplicado_live_link_pendente'),
+        ):
+            with self.subTest(duplicate=duplicate):
+                self.module = importlib.reload(self.module)
+                error = audit.PublicVerificationPending('URL pública respondeu HTTP 429.')
+                self.assertEqual(self.run_case(public_error=error, duplicate=duplicate), (0, 1, 1))
+                result = json.loads(Path('.publicacoes-pendentes.jsonl').read_text().splitlines()[-1])
+                self.assertEqual(result['status'], expected)
+                self.assertEqual(result['id'], '123')
+                self.assertEqual(result['titulo'], 'Título, com vírgula')
+                self.assertEqual(result['url'], 'https://somosservos.blogspot.com/post.html')
+                self.assertIn('429', result['erro'])
+
+    def test_rate_limit_retries_only_the_public_get(self):
+        url = 'https://somosservos.blogspot.com/test'
+        for delays, retry_succeeds, expected_sleep in (
+            (('2',), True, [2]),
+            (('2', '2'), False, [2]),
+            (('120',), False, []),
+        ):
+            with self.subTest(delays=delays):
+                errors = [urllib.error.HTTPError(url, 429, 'limited', {'Retry-After': delay}, None)
+                          for delay in delays]
+                with patch('urllib.request.urlopen') as urlopen, patch.object(audit.time, 'sleep') as sleep:
+                    if retry_succeeds:
+                        success = urlopen.return_value
+                        success.__enter__.return_value.status = 200
+                        urlopen.side_effect = [*errors, success]
+                        audit.check_public_url(url)
+                    else:
+                        urlopen.side_effect = errors
+                        with self.assertRaises(audit.PublicVerificationPending):
+                            audit.check_public_url(url)
+                    self.assertEqual(urlopen.call_count, 1 + len(expected_sleep))
+                    self.assertTrue(all(call.args[0].get_method() == 'GET' for call in urlopen.call_args_list))
+                    self.assertEqual([call.args[0] for call in sleep.call_args_list], expected_sleep)
+
     def test_preflight_failure_stops_before_publisher(self):
         self.assertEqual(self.run_case(auth_error=RuntimeError('Autenticação OAuth: HTTP 400 (invalid_grant).')), (1,0,0))
         self.assertIn('invalid_grant', Path('summary.md').read_text())

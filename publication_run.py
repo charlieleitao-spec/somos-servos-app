@@ -2,12 +2,14 @@
 """Executa o publicador com autenticação prévia e evidência, sem alterar conteúdo."""
 import csv
 import datetime as dt
+from email.utils import parsedate_to_datetime
 import html
 import importlib
 import json
 import os
 from pathlib import Path
 import sys
+import time
 import urllib.error
 import urllib.request
 from zoneinfo import ZoneInfo
@@ -41,18 +43,47 @@ def safe_request(url, method='GET', data=None, token=None, content_type=None, op
         raise RuntimeError(f'{operation}: falha de rede ou timeout.') from None
 
 
+class PublicVerificationPending(RuntimeError):
+    """O Blogger limitou temporariamente a consulta pública."""
+
+
+def retry_after_seconds(value):
+    if not value:
+        return 5
+    if value.isascii() and value.isdecimal():
+        return int(value) if len(value) <= 2 else 31
+    try:
+        retry_at = parsedate_to_datetime(value)
+        return max(0, (retry_at - dt.datetime.now(dt.timezone.utc)).total_seconds())
+    except (ValueError, TypeError, OverflowError):
+        return 5
+
+
 def check_public_url(url):
     if not url or not url.startswith(('https://', 'http://')):
         raise RuntimeError('API não devolveu URL pública válida; HTTP 200 não comprovado.')
-    try:
-        with urllib.request.urlopen(urllib.request.Request(url, headers={'User-Agent': 'SomosServosVerifier/1.0'}), timeout=45) as response:
-            status = response.status
-    except urllib.error.HTTPError as exc:
-        status = exc.code
-    except (urllib.error.URLError, TimeoutError):
-        raise RuntimeError('URL pública: falha de rede ou timeout; HTTP 200 não comprovado.') from None
-    if status != 200:
-        raise RuntimeError(f'URL pública respondeu HTTP {status}; esperado 200.')
+    request = urllib.request.Request(url, headers={'User-Agent': 'SomosServosVerifier/1.0'})
+    for attempt in range(2):
+        try:
+            with urllib.request.urlopen(request, timeout=45) as response:
+                status = response.status
+        except urllib.error.HTTPError as exc:
+            status = exc.code
+            retry_after = exc.headers.get('Retry-After') if exc.headers else None
+            exc.close()
+            if status == 429:
+                delay = retry_after_seconds(retry_after)
+                if attempt == 0 and delay <= 30:
+                    time.sleep(delay)
+                    continue
+                raise PublicVerificationPending(
+                    'URL pública respondeu HTTP 429; verificação pública pendente.'
+                ) from None
+        except (urllib.error.URLError, TimeoutError):
+            raise RuntimeError('URL pública: falha de rede ou timeout; HTTP 200 não comprovado.') from None
+        if status != 200:
+            raise RuntimeError(f'URL pública respondeu HTTP {status}; esperado 200.')
+        return
 
 
 def record(result):
@@ -99,6 +130,16 @@ def run(kind):
             result.update(titulo=response.get('title', ''), id=response.get('id', ''), url=response.get('url', ''))
         return response
 
+    def verify_publication(status):
+        try:
+            check_public_url(result['url'])
+        except PublicVerificationPending as exc:
+            result['status'] = status + '_link_pendente'
+            result['erro'] = str(exc)
+            print(f'::warning::{exc}')
+        else:
+            result['status'] = status + '_http_200'
+
     def find(*args):
         nonlocal duplicate
         post = original_find(*args)
@@ -107,8 +148,7 @@ def run(kind):
             result.update(titulo=post.get('title', ''), id=post.get('id', ''), url=post.get('url', ''))
             result['status'] = 'duplicado_' + str(post.get('status', 'desconhecido')).lower()
             if not dry and str(post.get('status', '')).upper() == 'LIVE':
-                check_public_url(result['url'])
-                result['status'] = 'duplicado_live_http_200'
+                verify_publication('duplicado_live')
         return post
 
     def prepare(*args, **kwargs):
@@ -135,8 +175,7 @@ def run(kind):
             if draft:
                 result['status'] = 'rascunho_confirmado_api'
             else:
-                check_public_url(result['url'])
-                result['status'] = 'publicado_http_200'
+                verify_publication('publicado')
         elif not duplicate:
             result['status'] = 'previa_sem_publicacao' if dry else 'sem_celebracao'
         return 0
