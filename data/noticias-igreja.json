@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-15T17:14:59.335102+00:00",
+      "updated_at": "2026-11-15T22:55:58.723678+00:00",
       "items": [
         {
-          "title": "Papa: as tradições populares são um tesouro inestimável de bons ensinamentos",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-missa-cusco-tradicoes-populars-tesouro-novas-geracoes.html"
+          "title": "Leão aos povos amazônicos: o clamor da terra e dos pobres eleva-se em uma só voz",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-viagem-apostolica-peru-pucallpa-povos-amazonicos.html"
         },
         {
-          "title": "Dia dos Pobres, o esmoleiro: não são problemas sociais, mas pessoas com dignidade",
-          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-11/dia-mundial-dos-pobres-santa-missa-dom-luis-marin-de-san-martin.html"
+          "title": "Em Cusco, a carícia do Papa a um povo \"que sabe sofrer com dignidade\"",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-angelus-cusco-viagem-apostolica-peru.html"
         },
         {
-          "title": "Pároco da Catedral: Pucallpa abre seu coração para acolher o Papa Leão XIV",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/pucallpa-paroco-catedral-papa-leao-xiv.html"
+          "title": "O presente do Papa à Igreja em Cusco: um Sudário ao Señor de los Temblores",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/cusco-papa-angelus-presente-sudario-senor-de-los-temblores.html"
         }
       ]
     },
@@ -45,8 +45,12 @@
       "name": "CRB Nacional",
       "page": "https://crbnacional.org.br/noticias/",
       "feed": "https://crbnacional.org.br/feed/",
-      "updated_at": "2026-11-15T01:58:17.073570+00:00",
+      "updated_at": "2026-11-15T22:55:56.572984+00:00",
       "items": [
+        {
+          "title": "6º Congresso da CLAR encerra com um chamado à esperança, à comunhão e à transformação da Vida Religiosa Consagrada**",
+          "link": "https://crbnacional.org.br/68078-2/"
+        },
         {
           "title": "Segundo dia do 6º Congresso da CLAR aprofunda reflexões sobre mudanças estruturais e conta com expressiva participação brasileira",
           "link": "https://crbnacional.org.br/segundo-dia-do-6o-congresso-da-clar-aprofunda-reflexoes-sobre-mudancas-estruturais-e-conta-com-expressiva-participacao-brasileira/"
@@ -54,10 +58,6 @@
         {
           "title": "Conferência dos Religiosos do Brasil participa do 6º Congresso da CLAR, em Lima, no Peru",
           "link": "https://crbnacional.org.br/conferencia-dos-religiosos-do-brasil-participa-do-6o-congresso-da-clar-em-lima-no-peru/"
-        },
-        {
-          "title": "Dom Amilton participa do encerramento do Encontro Nacional dos Religiosos Presbíteros",
-          "link": "https://crbnacional.org.br/dom-amilton-participa-do-encerramento-do-encontro-nacional-dos-religiosos-presbiteros/"
         }
       ]
     }
