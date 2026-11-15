@@ -5,8 +5,12 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-14T20:46:10.012399+00:00",
+      "updated_at": "2026-11-15T01:58:17.575584+00:00",
       "items": [
+        {
+          "title": "Papa: vocês são resposta de Deus à minha oração. Continuem rezando por mim",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-zana-peru-voces-foram-parte-da-resposta-da-minha-oracao.html"
+        },
         {
           "title": "Bissau - Bispos apelam à proteção dos migrantes, diálogo e paz",
           "link": "https://www.vaticannews.va/pt/africa/news/2026-11/bissau-bispos-apelam-a-protecao-dos-migrantes-dialogo-e-paz.html"
@@ -14,10 +18,6 @@
         {
           "title": "Señor del Costado: a devoção de 350 anos que levou Leão XIV de volta aos Andes peruanos",
           "link": "https://www.vaticannews.va/pt/papa/news/2026-11/peru-leao-xiv-devocao-senhor-costado-santa-cruz-succhabamba.html"
-        },
-        {
-          "title": "Leão XIV aos fiéis andinos: o caminho que percorrestes é uma peregrinação de fé",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-viagem-apostolica-peru-missa-santa-cruz-de-succhabamba.html"
         }
       ]
     },
@@ -45,8 +45,12 @@
       "name": "CRB Nacional",
       "page": "https://crbnacional.org.br/noticias/",
       "feed": "https://crbnacional.org.br/feed/",
-      "updated_at": "2026-11-13T23:39:17.273696+00:00",
+      "updated_at": "2026-11-15T01:58:17.073570+00:00",
       "items": [
+        {
+          "title": "Segundo dia do 6º Congresso da CLAR aprofunda reflexões sobre mudanças estruturais e conta com expressiva participação brasileira",
+          "link": "https://crbnacional.org.br/segundo-dia-do-6o-congresso-da-clar-aprofunda-reflexoes-sobre-mudancas-estruturais-e-conta-com-expressiva-participacao-brasileira/"
+        },
         {
           "title": "Conferência dos Religiosos do Brasil participa do 6º Congresso da CLAR, em Lima, no Peru",
           "link": "https://crbnacional.org.br/conferencia-dos-religiosos-do-brasil-participa-do-6o-congresso-da-clar-em-lima-no-peru/"
@@ -54,10 +58,6 @@
         {
           "title": "Dom Amilton participa do encerramento do Encontro Nacional dos Religiosos Presbíteros",
           "link": "https://crbnacional.org.br/dom-amilton-participa-do-encerramento-do-encontro-nacional-dos-religiosos-presbiteros/"
-        },
-        {
-          "title": "CRB Nacional em encontro com a Vida Monástica e Contemplativa das Irmãs Clarissas",
-          "link": "https://crbnacional.org.br/crb-nacional-em-encontro-com-a-vida-monastica-e-contemplativa-das-irmas-clarissas/"
         }
       ]
     }
