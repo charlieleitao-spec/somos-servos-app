@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-15T22:55:58.723678+00:00",
+      "updated_at": "2026-11-16T06:43:24.245282+00:00",
       "items": [
+        {
+          "title": "Leão XIV na Amazônia: a paz social e o equilíbrio ecológico andam de mãos dadas",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-missa-amazonia-violencia-contra-o-povo-e-contra-terra-peru.html"
+        },
+        {
+          "title": "Papa na Nunciatura em Lima convoca os jovens à esperança",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-nunciatura-lima-convoca-jovens-esperanca.html"
+        },
         {
           "title": "Leão aos povos amazônicos: o clamor da terra e dos pobres eleva-se em uma só voz",
           "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-viagem-apostolica-peru-pucallpa-povos-amazonicos.html"
-        },
-        {
-          "title": "Em Cusco, a carícia do Papa a um povo \"que sabe sofrer com dignidade\"",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-angelus-cusco-viagem-apostolica-peru.html"
-        },
-        {
-          "title": "O presente do Papa à Igreja em Cusco: um Sudário ao Señor de los Temblores",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/cusco-papa-angelus-presente-sudario-senor-de-los-temblores.html"
         }
       ]
     },
