@@ -84,6 +84,8 @@ def list_existing_posts(blog_id, token):
         while url:
             page = json_request(url, token=token, operation="Consulta de postagens")
             for post in page.get("items", []):
+                # A listagem do Blogger pode omitir o status do item.
+                post.setdefault("status", status.upper())
                 posts_by_id[post.get("id") or (post.get("title"), post.get("url"))] = post
             next_token = page.get("nextPageToken")
             url = (f"{base_url}?maxResults=500&fetchBodies=true&status={status}"
