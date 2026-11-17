@@ -68,9 +68,11 @@ class WeeklyTests(unittest.TestCase):
     def test_workflow_modes_resolve_to_string_booleans(self):
         workflow = WORKFLOW.read_text()
         self.assertIn('cron: "0 11 * * 0"', workflow)
+        self.assertIn('cron: "47 10 * * *"', workflow)
         for event, schedule, manual_draft, expected in (
             ('schedule', '0 11 * * 0', False, ('false', 'false')),
             ('schedule', '5 9 * * *', False, ('true', 'true')),
+            ('schedule', '47 10 * * *', False, ('true', 'true')),
             ('workflow_dispatch', '', False, ('true', 'true')),
             ('workflow_dispatch', '', True, ('false', 'true')),
         ):

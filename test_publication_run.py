@@ -1,5 +1,6 @@
 import contextlib
 import csv
+import datetime as dt
 import importlib
 import io
 import json
@@ -10,6 +11,11 @@ import unittest
 from unittest.mock import patch
 import urllib.error
 import publication_run as audit
+
+EVENT_DATE = dt.date(2026, 11, 17)
+EVENT_MARKER = 'somos-servos-source-id:29'
+LEGACY_EVENT = '<!-- somos-servos-source-id:29 -->'
+DATED_EVENT = '<!-- somos-servos-ocorrencia:2026-11-17 -->' + LEGACY_EVENT
 
 
 class AuditTests(unittest.TestCase):
@@ -30,7 +36,7 @@ class AuditTests(unittest.TestCase):
         post = post or {'title': 'Título, com vírgula', 'id': '123', 'url': 'https://somosservos.blogspot.com/post.html', 'status': 'LIVE'}
         def main():
             if duplicate:
-                self.module.find_duplicate([dict(post, content='marker')], 'marker')
+                self.module.find_duplicate([dict(post, content=DATED_EVENT)], EVENT_MARKER, EVENT_DATE)
             else:
                 self.module.json_request('https://www.googleapis.com/blogger/v3/blogs/1/posts/', 'POST')
         with patch.object(self.module, 'access_token', side_effect=auth_error, return_value='secret-token'), patch.object(self.module, 'locate_blog', return_value={'id':'1'}), patch.object(self.module, 'main', side_effect=main) as work, patch.object(audit, 'safe_request', return_value=post), patch.object(audit, 'check_public_url', side_effect=public_error) as check:
@@ -41,14 +47,14 @@ class AuditTests(unittest.TestCase):
         for status, public_checks in (('live', 1), ('draft', 0), ('scheduled', 0)):
             with self.subTest(status=status):
                 self.module = importlib.reload(self.module)
-                post = {'id': '123', 'title': 'Celebração', 'url': 'https://somosservos.blogspot.com/post.html', 'content': 'marker'}
+                post = {'id': '123', 'title': 'Celebração', 'url': 'https://somosservos.blogspot.com/post.html', 'content': DATED_EVENT}
 
                 def request(url, **kwargs):
                     return {'items': [post.copy()]} if url.endswith(f'&status={status}') else {}
 
                 def main():
                     posts = self.module.list_existing_posts('1', 'token')
-                    self.module.find_duplicate(posts, 'marker')
+                    self.module.find_duplicate(posts, EVENT_MARKER, EVENT_DATE)
 
                 with patch.object(self.module, 'access_token', return_value='token'), \
                      patch.object(self.module, 'locate_blog', return_value={'id': '1'}), \
@@ -62,6 +68,48 @@ class AuditTests(unittest.TestCase):
                 suffix = '_http_200' if public_checks else ''
                 self.assertEqual(result['status'], f'duplicado_{status}{suffix}')
                 self.assertEqual(result['id'], '123')
+
+    def test_occurrence_accepts_same_year_legacy_and_ignores_other_years(self):
+        legacy = {'content': LEGACY_EVENT, 'published': '2026-11-17T10:00:00Z'}
+        previous = dict(legacy, published='2025-11-17T10:00:00Z')
+        dated_previous = dict(previous, content=DATED_EVENT.replace('2026-', '2025-'))
+        current = dict(legacy, content=DATED_EVENT)
+        other_event = dict(current, content=DATED_EVENT.replace('source-id:29', 'source-id:290'))
+
+        find = self.module.find_duplicate
+        self.assertIsNone(find([previous, dated_previous, other_event], EVENT_MARKER, EVENT_DATE))
+        self.assertIs(find([previous, legacy], EVENT_MARKER, EVENT_DATE), legacy)
+        self.assertIs(find([dated_previous, current], EVENT_MARKER, EVENT_DATE), current)
+        self.assertIsNone(find([current], EVENT_MARKER, dt.date(2027, 11, 17)))
+
+    def test_daily_publication_reuses_draft_and_checks_the_public_url(self):
+        os.environ['PUBLISH_DATE'] = EVENT_DATE.isoformat()
+        entry = {'id': 29, 'day': 17, 'month': 11, 'title': 'Comemoração dos Defuntos da Ordem'}
+        post = {'id': '123', 'title': entry['title'] + ' — Memória OSM',
+                'url': 'https://somosservos.blogspot.com/post.html', 'content': DATED_EVENT}
+        draft = dict(post, status='DRAFT')
+        card_path = Path('cartao-11-17.png')
+        card_path.write_bytes(b'card')
+
+        def request(url, method='GET', **kwargs):
+            return dict(post, status='LIVE')
+
+        with (
+            patch.object(self.module, 'access_token', return_value='token'),
+            patch.object(self.module, 'locate_blog', return_value={'id': '1'}),
+            patch.object(self.module, 'get_public_json', side_effect=[[entry], {}]),
+            patch.object(self.module, 'generate_card', return_value=(card_path, Path('legenda.txt'))),
+            patch.object(self.module, 'list_existing_posts', return_value=[draft]),
+            patch.object(audit, 'safe_request', side_effect=request) as api,
+            patch.object(audit, 'check_public_url') as check,
+        ):
+            self.assertEqual(audit.run('diário'), 0)
+            self.assertTrue(api.call_args_list[0].args[0].endswith('/posts/123/publish'))
+            self.assertEqual(api.call_args_list[0].args[1], 'POST')
+            self.assertTrue(api.call_args_list[1].args[0].endswith('/posts/123?view=ADMIN'))
+            self.assertEqual(api.call_count, 2)
+            check.assert_called_once_with(post['url'])
+        self.assertIn('publicado_http_200', Path('publicacoes.csv').read_text())
 
     def test_public_success_records_api_fields(self):
         self.assertEqual(self.run_case(), (0,1,1))

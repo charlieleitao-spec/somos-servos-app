@@ -245,13 +245,36 @@ def prepare_post(entry, offices, date, card_url=None, card_alt=None):
     sections = sections_from(celebration)
     title = (f"{entry.get('title') or entry.get('name')} — Ofício próprio OSM"
              if sections else f"{entry.get('title') or entry.get('name')} — Memória OSM")
-    return title, make_content(entry, sections, card_url, card_alt)
+    return title, f"<!-- somos-servos-ocorrencia:{date.isoformat()} -->" + make_content(
+        entry, sections, card_url, card_alt)
 
 
-def find_duplicate(posts, source_marker):
-    """Deduplica somente pelo identificador estável gravado no corpo do post."""
-    return next((post for post in posts
-                 if source_marker in (post.get("content") or "")), None)
+def local_post_date(post):
+    timestamp = post.get("published") or post.get("updated")
+    if not timestamp:
+        return None
+    date = dt.datetime.fromisoformat(timestamp)
+    if date.tzinfo is not None:
+        date = date.astimezone(TIMEZONE)
+    return date.date()
+
+
+def matches_occurrence(post, source_marker, date):
+    content = post.get("content") or ""
+    if f"<!-- {source_marker} -->" not in content:
+        return False
+    occurrence = re.search(r"<!-- somos-servos-ocorrencia:(\d{4}-\d{2}-\d{2}) -->", content)
+    if occurrence:
+        return occurrence[1] == date.isoformat()
+    post_date = local_post_date(post)
+    if post_date is None:
+        raise RuntimeError("Postagem com marcador legado sem data no Blogger; publicação bloqueada para evitar duplicata.")
+    return post_date.year == date.year
+
+
+def find_duplicate(posts, source_marker, date):
+    """Reconhece a ocorrência e aceita o marcador legado no mesmo ano civil."""
+    return next((post for post in posts if matches_occurrence(post, source_marker, date)), None)
 
 
 def entry_for_date(santoral, date):
@@ -326,9 +349,10 @@ def main():
     token = access_token()
     blog = locate_blog(token)
     posts = list_existing_posts(blog["id"], token)
-    source_marker = f"somos-servos-source-id:{entry.get('id')}"
-    duplicate = find_duplicate(posts, source_marker)
-    if duplicate:
+    source_marker = f"somos-servos-source-id:{entry['id']}"
+    duplicate = find_duplicate(posts, source_marker, date)
+    resume_draft = duplicate and duplicate.get("status") == "DRAFT" and not (dry_run or is_draft)
+    if duplicate and not resume_draft:
         if duplicate.get("url"):
             generate_card(santoral, date, duplicate["url"])
         existing_content = duplicate.get("content") or ""
@@ -350,26 +374,35 @@ def main():
         print(caption_path.read_text(encoding="utf-8").strip() if caption_path.exists() else "Legenda pendente até existir a URL real da postagem.")
         return
 
-    payload = json.dumps({"kind": "blogger#post", "title": title, "content": content,
-                          "labels": labels}, ensure_ascii=False).encode("utf-8")
-    insert_url = f"https://www.googleapis.com/blogger/v3/blogs/{blog['id']}/posts/"
-    if is_draft:
-        insert_url += "?isDraft=true"
-    created = json_request(
-        insert_url, "POST", payload, token, "application/json; charset=UTF-8", "Criação da postagem")
+    posts_url = f"https://www.googleapis.com/blogger/v3/blogs/{blog['id']}/posts/"
+    if resume_draft:
+        if duplicate.get("title") != title or not duplicate.get("id"):
+            raise RuntimeError("O rascunho correspondente tem título diferente ou está sem ID.")
+        created = json_request(
+            f"{posts_url}{duplicate['id']}/publish", "POST", token=token,
+            operation="Publicação do rascunho existente")
+        if created.get("id") != duplicate["id"]:
+            raise RuntimeError("O Blogger não confirmou o ID do rascunho publicado.")
+    else:
+        payload = json.dumps({"kind": "blogger#post", "title": title, "content": content,
+                              "labels": labels}, ensure_ascii=False).encode("utf-8")
+        created = json_request(
+            f"{posts_url}?isDraft={str(is_draft).lower()}", "POST", payload, token,
+            "application/json; charset=UTF-8", "Criação da postagem")
     post_id = created.get("id")
     if not post_id:
         raise RuntimeError("A API não devolveu o identificador da postagem criada.")
 
     verified = json_request(
-        f"https://www.googleapis.com/blogger/v3/blogs/{blog['id']}/posts/{post_id}?view=ADMIN",
+        f"{posts_url}{post_id}?view=ADMIN",
         token=token, operation="Verificação da postagem")
     if verified.get("id") != post_id or verified.get("title") != title:
         raise RuntimeError("A leitura de volta da API não confirmou título e identificador.")
-    if source_marker not in (verified.get("content") or ""):
+    if not matches_occurrence(verified, source_marker, date):
         raise RuntimeError("A leitura de volta da API não confirmou o marcador de origem.")
-    if is_draft and str(verified.get("status", "")).upper() != "DRAFT":
-        raise RuntimeError("A leitura de volta da API não confirmou o estado de rascunho.")
+    expected_status = "DRAFT" if is_draft else "LIVE"
+    if verified.get("status") != expected_status:
+        raise RuntimeError(f"A leitura de volta da API não confirmou o estado {expected_status}.")
     if verified.get("url"):
         generate_card(santoral, date, verified["url"])
     result_label = "Rascunho criado e confirmado" if is_draft else "Publicado e confirmado"
