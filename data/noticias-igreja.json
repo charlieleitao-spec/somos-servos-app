@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-17T02:58:25.162441+00:00",
+      "updated_at": "2026-11-17T13:34:48.133104+00:00",
       "items": [
         {
-          "title": "Leão XIV se despede do Peru e encerra viagem pela América do Sul",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/leao-xiv-despede-peru-encerra-viagem-america-do-sul.html"
+          "title": "Papa ao Brasil: rezo para que as bênçãos de Deus estejam sobre todos",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-brasil-bencaos-de-deus-telegrama-viagem-america-latina.html"
         },
         {
-          "title": "A voz dos idosos em Callao, no Peru: no entardecer da vida, a esperança renasce",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-viagem-apostolica-peru-callao-depoimentos-asilo-26.html"
+          "title": "COP31: o peso invisível do algoritmo na balança climática",
+          "link": "https://www.vaticannews.va/pt/mundo/news/2026-11/cop31-clima-turquia-inteligencia-artificial-magnifica-humanitas.html"
         },
         {
-          "title": "Papa na América Latina: fé viva que gera compromisso com os últimos",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-na-america-latina-editorial-andrea-tornielli.html"
+          "title": "Dom Vítor Quematcha assume diocese de Bissau com apelo à paz e união dos guineenses",
+          "link": "https://www.vaticannews.va/pt/africa/news/2026-11/bispos-bissau-dialogo-uniao-paz-bem-comum-justica.html"
         }
       ]
     },
@@ -25,19 +25,19 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-11-16T18:39:12.795770+00:00",
+      "updated_at": "2026-11-17T13:34:47.641387+00:00",
       "items": [
         {
-          "title": "Jornada Mundial dos Pobres mobiliza dioceses do Brasil em ações de solidariedade e promoção da dignidade humana",
-          "link": "https://www.cnbb.org.br/jornada-mundial-dos-pobres-mobiliza-dioceses-de-todo-o-brasil-em-acoes-de-solidariedade-e-promocao-da-dignidade-humana/"
+          "title": "O trono do nosso Rei é o coração do irmão",
+          "link": "https://www.cnbb.org.br/o-trono-do-nosso-rei-e-o-coracao-do-irmao/"
         },
         {
-          "title": "Encontro Nacional da Pastoral Universitária reúne agentes de todo o país em Conde (PB) e aprova a Carta de João Pessoa/Conde",
-          "link": "https://www.cnbb.org.br/encontro-nacional-da-pastoral-universitaria-reune-agentes-de-todo-o-pais-em-conde-pb-e-aprova-a-carta-de-joao-pessoa-conde/"
+          "title": "O Soberano que serve com extrema humildade",
+          "link": "https://www.cnbb.org.br/o-soberano-que-serve-com-extrema-humildade/"
         },
         {
-          "title": "Papa Leão XIV confirma povo peruano na fé com retorno à diocese de Chiclayo e celebrações com povos amazônicos",
-          "link": "https://www.cnbb.org.br/papa-leao-xiv-confirma-povo-peruano-na-fe-com-retorno-a-diocese-de-chiclayo-e-celebracoes-com-povos-amazonicos/"
+          "title": "Um Rei que não domina para explorar, mas dá a própria vida para salvar e curar",
+          "link": "https://www.cnbb.org.br/um-rei-que-nao-domina-para-explorar-mas-da-a-propria-vida-para-salvar-e-curar/"
         }
       ]
     },
@@ -45,8 +45,12 @@
       "name": "CRB Nacional",
       "page": "https://crbnacional.org.br/noticias/",
       "feed": "https://crbnacional.org.br/feed/",
-      "updated_at": "2026-11-15T22:55:56.572984+00:00",
+      "updated_at": "2026-11-17T13:34:47.576453+00:00",
       "items": [
+        {
+          "title": "Conferência dos Religiosos do Brasil encerra curso de Canva Avançado com apresentação de projetos finais",
+          "link": "https://crbnacional.org.br/conferencia-dos-religiosos-do-brasil-encerra-curso-de-canva-avancado-com-apresentacao-de-projetos-finais/"
+        },
         {
           "title": "6º Congresso da CLAR encerra com um chamado à esperança, à comunhão e à transformação da Vida Religiosa Consagrada**",
           "link": "https://crbnacional.org.br/68078-2/"
@@ -54,10 +58,6 @@
         {
           "title": "Segundo dia do 6º Congresso da CLAR aprofunda reflexões sobre mudanças estruturais e conta com expressiva participação brasileira",
           "link": "https://crbnacional.org.br/segundo-dia-do-6o-congresso-da-clar-aprofunda-reflexoes-sobre-mudancas-estruturais-e-conta-com-expressiva-participacao-brasileira/"
-        },
-        {
-          "title": "Conferência dos Religiosos do Brasil participa do 6º Congresso da CLAR, em Lima, no Peru",
-          "link": "https://crbnacional.org.br/conferencia-dos-religiosos-do-brasil-participa-do-6o-congresso-da-clar-em-lima-no-peru/"
         }
       ]
     }
