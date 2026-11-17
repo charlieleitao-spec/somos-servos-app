@@ -37,6 +37,32 @@ class AuditTests(unittest.TestCase):
             status = audit.run('diário')
             return status, work.call_count, check.call_count
 
+    def test_duplicate_without_explicit_status_uses_the_list_filter(self):
+        for status, public_checks in (('live', 1), ('draft', 0), ('scheduled', 0)):
+            with self.subTest(status=status):
+                self.module = importlib.reload(self.module)
+                post = {'id': '123', 'title': 'Celebração', 'url': 'https://somosservos.blogspot.com/post.html', 'content': 'marker'}
+
+                def request(url, **kwargs):
+                    return {'items': [post.copy()]} if url.endswith(f'&status={status}') else {}
+
+                def main():
+                    posts = self.module.list_existing_posts('1', 'token')
+                    self.module.find_duplicate(posts, 'marker')
+
+                with patch.object(self.module, 'access_token', return_value='token'), \
+                     patch.object(self.module, 'locate_blog', return_value={'id': '1'}), \
+                     patch.object(self.module, 'main', side_effect=main), \
+                     patch.object(audit, 'safe_request', side_effect=request) as api, \
+                     patch.object(audit, 'check_public_url') as check:
+                    self.assertEqual(audit.run('diário'), 0)
+                    self.assertEqual(api.call_count, 3)
+                    self.assertEqual(check.call_count, public_checks)
+                result = json.loads(Path('.publicacoes-pendentes.jsonl').read_text().splitlines()[-1])
+                suffix = '_http_200' if public_checks else ''
+                self.assertEqual(result['status'], f'duplicado_{status}{suffix}')
+                self.assertEqual(result['id'], '123')
+
     def test_public_success_records_api_fields(self):
         self.assertEqual(self.run_case(), (0,1,1))
         summary = Path('summary.md').read_text()
