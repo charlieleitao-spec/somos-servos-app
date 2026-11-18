@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-17T22:27:50.171617+00:00",
+      "updated_at": "2026-11-18T17:19:39.284312+00:00",
       "items": [
         {
-          "title": "A Santa Sé na ONU: a proteção dos civis deve estar no centro das",
-          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-11/santa-se-dom-el-kassis-na-onu-civis-centro-manutencao-da-paz.html"
+          "title": "Lusofonias - Papa ‘peruano’ regressa a casa",
+          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/igreja-papa-leao-viagem-apostolica-peru-missao-reconciliacao-paz.html"
         },
         {
-          "title": "“Cristo no centro da nossa vida”: vigílias de oração com Leão XIV na América Latina",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/papa-leao-viagemapostolica-america-latina-jovens-oracao-pastoral.html"
+          "title": "Aleijadinho, a voz original do barroco brasileiro",
+          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-11/aleijadinho-barroco-brasil-museus-vaticanos.html"
         },
         {
-          "title": "Igreja na Amazônia se mobiliza contra as queimadas e em defesa da vida",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/grito-vida-criacao-diocese-obidos-paroquia-santa-isabel-portugal0.html"
+          "title": "Leão XIV encontrará seminaristas do Seminário Romano Maior em 2027",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/leao-xiv-encontro-seminaristas-seminario-romano-maior-2027.html"
         }
       ]
     },
@@ -25,19 +25,19 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-11-17T22:27:49.681554+00:00",
+      "updated_at": "2026-11-18T17:19:38.877569+00:00",
       "items": [
         {
-          "title": "Fórum Igrejas e Ecologia Integral reúne pastorais e movimentos para fortalecer conversão ecológica",
-          "link": "https://www.cnbb.org.br/forum-igrejas-ecologia-integral-fortalece-conversao-ecologica/"
+          "title": "Jesus de Nazaré não veio fundar um império, mas inaugurar o Reino",
+          "link": "https://www.cnbb.org.br/jesus-de-nazare-nao-veio-fundar-um-imperio-mas-inaugurar-o-reino/"
         },
         {
-          "title": "Comissão Especial para a Comunhão e Partilha avalia ações de 2026 e planeja ampliação do apoio às dioceses em 2027",
-          "link": "https://www.cnbb.org.br/comissao-especial-para-a-comunhao-e-partilha-da-cnbb-avalia-acoes-de-2026-e-planeja-ampliacao-do-apoio-as-dioceses-em-2027/"
+          "title": "Formação sobre proteção de menores e vulneráveis aponta caminhos para fortalecimento de atuação conjunta das dioceses do regional Nordeste 3",
+          "link": "https://www.cnbb.org.br/formacao-sobre-protecao-de-menores-e-vulneraveis-aponta-caminhos-para-fortalecimento-de-atuacao-conjunta-das-dioceses-do-regional-nordeste-3/"
         },
         {
-          "title": "CNBB dá início à Campanha para a Evangelização 2026 no domingo, 22/11, na Solenidade de Cristo Rei",
-          "link": "https://www.cnbb.org.br/cnbb-da-inicio-a-campanha-para-a-evangelizacao-2026-no-domingo-22-11-na-solenidade-de-cristo-rei/"
+          "title": "Comissão de Bens Culturais do regional Nordeste 3 apresenta proposta de estruturação do trabalho de preservação do patrimônio da Igreja",
+          "link": "https://www.cnbb.org.br/comissao-de-bens-culturais-do-regional-nordeste-3-apresenta-proposta-de-estruturacao-do-trabalho-de-preservacao-do-patrimonio-da-igreja/"
         }
       ]
     },
@@ -45,8 +45,12 @@
       "name": "CRB Nacional",
       "page": "https://crbnacional.org.br/noticias/",
       "feed": "https://crbnacional.org.br/feed/",
-      "updated_at": "2026-11-17T13:34:47.576453+00:00",
+      "updated_at": "2026-11-18T17:19:39.141443+00:00",
       "items": [
+        {
+          "title": "CRB Nacional acolhe missionários em formação para a Missão Ad Gentes",
+          "link": "https://crbnacional.org.br/crb-nacional-acolhe-missionarios-em-formacao-para-a-missao-ad-gentes/"
+        },
         {
           "title": "Conferência dos Religiosos do Brasil encerra curso de Canva Avançado com apresentação de projetos finais",
           "link": "https://crbnacional.org.br/conferencia-dos-religiosos-do-brasil-encerra-curso-de-canva-avancado-com-apresentacao-de-projetos-finais/"
@@ -54,10 +58,6 @@
         {
           "title": "6º Congresso da CLAR encerra com um chamado à esperança, à comunhão e à transformação da Vida Religiosa Consagrada**",
           "link": "https://crbnacional.org.br/68078-2/"
-        },
-        {
-          "title": "Segundo dia do 6º Congresso da CLAR aprofunda reflexões sobre mudanças estruturais e conta com expressiva participação brasileira",
-          "link": "https://crbnacional.org.br/segundo-dia-do-6o-congresso-da-clar-aprofunda-reflexoes-sobre-mudancas-estruturais-e-conta-com-expressiva-participacao-brasileira/"
         }
       ]
     }
