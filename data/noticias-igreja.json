@@ -5,8 +5,12 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-18T17:19:39.284312+00:00",
+      "updated_at": "2026-11-19T00:28:46.904455+00:00",
       "items": [
+        {
+          "title": "Papa: Basílica de São Pedro, espaço sagrado no qual a fé vibra",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-missa-400-anos-dedicacao-basilica-sao-pedro-fe-vibra.html"
+        },
         {
           "title": "Lusofonias - Papa ‘peruano’ regressa a casa",
           "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/igreja-papa-leao-viagem-apostolica-peru-missao-reconciliacao-paz.html"
@@ -14,10 +18,6 @@
         {
           "title": "Aleijadinho, a voz original do barroco brasileiro",
           "link": "https://www.vaticannews.va/pt/vaticano/news/2026-11/aleijadinho-barroco-brasil-museus-vaticanos.html"
-        },
-        {
-          "title": "Leão XIV encontrará seminaristas do Seminário Romano Maior em 2027",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/leao-xiv-encontro-seminaristas-seminario-romano-maior-2027.html"
         }
       ]
     },
@@ -25,19 +25,19 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-11-18T17:19:38.877569+00:00",
+      "updated_at": "2026-11-19T00:28:43.031357+00:00",
       "items": [
         {
-          "title": "Jesus de Nazaré não veio fundar um império, mas inaugurar o Reino",
-          "link": "https://www.cnbb.org.br/jesus-de-nazare-nao-veio-fundar-um-imperio-mas-inaugurar-o-reino/"
+          "title": "Secretário-geral da CNBB assessora Semana de Formação promovida pela prelazia de São Félix do Araguaia (MT)",
+          "link": "https://www.cnbb.org.br/semana-de-formacao-promovida-pela-prelazia-de-sao-felix-do-araguaia-mt/"
         },
         {
-          "title": "Formação sobre proteção de menores e vulneráveis aponta caminhos para fortalecimento de atuação conjunta das dioceses do regional Nordeste 3",
-          "link": "https://www.cnbb.org.br/formacao-sobre-protecao-de-menores-e-vulneraveis-aponta-caminhos-para-fortalecimento-de-atuacao-conjunta-das-dioceses-do-regional-nordeste-3/"
+          "title": "Secretários executivos se reúnem no Leste 3 para convivência, avaliação e contato com a realidade da Igreja local",
+          "link": "https://www.cnbb.org.br/encontro-secretarios-executivos-regionais-espirito-santo-leste-3/"
         },
         {
-          "title": "Comissão de Bens Culturais do regional Nordeste 3 apresenta proposta de estruturação do trabalho de preservação do patrimônio da Igreja",
-          "link": "https://www.cnbb.org.br/comissao-de-bens-culturais-do-regional-nordeste-3-apresenta-proposta-de-estruturacao-do-trabalho-de-preservacao-do-patrimonio-da-igreja/"
+          "title": "Seminário sobre a CF 2027 reúne representantes das 18 dioceses do Paraná",
+          "link": "https://www.cnbb.org.br/seminario-cf-2027-representantes-18-dioceses-do-parana/"
         }
       ]
     },
