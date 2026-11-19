@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-19T00:28:46.904455+00:00",
+      "updated_at": "2026-11-19T10:27:51.826573+00:00",
       "items": [
+        {
+          "title": "Basílica de São Pedro: Informações sobre missas, batizados e casamentos",
+          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-11/missas-casamentos-batizados-basilica-saopedro.html"
+        },
+        {
+          "title": "Evangelho de 19 de novembro",
+          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/evangelho-19-novembro-2026-dom-mario-spaki.html"
+        },
         {
           "title": "Papa: Basílica de São Pedro, espaço sagrado no qual a fé vibra",
           "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-missa-400-anos-dedicacao-basilica-sao-pedro-fe-vibra.html"
-        },
-        {
-          "title": "Lusofonias - Papa ‘peruano’ regressa a casa",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/igreja-papa-leao-viagem-apostolica-peru-missao-reconciliacao-paz.html"
-        },
-        {
-          "title": "Aleijadinho, a voz original do barroco brasileiro",
-          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-11/aleijadinho-barroco-brasil-museus-vaticanos.html"
         }
       ]
     },
