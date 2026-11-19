@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-19T10:27:51.826573+00:00",
+      "updated_at": "2026-11-19T20:45:02.793796+00:00",
       "items": [
         {
-          "title": "Basílica de São Pedro: Informações sobre missas, batizados e casamentos",
-          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-11/missas-casamentos-batizados-basilica-saopedro.html"
+          "title": "Gugerotti em Belém: preservar a esperança na terra da Encarnação",
+          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-11/missao-gugerotti-terra-santa-belem-iniciativas-solidariedade.html"
         },
         {
-          "title": "Evangelho de 19 de novembro",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/evangelho-19-novembro-2026-dom-mario-spaki.html"
+          "title": "Jennifer Hudson no \"Concerto com os Pobres\" com a presença de Leão XIV",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-concerto-com-os-pobres-jennifer-hudson-2026.html"
         },
         {
-          "title": "Papa: Basílica de São Pedro, espaço sagrado no qual a fé vibra",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-missa-400-anos-dedicacao-basilica-sao-pedro-fe-vibra.html"
+          "title": "Papa em Chiclayo, no Peru: divino rosto entre a memória e a gratidão",
+          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/pe-maicon-malacarne-artigo-viagem-apostolica-leao-xiv-peru-26.html"
         }
       ]
     },
@@ -25,19 +25,19 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-11-19T00:28:43.031357+00:00",
+      "updated_at": "2026-11-19T20:45:03.276163+00:00",
       "items": [
+        {
+          "title": "O Sinal de Deus nas periferias da história: a apresentação da virgem e a libertação dos pobres",
+          "link": "https://www.cnbb.org.br/o-sinal-de-deus-nas-periferias-da-historia-a-apresentacao-da-virgem-e-a-libertacao-dos-pobres/"
+        },
+        {
+          "title": "A meninazinha Maria",
+          "link": "https://www.cnbb.org.br/a-meninazinha-maria/"
+        },
         {
           "title": "Secretário-geral da CNBB assessora Semana de Formação promovida pela prelazia de São Félix do Araguaia (MT)",
           "link": "https://www.cnbb.org.br/semana-de-formacao-promovida-pela-prelazia-de-sao-felix-do-araguaia-mt/"
-        },
-        {
-          "title": "Secretários executivos se reúnem no Leste 3 para convivência, avaliação e contato com a realidade da Igreja local",
-          "link": "https://www.cnbb.org.br/encontro-secretarios-executivos-regionais-espirito-santo-leste-3/"
-        },
-        {
-          "title": "Seminário sobre a CF 2027 reúne representantes das 18 dioceses do Paraná",
-          "link": "https://www.cnbb.org.br/seminario-cf-2027-representantes-18-dioceses-do-parana/"
         }
       ]
     },
