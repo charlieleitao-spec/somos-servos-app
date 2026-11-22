@@ -5,8 +5,12 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-22T12:39:54.248882+00:00",
+      "updated_at": "2026-11-22T20:45:10.761868+00:00",
       "items": [
+        {
+          "title": "O Papa no almoço com os pobres: “hoje somos todos uma família”",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-almoco-pobres-somos-todos-familia-vaticano.html"
+        },
         {
           "title": "O Papa: que os responsáveis pelas guerras encontrem logo soluções de paz e concórdia",
           "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-responsaveis-guerras-encontrem-logo-solucoes.html"
@@ -14,10 +18,6 @@
         {
           "title": "Papa no Angelus: Cristo nos levanta do pó do tempo que passa",
           "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-angelus-cristo-levanta-po-tempo-passa.html"
-        },
-        {
-          "title": "Ucrânia, onde a guerra se tornou a realidade cotidiana das crianças",
-          "link": "https://www.vaticannews.va/pt/mundo/news/2026-11/ucrania-guerra-tornou-realidade-cotidiana-criancas.html"
         }
       ]
     },
