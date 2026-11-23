@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-22T20:45:10.761868+00:00",
+      "updated_at": "2026-11-23T14:50:05.405676+00:00",
       "items": [
         {
-          "title": "O Papa no almoço com os pobres: “hoje somos todos uma família”",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-almoco-pobres-somos-todos-familia-vaticano.html"
+          "title": "O fracasso da COP31 e o papel estratégico dos agentes da paz",
+          "link": "https://www.vaticannews.va/pt/mundo/news/2026-11/fracasso-cop31-clima-onu-antalia-turquia-papel-agentes-paz.html"
         },
         {
-          "title": "O Papa: que os responsáveis pelas guerras encontrem logo soluções de paz e concórdia",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-responsaveis-guerras-encontrem-logo-solucoes.html"
+          "title": "Dicastério para o Diálogo Inter-religioso, plenária de 24 a 26 de novembro",
+          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-11/assembleia-plenaria-dicasterio-dialogo-inter-religioso-novembro.html"
         },
         {
-          "title": "Papa no Angelus: Cristo nos levanta do pó do tempo que passa",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-angelus-cristo-levanta-po-tempo-passa.html"
+          "title": "Cabo Verde - Avenida, no Fogo, é dedicada a P. Ottavio Fasano",
+          "link": "https://www.vaticannews.va/pt/africa/news/2026-11/cabo-verde-avenida-no-fogo-e-dedicada-a-p-ottavio-fasano.html"
         }
       ]
     },
@@ -25,19 +25,19 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-11-19T20:45:03.276163+00:00",
+      "updated_at": "2026-11-23T14:50:04.955975+00:00",
       "items": [
         {
-          "title": "O Sinal de Deus nas periferias da história: a apresentação da virgem e a libertação dos pobres",
-          "link": "https://www.cnbb.org.br/o-sinal-de-deus-nas-periferias-da-historia-a-apresentacao-da-virgem-e-a-libertacao-dos-pobres/"
+          "title": "Assembleia ampliada no Leste 2 tem propostas para a evangelização das juventudes e para a caminhada sinodal",
+          "link": "https://www.cnbb.org.br/assembleia-ampliada-leste-2-propostas-evangelizacao-juventudes-e-caminhada-sinodal/"
         },
         {
-          "title": "A meninazinha Maria",
-          "link": "https://www.cnbb.org.br/a-meninazinha-maria/"
+          "title": "Prevalência do “humano”",
+          "link": "https://www.cnbb.org.br/prevalencia-do-humano/"
         },
         {
-          "title": "Secretário-geral da CNBB assessora Semana de Formação promovida pela prelazia de São Félix do Araguaia (MT)",
-          "link": "https://www.cnbb.org.br/semana-de-formacao-promovida-pela-prelazia-de-sao-felix-do-araguaia-mt/"
+          "title": "A morada de Deus e a verdadeira família da fé",
+          "link": "https://www.cnbb.org.br/a-morada-de-deus-e-a-verdadeira-familia-da-fe/"
         }
       ]
     },
@@ -45,8 +45,12 @@
       "name": "CRB Nacional",
       "page": "https://crbnacional.org.br/noticias/",
       "feed": "https://crbnacional.org.br/feed/",
-      "updated_at": "2026-11-18T17:19:39.141443+00:00",
+      "updated_at": "2026-11-23T14:50:05.606591+00:00",
       "items": [
+        {
+          "title": "CRB participa do Fórum das Igrejas e Ecologia Integral em Brasília",
+          "link": "https://crbnacional.org.br/crb-participa-do-forum-das-igrejas-e-ecologia-integral-em-brasilia/"
+        },
         {
           "title": "CRB Nacional acolhe missionários em formação para a Missão Ad Gentes",
           "link": "https://crbnacional.org.br/crb-nacional-acolhe-missionarios-em-formacao-para-a-missao-ad-gentes/"
@@ -54,10 +58,6 @@
         {
           "title": "Conferência dos Religiosos do Brasil encerra curso de Canva Avançado com apresentação de projetos finais",
           "link": "https://crbnacional.org.br/conferencia-dos-religiosos-do-brasil-encerra-curso-de-canva-avancado-com-apresentacao-de-projetos-finais/"
-        },
-        {
-          "title": "6º Congresso da CLAR encerra com um chamado à esperança, à comunhão e à transformação da Vida Religiosa Consagrada**",
-          "link": "https://crbnacional.org.br/68078-2/"
         }
       ]
     }
