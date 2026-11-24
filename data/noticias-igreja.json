@@ -5,8 +5,12 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-23T14:50:05.405676+00:00",
+      "updated_at": "2026-11-24T02:56:48.934987+00:00",
       "items": [
+        {
+          "title": "Cardeal Czerny: na era da IA, educar jovens para a verdade e o aprofundamento",
+          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-11/cardeal-michael-czerny-prefeito-emerito-educar-jovens-ia-2026.html"
+        },
         {
           "title": "O fracasso da COP31 e o papel estratégico dos agentes da paz",
           "link": "https://www.vaticannews.va/pt/mundo/news/2026-11/fracasso-cop31-clima-onu-antalia-turquia-papel-agentes-paz.html"
@@ -14,10 +18,6 @@
         {
           "title": "Dicastério para o Diálogo Inter-religioso, plenária de 24 a 26 de novembro",
           "link": "https://www.vaticannews.va/pt/vaticano/news/2026-11/assembleia-plenaria-dicasterio-dialogo-inter-religioso-novembro.html"
-        },
-        {
-          "title": "Cabo Verde - Avenida, no Fogo, é dedicada a P. Ottavio Fasano",
-          "link": "https://www.vaticannews.va/pt/africa/news/2026-11/cabo-verde-avenida-no-fogo-e-dedicada-a-p-ottavio-fasano.html"
         }
       ]
     },
@@ -25,19 +25,19 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-11-23T14:50:04.955975+00:00",
+      "updated_at": "2026-11-24T02:56:48.611223+00:00",
       "items": [
         {
-          "title": "Assembleia ampliada no Leste 2 tem propostas para a evangelização das juventudes e para a caminhada sinodal",
-          "link": "https://www.cnbb.org.br/assembleia-ampliada-leste-2-propostas-evangelizacao-juventudes-e-caminhada-sinodal/"
+          "title": "Campanha para a Evangelização apoia iniciativas de formação de catequistas e iniciação à vida cristã em todo o Brasil",
+          "link": "https://www.cnbb.org.br/campanha-para-a-evangelizacao-apoia-iniciativas-de-formacao-de-catequistas-e-iniciacao-a-vida-crista-em-todo-o-brasil/"
         },
         {
-          "title": "Prevalência do “humano”",
-          "link": "https://www.cnbb.org.br/prevalencia-do-humano/"
+          "title": "Encontro de formação do regional Sul 1, no Mosteiro de Itaici, aprofunda os fundamentos e objetivos da CF 2027",
+          "link": "https://www.cnbb.org.br/encontro-de-formacao-do-regional-sul-1-no-mosteiro-de-itaici-aprofunda-os-fundamentos-e-objetivos-da-cf-2027/"
         },
         {
-          "title": "A morada de Deus e a verdadeira família da fé",
-          "link": "https://www.cnbb.org.br/a-morada-de-deus-e-a-verdadeira-familia-da-fe/"
+          "title": "Regional Norte 3 estuda aplicação das Diretrizes da Ação Evangelizadora durante Assembleia",
+          "link": "https://www.cnbb.org.br/regional-norte-3-estuda-aplicacao-das-diretrizes-da-acao-evangelizadora-durante-assembleia/"
         }
       ]
     },
