@@ -94,6 +94,9 @@ async function setUpReminder() {
   }
 
   button.addEventListener('click', () => update(true));
+  window.addEventListener('somos-servos-resume', () => {
+    if (!button.disabled) update(false);
+  });
   await update(false);
 }
 

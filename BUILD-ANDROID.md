@@ -17,7 +17,7 @@ npm run android:init
 npm run android:debug
 ```
 
-O arquivo de depuração fica em `android/app/build/outputs/apk/debug/app-debug.apk`. O fluxo **Build APK Somos Servos** também o disponibiliza para teste. Ele é assinado pela chave de depuração do Android e serve somente para testes.
+O arquivo de depuração fica em `android/app/build/outputs/apk/debug/app-debug.apk`. O fluxo **Build APK Somos Servos** também o disponibiliza para teste. Ele é assinado pela chave de depuração do Android e aparece como **Somos Servos Teste**, com pacote próprio, para instalação ao lado da versão estável.
 
 ## Preparar a assinatura estável
 
@@ -62,7 +62,7 @@ O identificador do pacote é `br.com.somosservos.app`. O release usa uma chave p
 2. Informe a versão pública em formato `MAJOR.MINOR.PATCH`; a primeira pode ser `1.0.1`.
 3. O fluxo calcula o `versionCode` a partir da versão, compila o APK release, verifica a assinatura e publica uma release estável com link direto para o APK.
 
-Use uma versão pública maior em cada release. O `versionCode` é calculado como `MAJOR × 1.000.000 + MINOR × 1.000 + PATCH`; mantenha `MINOR` e `PATCH` abaixo de 1000. O APK de teste atual usa a chave de depuração, portanto não pode ser atualizado diretamente para o primeiro APK estável: será necessário desinstalar o APK de teste antes da primeira instalação assinada. Depois, todas as releases devem usar o mesmo keystore para permitir atualizações normais.
+Use uma versão pública maior em cada release. O `versionCode` é calculado como `MAJOR × 1.000.000 + MINOR × 1.000 + PATCH`; mantenha `MINOR` e `PATCH` abaixo de 1000. O APK de depuração tem pacote próprio. Para validar uma atualização sobre a instalação estável, use o fluxo de compilação com certificado permanente. Todas as releases devem usar o mesmo keystore para permitir atualizações normais.
 
 Nos pull requests, o mesmo fluxo compila e verifica um APK assinado com uma chave descartável de teste, sem usar os segredos permanentes nem publicar uma release. O arquivo `scripts/configure-android-release.py` configura somente o projeto Android temporário do runner. Senhas e keystore não são gravados no repositório.
 

@@ -470,6 +470,8 @@ public class MainActivity extends BridgeActivity {
 
     @Override protected void onResume() {
         super.onResume();
+        if (local != null) local.evaluateJavascript(
+                "window.dispatchEvent(new Event('somos-servos-resume'))", null);
         if (blog != null && !showingLocal && isToday(blog.getUrl())
                 && openedDate != null && !dayStamp().equals(openedDate)) blog.reload();
     }
