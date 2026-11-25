@@ -42,13 +42,11 @@ jobs:
         run: |
           node tests/test_android_back.cjs
           node tests/test_service_worker.cjs
+          node tests/test_android_reminder.cjs
       - name: Preparar projeto Android
         run: |
           npm install
-          mkdir -p www
-          cp index.html recursos.html pesquisa-bibliografica.html pesquisa-imagens.html pesquisa-historica.html referencias-salvas.html referencias-salvas.js percurso-servita.html aprofundamento-servita.html comunidades-servitas.html percurso-servita.pdf recursos-offline.js app.js styles.css service-worker.js sw-version.js icon-192.png icon-512.png icon.svg www/
-          cp manifest-android.webmanifest www/manifest.webmanifest
-          cp -R cartoes assets data www/
+          npm run android:prepare-web
           python3 - <<'PY'
           import re,json
           from pathlib import Path
@@ -61,7 +59,7 @@ jobs:
           print('APP_SHELL validado:',len(paths),'arquivos')
           PY
           npx cap add android
-          cp android-src/MainActivity.java android/app/src/main/java/br/com/somosservos/app/MainActivity.java
+          python3 scripts/prepare-android.py
           npx cap sync android
       - name: Preservar ícone oficial
         run: |
@@ -103,7 +101,9 @@ jobs:
           import re
           from pathlib import Path
           p=set(re.findall(r"uses-permission: name='([^']+)'",Path('permissoes.txt').read_text()))
-          assert {x for x in p if x.startswith('android.permission.')}=={'android.permission.INTERNET'},p
+          expected={'android.permission.INTERNET','android.permission.POST_NOTIFICATIONS',
+                    'android.permission.RECEIVE_BOOT_COMPLETED'}
+          assert p-{'br.com.somosservos.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION'}==expected,p
           PY
           sha256sum Somos-Servos-${VERSION_SLUG}.apk > SHA256SUMS.txt
       - uses: actions/upload-artifact@v4

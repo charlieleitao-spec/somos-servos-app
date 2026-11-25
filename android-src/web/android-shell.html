@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Lembrete diário</title>
+  <style>
+    body { margin: 0; background: #f6f3ec; color: #262223; font: 1rem/1.55 system-ui, sans-serif; }
+    main { max-width: 34rem; padding: 1.25rem; margin: auto; }
+    h1 { color: #5a2029; font: 1.65rem Georgia, serif; }
+    button { min-height: 48px; border: 0; border-radius: .45rem; padding: .6rem 1rem;
+             background: #5a2029; color: #fff; font: inherit; }
+    button:disabled { opacity: .65; }
+  </style>
+  <script defer src="./android-reminder.js"></script>
+</head>
+<body>
+  <main>
+    <h1>Lembrete diário</h1>
+    <p>Receba por volta das 7h um aviso com a celebração do dia no calendário servita. Toque na notificação para abrir Hoje.</p>
+    <button id="reminder" type="button" disabled>Ativar lembrete</button>
+    <p id="status" role="status"></p>
+  </main>
+</body>
+</html>

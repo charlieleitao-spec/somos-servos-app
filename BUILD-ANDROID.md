@@ -12,10 +12,8 @@ O GitHub Actions usa essas versões.
 ## APK de teste
 
 ```bash
-npm install
+npm ci
 npm run android:init
-cp android-src/MainActivity.java android/app/src/main/java/br/com/somosservos/app/MainActivity.java
-npm run android:sync
 npm run android:debug
 ```
 
@@ -68,8 +66,10 @@ Use uma versão pública maior em cada release. O `versionCode` é calculado com
 
 Nos pull requests, o mesmo fluxo compila e verifica um APK assinado com uma chave descartável de teste, sem usar os segredos permanentes nem publicar uma release. O arquivo `scripts/configure-android-release.py` configura somente o projeto Android temporário do runner. Senhas e keystore não são gravados no repositório.
 
-## Links dos feeds
+## Navegação e lembrete no APK
 
-`android-src/MainActivity.java` mantém os recursos do Capacitor e trata novas janelas abertas por toque (`target="_blank"`), inclusive nos feeds dentro do iframe do Blogger. O destino HTTP/HTTPS é aberto pelo navegador externo, preservando o blog no aplicativo. Os dois fluxos de compilação instalam esse arquivo após gerar o projeto Android.
+O APK abre [Hoje](https://somosservos.blogspot.com/p/hoje.html) em uma WebView exclusiva do Blogger. A interface local usa a ponte do Capacitor para compartilhamento e lembretes. A aba Aplicativos abre a página de aplicativos servitas. Os recursos embarcados ficam em **Opções > Recursos offline**.
 
-Validação no aparelho: abrir uma notícia em cada feed (Vatican News, CNBB e CRB Nacional), voltar ao APK e conferir que o blog permanece aberto; conferir também menus internos, Voltar e a tela sem conexão.
+Em **Opções > Lembrete diário às 7h**, o usuário autoriza e ativa o aviso. O aplicativo programa até 90 dias e renova o agendamento ao ser aberto. Os nomes vêm das datas fixas da página [Hoje](https://somosservos.blogspot.com/p/hoje.html), copiadas para `android-src/web/android-calendar.json`. O Android pode adiar a entrega por economia de energia. O manifesto usa `INTERNET`, `POST_NOTIFICATIONS` e `RECEIVE_BOOT_COMPLETED`. Esta última permissão permite ao plugin restaurar os alarmes após reiniciar o aparelho.
+
+No aparelho, abra Hoje e, após o carregamento, desative a internet e abra o app novamente. Confira a data da cópia salva e o botão **Tentar de novo**. Verifique as quatro abas, o retorno de um post, o compartilhamento e os links do Vatican News, da CNBB e do formulário do Boletim no navegador. Ative o lembrete, confira a primeira entrega e verifique se tocar no aviso abre Hoje.

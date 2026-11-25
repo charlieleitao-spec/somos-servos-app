@@ -1,19 +1,21 @@
 {
   "name": "somos-servos-app",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "private": true,
   "description": "Aplicativo instalável do blog Somos Servos",
   "scripts": {
-    "android:init": "npx cap add android",
-    "android:sync": "npx cap sync android",
+    "android:init": "npm run android:prepare-web && npx cap add android && python3 scripts/prepare-android.py",
+    "android:sync": "npm run android:prepare-web && python3 scripts/prepare-android.py && npx cap sync android",
     "android:debug": "npm run android:sync && cd android && ./gradlew assembleDebug",
     "android:release": "npm run android:sync && cd android && ./gradlew assembleRelease",
-    "pwa:serve": "npx serve www"
+    "pwa:serve": "npx serve www",
+    "android:prepare-web": "mkdir -p www && cp index.html recursos.html pesquisa-bibliografica.html pesquisa-imagens.html pesquisa-historica.html referencias-salvas.html referencias-salvas.js percurso-servita.html aprofundamento-servita.html comunidades-servitas.html percurso-servita.pdf recursos-offline.js app.js styles.css service-worker.js sw-version.js icon-192.png icon-512.png icon.svg android-src/web/* www/ && cp manifest-android.webmanifest www/manifest.webmanifest && cp -R cartoes assets data www/"
   },
   "dependencies": {
     "@capacitor/android": "8.5.1",
-    "@capacitor/app": "8.0.0",
-    "@capacitor/core": "8.5.1"
+    "@capacitor/core": "8.5.1",
+    "@capacitor/local-notifications": "8.3.1",
+    "@capacitor/share": "8.0.3"
   },
   "devDependencies": {
     "@capacitor/cli": "8.5.1"
