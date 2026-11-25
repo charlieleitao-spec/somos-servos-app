@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-25T11:25:58.148970+00:00",
+      "updated_at": "2026-11-25T21:47:22.463569+00:00",
       "items": [
         {
-          "title": "Após COP31, o apelo de Leão XIV: nunca esquecer \"do rosto humano da crise climática\"",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-audiencia-geral-apelo-cop31-crise-climatica.html"
+          "title": "Papa Leão XIV inicia visitas pastorais de Advento pela paróquia de Sant’Andrea delle Fratte",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/leao-xiv-visita-pastoral-sant-andrea-delle-fratte-roma-27-novemb.html"
         },
         {
-          "title": "Leão XIV: não ser escravo da guerra, mas converter corações pela paz",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-audiencia-geral-25-novembro-2026.html"
+          "title": "Com Leão para testemunhar a proximidade espiritual entre detentos e monjas",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-cronica-audiencia-geral-25-novembro-2026.html"
         },
         {
-          "title": "Uma só Igreja une o Céu e a Terra por meio da Esperança",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/uma-igreja-ceu-terra-esperanca.html"
+          "title": "Entre violência e esperança, comunidade eclesial continua a semear o futuro no Haiti",
+          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/haiti-violencia-esperanca-comunidade-eclesial-semeia-futuro.html"
         }
       ]
     },
@@ -25,19 +25,19 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-11-25T00:50:37.454009+00:00",
+      "updated_at": "2026-11-25T21:47:22.840023+00:00",
       "items": [
         {
-          "title": "Recepção do Sínodo e das Diretrizes Gerais da Ação Evangelizadora da Igreja no Brasil são discutidos no Consep",
-          "link": "https://www.cnbb.org.br/recepcao-do-sinodo-e-das-diretrizes-gerais-da-acao-evangelizadora-da-igreja-no-brasil-sao-discutidos-no-consep/"
+          "title": "Fundo Nacional de Solidariedade apresenta balanço geral de projetos apoiados em 2026 e em ultima reunião do ano",
+          "link": "https://www.cnbb.org.br/balanco-geral-de-projetos-apoiados-em-2026-pelo-fns/"
         },
         {
-          "title": "Consep realiza última reunião do ano com análises de conjuntura, reflexões pastorais e informes das comissões episcopais",
-          "link": "https://www.cnbb.org.br/consep-realiza-ultima-reuniao-do-ano-com-analises-de-conjuntura-reflexoes-pastorais-e-informes-das-comissoes-episcopais/"
+          "title": "Consep encerra última reunião do ano com apresentação de informes das Comissões Episcopais e organismos da CNBB",
+          "link": "https://www.cnbb.org.br/consep-encerra-ultima-reuniao-do-ano-com-apresentacao-de-informes-das-comissoes-episcopais-e-organismos-da-cnbb/"
         },
         {
-          "title": "Campanha para a Evangelização apoia iniciativas de formação de catequistas e iniciação à vida cristã em todo o Brasil",
-          "link": "https://www.cnbb.org.br/campanha-para-a-evangelizacao-apoia-iniciativas-de-formacao-de-catequistas-e-iniciacao-a-vida-crista-em-todo-o-brasil/"
+          "title": "Presidente do STF realiza visita institucional à CNBB",
+          "link": "https://www.cnbb.org.br/presidente-do-stf-faz-visita-institucional-a-cnbb/"
         }
       ]
     },
