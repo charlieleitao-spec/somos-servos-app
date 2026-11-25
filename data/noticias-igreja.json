@@ -5,8 +5,12 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-24T14:56:57.970747+00:00",
+      "updated_at": "2026-11-25T00:50:35.484195+00:00",
       "items": [
+        {
+          "title": "Gaza, Oxfam: 99% da Faixa corre risco de contaminação ambiental",
+          "link": "https://www.vaticannews.va/pt/mundo/news/2026-11/faixa-gaza-guerra-oriente-medio-oxfam-ataques-israel-cisjordania.html"
+        },
         {
           "title": "Treze anos da Evangelii Gaudium: a alegria do Evangelho como roteiro também de Leão XIV",
           "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-documento-evangelizacao.html"
@@ -14,10 +18,6 @@
         {
           "title": "A Pizzaballa, a Pomba de Ouro pela Paz: “Desarmar também as palavras\"",
           "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/oriente-medio-israel-palestina-terra-santa-pizzaballa-guerra-paz.html"
-        },
-        {
-          "title": "As aventuras de Carlo Collodi: os 200 anos do criador de Pinóquio e muito mais",
-          "link": "https://www.vaticannews.va/pt/mundo/news/2026-11/200-anos-nascimento-carlo-collodi-pai-pinoquio-italia-2026.html"
         }
       ]
     },
@@ -25,19 +25,19 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-11-24T02:56:48.611223+00:00",
+      "updated_at": "2026-11-25T00:50:37.454009+00:00",
       "items": [
+        {
+          "title": "Recepção do Sínodo e das Diretrizes Gerais da Ação Evangelizadora da Igreja no Brasil são discutidos no Consep",
+          "link": "https://www.cnbb.org.br/recepcao-do-sinodo-e-das-diretrizes-gerais-da-acao-evangelizadora-da-igreja-no-brasil-sao-discutidos-no-consep/"
+        },
+        {
+          "title": "Consep realiza última reunião do ano com análises de conjuntura, reflexões pastorais e informes das comissões episcopais",
+          "link": "https://www.cnbb.org.br/consep-realiza-ultima-reuniao-do-ano-com-analises-de-conjuntura-reflexoes-pastorais-e-informes-das-comissoes-episcopais/"
+        },
         {
           "title": "Campanha para a Evangelização apoia iniciativas de formação de catequistas e iniciação à vida cristã em todo o Brasil",
           "link": "https://www.cnbb.org.br/campanha-para-a-evangelizacao-apoia-iniciativas-de-formacao-de-catequistas-e-iniciacao-a-vida-crista-em-todo-o-brasil/"
-        },
-        {
-          "title": "Encontro de formação do regional Sul 1, no Mosteiro de Itaici, aprofunda os fundamentos e objetivos da CF 2027",
-          "link": "https://www.cnbb.org.br/encontro-de-formacao-do-regional-sul-1-no-mosteiro-de-itaici-aprofunda-os-fundamentos-e-objetivos-da-cf-2027/"
-        },
-        {
-          "title": "Regional Norte 3 estuda aplicação das Diretrizes da Ação Evangelizadora durante Assembleia",
-          "link": "https://www.cnbb.org.br/regional-norte-3-estuda-aplicacao-das-diretrizes-da-acao-evangelizadora-durante-assembleia/"
         }
       ]
     },
