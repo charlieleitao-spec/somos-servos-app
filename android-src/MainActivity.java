@@ -468,7 +468,7 @@ public class MainActivity extends BridgeActivity {
                 .format(new Date());
     }
 
-    @Override protected void onResume() {
+    @Override public void onResume() {
         super.onResume();
         if (local != null) local.evaluateJavascript(
                 "window.dispatchEvent(new Event('somos-servos-resume'))", null);
@@ -481,7 +481,7 @@ public class MainActivity extends BridgeActivity {
         if (blog != null && intent != null && intent.hasExtra("LocalNotificationId")) openPage(TODAY);
     }
 
-    @Override protected void onSaveInstanceState(Bundle state) {
+    @Override public void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
         if (blog == null) return;
         Bundle history = new Bundle();
@@ -489,7 +489,7 @@ public class MainActivity extends BridgeActivity {
         state.putBundle("blogHistory", history);
     }
 
-    @Override protected void onDestroy() {
+    @Override public void onDestroy() {
         if (blog != null) {
             content.removeView(blog);
             blog.destroy();
