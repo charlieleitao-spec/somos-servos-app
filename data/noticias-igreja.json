@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-26T13:58:56.089548+00:00",
+      "updated_at": "2026-11-26T23:03:16.443376+00:00",
       "items": [
         {
-          "title": "Viburno da Ucrânia doado a Leão XIV é plantado e abençoado nos Jardins Vaticanos",
-          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-11/jardins-vaticanos-plantio-viburno-ucrania.html"
+          "title": "Alerta de meningite em Gaza, Pezzati: catástrofe sanitária e humana",
+          "link": "https://www.vaticannews.va/pt/mundo/news/2026-11/gaza-palestinos-meningite-epidemia-ataques-israel-denuncia-oxfam.html"
         },
         {
-          "title": "Gallagher: diplomacia pode ser eficaz mesmo sem poderio militar",
-          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-11/santa-se-diplomacia-internazional-dialogo-paz.html"
+          "title": "Em Aguarico, uma Igreja que defende a vida na Amazônia",
+          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/vicariato-aguarico-amazonia-equatoriana-ecologia-integral.html"
         },
         {
-          "title": "O adeus ao Pe. Hammond, 66 anos de missão pela reconciliação entre as Coreias",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/padre-gerard-hammond-faleceu-93-anos-missionario-coreia.html"
+          "title": "Pontifícia Academia de Teologia, apelo por proteção dos jovens e justiça ambiental",
+          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-11/pontificia-academia-teologia-apelo-protecao-jovens-meio-ambiente.html"
         }
       ]
     },
@@ -25,8 +25,12 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-11-26T13:58:56.586453+00:00",
+      "updated_at": "2026-11-26T23:03:16.032932+00:00",
       "items": [
+        {
+          "title": "Grupo de Assessores da CNBB avalia caminhada das Comissões Episcopais e perspectivas para o próximo quadriênio",
+          "link": "https://www.cnbb.org.br/grupo-de-assessores-da-cnbb-avalia-caminhada-das-comissoes-episcopais-e-perspectivas-para-o-proximo-quadrienio/"
+        },
         {
           "title": "É tempo de despertar: o Senhor vem!",
           "link": "https://www.cnbb.org.br/e-tempo-de-despertar-o-senhor-vem/"
@@ -34,10 +38,6 @@
         {
           "title": "Tempo do Advento",
           "link": "https://www.cnbb.org.br/tempo-do-advento/"
-        },
-        {
-          "title": "O Advento de Deus",
-          "link": "https://www.cnbb.org.br/o-advento-de-deus/"
         }
       ]
     },
@@ -45,8 +45,12 @@
       "name": "CRB Nacional",
       "page": "https://crbnacional.org.br/noticias/",
       "feed": "https://crbnacional.org.br/feed/",
-      "updated_at": "2026-11-26T04:11:55.879606+00:00",
+      "updated_at": "2026-11-26T23:03:16.172232+00:00",
       "items": [
+        {
+          "title": "CRB Nacional e Sociedade de São Vicente de Paulo dialogam sobre parceria institucional",
+          "link": "https://crbnacional.org.br/crb-nacional-e-sociedade-de-sao-vicente-de-paulo-dialogam-sobre-parceria-institucional/"
+        },
         {
           "title": "Lideranças da vida monástica se reúnem em Brasília para preparar encontro nacional de 2027",
           "link": "https://crbnacional.org.br/liderancas-da-vida-monastica-se-reunem-em-brasilia-para-preparar-encontro-nacional-de-2027/"
@@ -54,10 +58,6 @@
         {
           "title": "CRB participa do Fórum das Igrejas e Ecologia Integral em Brasília",
           "link": "https://crbnacional.org.br/crb-participa-do-forum-das-igrejas-e-ecologia-integral-em-brasilia/"
-        },
-        {
-          "title": "CRB Nacional acolhe missionários em formação para a Missão Ad Gentes",
-          "link": "https://crbnacional.org.br/crb-nacional-acolhe-missionarios-em-formacao-para-a-missao-ad-gentes/"
         }
       ]
     }
