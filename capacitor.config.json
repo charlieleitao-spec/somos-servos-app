@@ -4,13 +4,18 @@
   "webDir": "www",
   "server": {
     "androidScheme": "https",
-    "allowNavigation": [
-      "somosservos.blogspot.com",
-      "*.blogspot.com"
-    ]
+    "appStartPath": "/android-shell.html"
   },
   "android": {
-    "backgroundColor": "#15121c",
+    "backgroundColor": "#f6f3ec",
     "allowMixedContent": false
+  },
+  "plugins": {
+    "SystemBars": {
+      "insetsHandling": "disable"
+    },
+    "LocalNotifications": {
+      "smallIcon": "ic_notification"
+    }
   }
 }

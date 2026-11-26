@@ -31,6 +31,7 @@ jobs:
           NODE_PATH="$RUNNER_TEMP/bibliografia-dom/node_modules" node tests/test_historia.cjs
           NODE_PATH="$RUNNER_TEMP/bibliografia-dom/node_modules" node tests/test_referencias_salvas.cjs
           node tests/test_service_worker.cjs
+          node tests/test_android_reminder.cjs
 
       - name: Configurar JDK 21
         uses: actions/setup-java@v5
@@ -43,10 +44,7 @@ jobs:
 
       - name: Preparar arquivos web
         run: |
-          mkdir -p www
-          cp index.html recursos.html pesquisa-bibliografica.html pesquisa-imagens.html pesquisa-historica.html referencias-salvas.html referencias-salvas.js percurso-servita.html aprofundamento-servita.html comunidades-servitas.html percurso-servita.pdf recursos-offline.js app.js styles.css manifest.webmanifest service-worker.js sw-version.js manifest-android.webmanifest icon-192.png icon-512.png icon.svg www/
-          cp -R cartoes assets data www/
-          cp manifest-android.webmanifest www/manifest.webmanifest
+          npm run android:prepare-web
           python3 - <<'PY'
           import json
           from pathlib import Path
@@ -81,8 +79,8 @@ jobs:
             cp "${output}/ic_launcher.png" "${output}/ic_launcher_round.png"
           done
 
-      - name: Instalar tratamento de links dos feeds
-        run: cp android-src/MainActivity.java android/app/src/main/java/br/com/somosservos/app/MainActivity.java
+      - name: Instalar interface Android e ajustar permissões
+        run: python3 scripts/prepare-android.py
 
       - name: Sincronizar aplicativo
         run: npx cap sync android

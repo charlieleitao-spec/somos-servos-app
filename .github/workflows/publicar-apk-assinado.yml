@@ -90,7 +90,9 @@ jobs:
           parts=v.split('.')
           assert int(m.group(2))==int(parts[0])*1000000+int(parts[1])*1000+int(parts[2])
           p=set(re.findall(r"uses-permission: name='([^']+)'",Path('permissoes-atuais.txt').read_text()))
-          assert p=={'android.permission.INTERNET'},p
+          expected={'android.permission.INTERNET','android.permission.POST_NOTIFICATIONS',
+                    'android.permission.RECEIVE_BOOT_COMPLETED'}
+          assert p-{'br.com.somosservos.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION'}==expected,p
           PY
           PREVIOUS_TAG="$(gh release view --repo "${{ github.repository }}" --json tagName --jq .tagName)"
           gh release download "$PREVIOUS_TAG" --repo "${{ github.repository }}" --pattern '*.apk' --dir anterior
