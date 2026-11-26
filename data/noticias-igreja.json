@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-25T21:47:22.463569+00:00",
+      "updated_at": "2026-11-26T13:58:56.089548+00:00",
       "items": [
         {
-          "title": "Papa Leão XIV inicia visitas pastorais de Advento pela paróquia de Sant’Andrea delle Fratte",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/leao-xiv-visita-pastoral-sant-andrea-delle-fratte-roma-27-novemb.html"
+          "title": "Viburno da Ucrânia doado a Leão XIV é plantado e abençoado nos Jardins Vaticanos",
+          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-11/jardins-vaticanos-plantio-viburno-ucrania.html"
         },
         {
-          "title": "Com Leão para testemunhar a proximidade espiritual entre detentos e monjas",
-          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-cronica-audiencia-geral-25-novembro-2026.html"
+          "title": "Gallagher: diplomacia pode ser eficaz mesmo sem poderio militar",
+          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-11/santa-se-diplomacia-internazional-dialogo-paz.html"
         },
         {
-          "title": "Entre violência e esperança, comunidade eclesial continua a semear o futuro no Haiti",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/haiti-violencia-esperanca-comunidade-eclesial-semeia-futuro.html"
+          "title": "O adeus ao Pe. Hammond, 66 anos de missão pela reconciliação entre as Coreias",
+          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/padre-gerard-hammond-faleceu-93-anos-missionario-coreia.html"
         }
       ]
     },
@@ -25,19 +25,19 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-11-25T21:47:22.840023+00:00",
+      "updated_at": "2026-11-26T13:58:56.586453+00:00",
       "items": [
         {
-          "title": "Fundo Nacional de Solidariedade apresenta balanço geral de projetos apoiados em 2026 e em ultima reunião do ano",
-          "link": "https://www.cnbb.org.br/balanco-geral-de-projetos-apoiados-em-2026-pelo-fns/"
+          "title": "É tempo de despertar: o Senhor vem!",
+          "link": "https://www.cnbb.org.br/e-tempo-de-despertar-o-senhor-vem/"
         },
         {
-          "title": "Consep encerra última reunião do ano com apresentação de informes das Comissões Episcopais e organismos da CNBB",
-          "link": "https://www.cnbb.org.br/consep-encerra-ultima-reuniao-do-ano-com-apresentacao-de-informes-das-comissoes-episcopais-e-organismos-da-cnbb/"
+          "title": "Tempo do Advento",
+          "link": "https://www.cnbb.org.br/tempo-do-advento/"
         },
         {
-          "title": "Presidente do STF realiza visita institucional à CNBB",
-          "link": "https://www.cnbb.org.br/presidente-do-stf-faz-visita-institucional-a-cnbb/"
+          "title": "O Advento de Deus",
+          "link": "https://www.cnbb.org.br/o-advento-de-deus/"
         }
       ]
     },
