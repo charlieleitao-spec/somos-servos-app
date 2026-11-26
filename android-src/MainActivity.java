@@ -3,7 +3,12 @@ package br.com.somosservos.app;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.InsetDrawable;
+import android.graphics.drawable.RippleDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
@@ -46,6 +51,9 @@ public class MainActivity extends BridgeActivity {
     };
     private static final int WINE = Color.rgb(90, 32, 41);
     private static final int PAPER = Color.rgb(246, 243, 236);
+    private static final int BAR_CREAM = Color.rgb(255, 251, 244);
+    private static final int TAB_TEXT = Color.rgb(88, 71, 64);
+    private static final int BAR_LINE = Color.rgb(226, 213, 199);
     private static final String COMPACT_PAGE = """
         (() => {
           if (!document.getElementById('somos-servos-apk')) {
@@ -106,7 +114,7 @@ public class MainActivity extends BridgeActivity {
 
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setBackgroundColor(PAPER);
+        root.setBackgroundColor(BAR_CREAM);
         setContentView(root);
         ViewCompat.setOnApplyWindowInsetsListener(root, (view, insets) -> {
             var padding = insets.getInsets(WindowInsetsCompat.Type.systemBars()
@@ -139,6 +147,7 @@ public class MainActivity extends BridgeActivity {
         options.setOnClickListener(this::showOptions);
         toolbar.addView(options);
         root.addView(toolbar);
+        root.addView(barDivider(), new LinearLayout.LayoutParams(-1, dp(1)));
 
         content = new FrameLayout(this);
         root.addView(content, new LinearLayout.LayoutParams(-1, 0, 1));
@@ -164,14 +173,48 @@ public class MainActivity extends BridgeActivity {
         content.addView(offline, new FrameLayout.LayoutParams(-1, -1));
         offline.setVisibility(View.GONE);
 
+        root.addView(barDivider(), new LinearLayout.LayoutParams(-1, dp(1)));
         LinearLayout navigation = new LinearLayout(this);
+        navigation.setPadding(dp(6), 0, dp(6), 0);
         for (int i = 0; i < LABELS.length; i++) {
             String url = PAGES[i];
             tabs[i] = button(LABELS[i], () -> openPage(url));
-            tabs[i].setPadding(dp(2), 0, dp(2), 0);
+            styleTab(tabs[i]);
             navigation.addView(tabs[i], new LinearLayout.LayoutParams(0, -2, 1));
         }
         root.addView(navigation);
+    }
+
+    private View barDivider() {
+        View line = new View(this);
+        line.setBackgroundColor(BAR_LINE);
+        return line;
+    }
+
+    private void styleTab(Button tab) {
+        int[] selected = {android.R.attr.state_selected};
+        int[] normal = {};
+        tab.setTextColor(new ColorStateList(new int[][] {selected, normal},
+                new int[] {BAR_CREAM, TAB_TEXT}));
+
+        GradientDrawable active = new GradientDrawable();
+        active.setColor(WINE);
+        active.setCornerRadius(dp(16));
+        GradientDrawable inactive = new GradientDrawable();
+        inactive.setColor(Color.TRANSPARENT);
+        inactive.setCornerRadius(dp(16));
+
+        StateListDrawable background = new StateListDrawable();
+        background.addState(selected, active);
+        background.addState(normal, inactive);
+        GradientDrawable mask = new GradientDrawable();
+        mask.setColor(Color.WHITE);
+        mask.setCornerRadius(dp(16));
+        ColorStateList ripple = new ColorStateList(new int[][] {selected, normal},
+                new int[] {Color.argb(56, 255, 251, 244), Color.argb(30, 90, 32, 41)});
+        tab.setBackground(new InsetDrawable(new RippleDrawable(ripple, background, mask),
+                dp(2), dp(5), dp(2), dp(5)));
+        tab.setPadding(dp(3), 0, dp(3), 0);
     }
 
     private Button button(String label, Runnable action) {
@@ -340,7 +383,6 @@ public class MainActivity extends BridgeActivity {
                     ? "/".equals(path) || (path != null && (path.startsWith("/search") || path.matches("/\\d{4}/.*")))
                     : Uri.parse(PAGES[i]).getPath().equals(path));
             tabs[i].setSelected(active);
-            tabs[i].setBackgroundColor(active ? Color.rgb(234, 219, 210) : Color.TRANSPARENT);
         }
     }
 
