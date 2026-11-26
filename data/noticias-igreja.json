@@ -45,8 +45,12 @@
       "name": "CRB Nacional",
       "page": "https://crbnacional.org.br/noticias/",
       "feed": "https://crbnacional.org.br/feed/",
-      "updated_at": "2026-11-23T14:50:05.606591+00:00",
+      "updated_at": "2026-11-26T04:11:55.879606+00:00",
       "items": [
+        {
+          "title": "Lideranças da vida monástica se reúnem em Brasília para preparar encontro nacional de 2027",
+          "link": "https://crbnacional.org.br/liderancas-da-vida-monastica-se-reunem-em-brasilia-para-preparar-encontro-nacional-de-2027/"
+        },
         {
           "title": "CRB participa do Fórum das Igrejas e Ecologia Integral em Brasília",
           "link": "https://crbnacional.org.br/crb-participa-do-forum-das-igrejas-e-ecologia-integral-em-brasilia/"
@@ -54,10 +58,6 @@
         {
           "title": "CRB Nacional acolhe missionários em formação para a Missão Ad Gentes",
           "link": "https://crbnacional.org.br/crb-nacional-acolhe-missionarios-em-formacao-para-a-missao-ad-gentes/"
-        },
-        {
-          "title": "Conferência dos Religiosos do Brasil encerra curso de Canva Avançado com apresentação de projetos finais",
-          "link": "https://crbnacional.org.br/conferencia-dos-religiosos-do-brasil-encerra-curso-de-canva-avancado-com-apresentacao-de-projetos-finais/"
         }
       ]
     }
