@@ -5,19 +5,19 @@
       "name": "Vatican News",
       "page": "https://www.vaticannews.va/pt.html",
       "feed": "https://www.vaticannews.va/pt.rss.xml",
-      "updated_at": "2026-11-27T08:44:39.166098+00:00",
+      "updated_at": "2026-11-27T19:30:23.261350+00:00",
       "items": [
         {
-          "title": "Presença da Igreja nos cárceres é profética, diz arcebispo de Buenos Aires",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/carcere-arcebispo-garcia-cuerva-servico-pastoral-carceraria.html"
+          "title": "Kuwait acusa o Irã pelo ataque que matou dois técnicos italianos",
+          "link": "https://www.vaticannews.va/pt/mundo/news/2026-11/kuwait-acusa-o-ira-pelo-ataque-que-matou-dois-tecnicos-italianos.html"
         },
         {
-          "title": "Evangelho de 27 de novembro",
-          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/evangelho-27-novembro-2026-dom-mario-spaki.html"
+          "title": "Leão XIV: com Nossa Senhora a partir do coração de Roma, acolher turistas e peregrinos",
+          "link": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-xiv-missa-visita-pastoral-santo-andrea-fratte-27112026.html"
         },
         {
-          "title": "Parolin: que o pão não seja refém da guerra e que a dignidade oriente as decisões políticas",
-          "link": "https://www.vaticannews.va/pt/vaticano/news/2026-11/cardinale-parolin-missa-sufragio-vitimas-holodomor.html"
+          "title": "Advento: Tempo para esperançar e recriançar a vida",
+          "link": "https://www.vaticannews.va/pt/igreja/news/2026-11/advento-tempo-esperancar-recriancar-vida.html"
         }
       ]
     },
@@ -25,19 +25,19 @@
       "name": "CNBB",
       "page": "https://www.cnbb.org.br/ultimas-noticias/",
       "feed": "https://www.cnbb.org.br/feed/",
-      "updated_at": "2026-11-26T23:03:16.032932+00:00",
+      "updated_at": "2026-11-27T19:30:19.965771+00:00",
       "items": [
         {
-          "title": "Grupo de Assessores da CNBB avalia caminhada das Comissões Episcopais e perspectivas para o próximo quadriênio",
-          "link": "https://www.cnbb.org.br/grupo-de-assessores-da-cnbb-avalia-caminhada-das-comissoes-episcopais-e-perspectivas-para-o-proximo-quadrienio/"
+          "title": "REPAM-Brasil participou de audiência pública no Senado sobre a educação superior católica na Amazônia",
+          "link": "https://www.cnbb.org.br/repam-brasil-participou-de-audiencia-publica-no-senado/"
         },
         {
-          "title": "É tempo de despertar: o Senhor vem!",
-          "link": "https://www.cnbb.org.br/e-tempo-de-despertar-o-senhor-vem/"
+          "title": "2º Encontro Nacional de Hospitais Católicos, promovido pela Comissão de Bioética da CNBB, está com inscrições abertas",
+          "link": "https://www.cnbb.org.br/comissao-bioetica-2o-encontro-hospitais-catolicos/"
         },
         {
-          "title": "Tempo do Advento",
-          "link": "https://www.cnbb.org.br/tempo-do-advento/"
+          "title": "Reavivar a esperança",
+          "link": "https://www.cnbb.org.br/reavivar-a-esperanca-2/"
         }
       ]
     },
@@ -45,8 +45,12 @@
       "name": "CRB Nacional",
       "page": "https://crbnacional.org.br/noticias/",
       "feed": "https://crbnacional.org.br/feed/",
-      "updated_at": "2026-11-26T23:03:16.172232+00:00",
+      "updated_at": "2026-11-27T19:30:19.424966+00:00",
       "items": [
+        {
+          "title": "CRB Nacional avalia ações de 2026 e define prioridades institucionais para 2027",
+          "link": "https://crbnacional.org.br/crb-nacional-avalia-acoes-de-2026-e-define-prioridades-institucionais-para-2027/"
+        },
         {
           "title": "CRB Nacional e Sociedade de São Vicente de Paulo dialogam sobre parceria institucional",
           "link": "https://crbnacional.org.br/crb-nacional-e-sociedade-de-sao-vicente-de-paulo-dialogam-sobre-parceria-institucional/"
@@ -54,10 +58,6 @@
         {
           "title": "Lideranças da vida monástica se reúnem em Brasília para preparar encontro nacional de 2027",
           "link": "https://crbnacional.org.br/liderancas-da-vida-monastica-se-reunem-em-brasilia-para-preparar-encontro-nacional-de-2027/"
-        },
-        {
-          "title": "CRB participa do Fórum das Igrejas e Ecologia Integral em Brasília",
-          "link": "https://crbnacional.org.br/crb-participa-do-forum-das-igrejas-e-ecologia-integral-em-brasilia/"
         }
       ]
     }
